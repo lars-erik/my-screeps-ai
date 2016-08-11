@@ -6,7 +6,7 @@
     <ProjectGuid>{ae88d210-9727-4e7c-8cf6-c6a77b81a4ea}</ProjectGuid>
     <ProjectHome />
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartupFile>main.js</StartupFile>
+    <StartupFile>default\main.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -16,16 +16,16 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="factory.creatures.js" />
-    <Compile Include="harvesting.js" />
-    <Compile Include="main.js" />
-    <Compile Include="role.builder.js" />
-    <Compile Include="role.claimer.js" />
-    <Compile Include="role.dropper.js" />
-    <Compile Include="role.harvester.js" />
-    <Compile Include="role.heralder.js" />
-    <Compile Include="role.transporter.js" />
-    <Compile Include="role.upgrader.js" />
+    <Compile Include="default\factory.creatures.js" />
+    <Compile Include="default\harvesting.js" />
+    <Compile Include="default\main.js" />
+    <Compile Include="default\role.builder.js" />
+    <Compile Include="default\role.claimer.js" />
+    <Compile Include="default\role.dropper.js" />
+    <Compile Include="default\role.harvester.js" />
+    <Compile Include="default\role.heralder.js" />
+    <Compile Include="default\role.transporter.js" />
+    <Compile Include="default\role.upgrader.js" />
     <Compile Include="_references.js" />
     <Content Include="ScreepsAutocomplete\Readme.md" />
     <Compile Include="ScreepsAutocomplete\ConstructionSite.js" />
@@ -67,6 +67,7 @@
     <Compile Include="ScreepsAutocomplete\Structures\StructureWall.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="default\" />
     <Folder Include="ScreepsAutocomplete" />
     <Folder Include="ScreepsAutocomplete\Config" />
     <Folder Include="ScreepsAutocomplete\Global" />
