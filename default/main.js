@@ -1,3 +1,4 @@
+
 var roles = {
         harvester: require('role.harvester'),
         upgrader: require('role.upgrader'),
@@ -13,7 +14,11 @@ var roles = {
         upgrader: "Upgrader",
         builder: "Builder"
     },
-    main = {};
+    main = {},
+    memInit = {
+        room: require("memory.room")
+    },
+    creatureFactory = require("factory.creatures");
 
 function getLevel() {
     return Game.rooms[Game.spawns.Spawn.pos.roomName].controller.level;
@@ -114,28 +119,7 @@ function initMain() {
     };
 }
 
-function createAllCreeps() {
-    
-    var wasCreated = createCreeps("harvester", 3);
-    ensureHeralder();
-    if (!wasCreated && !Game.creeps["Dropper 1"]) wasCreated = createDropper("Dropper 1", "579fa8710700be0674d2d9cd");
-    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce");
-    if (!wasCreated && !Game.creeps["Transporter 1"]) wasCreated = createTransporter("Transporter 1", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
-    if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
-    if (!wasCreated) wasCreated = createCreeps("builder", 3);
-    if (!wasCreated) wasCreated = createCreeps("upgrader", 3);
-
-}
-
-module.exports.loop = function () {
-
-    initMain();
-
-    Memory.info = {
-        energy: main.room.energyAvailable,
-        main: main
-    };
-
+function runCreeps() {
     for(var name in Game.creeps) {
         var creep = Game.creeps[name],
             role = creep ? roles[creep.memory.role] : null;
@@ -151,9 +135,39 @@ module.exports.loop = function () {
             role.run(creep);
         }
     }
+}
 
+function createAllCreeps() {
+    var wasCreated = createCreeps("harvester", 3);
+    ensureHeralder();
+    if (!wasCreated && !Game.creeps["Dropper 1"]) wasCreated = createDropper("Dropper 1", "579fa8710700be0674d2d9cd");
+    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce");
+    if (!wasCreated && !Game.creeps["Transporter 1"]) wasCreated = createTransporter("Transporter 1", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
+    if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
+    if (!wasCreated) wasCreated = createCreeps("builder", 3);
+    if (!wasCreated) wasCreated = createCreeps("upgrader", 3);
+}
+
+module.exports.loop = function () {
+
+    for(var key in Game.rooms) {
+        memInit.room.init(Game.rooms[key]);
+        creatureFactory.create(Game.rooms[key].mainSpawn());
+    }
+
+    runCreeps();
+
+    /*
+    initMain();
+
+    Memory.info = {
+        energy: main.room.energyAvailable,
+        main: main
+    };
+
+    runCreeps();
     createAllCreeps();
     
     towerAi();
-
+    */
 }

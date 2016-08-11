@@ -1,20 +1,33 @@
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('factory.creatures');
- * mod.thing == 'a thing'; // true
- */
+var roleFactory = require("factory.roles"),
+    levelFactory = require("factory.levels");
 
 module.exports = {
     create: function(spawn) {
         var room = spawn.room,
-            capacity = room.energyCapacity,
-            energy = room.energyAvailable;
-            
-        console.log(capacity + "/" + energy);
+            level = levelFactory.get(room),
+            roles = roleFactory.get(level),
+            priority,
+            pi,
+            ci,
+            role,
+            creep,
+            name,
+            defaultMemory;
         
-        
+        for(pi = 0; pi<level.priority.length; pi++) {
+            priority = level.priority[pi];
+            role = roles[priority.role];
+            for(ci = 1; ci<=priority.count; ci++) {
+                creep = Game.creeps[role.prefix + " " + ci];
+                if (!creep) {
+                    name = role.prefix + " " + ci;
+                    defaultMemory = { level:level.id, role:priority.role };
+                    if (spawn.createCreep(role.body, name, _.extend(defaultMemory, role.memory)) == name) {
+                        console.log("Created creature " + name + " with level " + level.id);
+                    }
+                    return;
+                }
+            }
+        }
     }
 };
