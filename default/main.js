@@ -145,6 +145,7 @@ function createAllCreeps() {
     if (!wasCreated) wasCreated = createCreeps("builder", 4);
     if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
     if (!wasCreated) wasCreated = createSoldier("Soldier 1");
+    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
 }
 
 module.exports.loop = function () {
