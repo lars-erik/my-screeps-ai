@@ -1,13 +1,13 @@
 var roles = {
-        harvester: require('role.harvester'),
-        upgrader: require('role.upgrader'),
-        builder: require('role.builder'),
-        heralder: require('role.heralder'),
-        claimer: require("role.claimer"),
-        dropper: require("role.dropper"),
-        transporter: require("role.transporter"),
-        soldier: require("role.soldier")
-    },
+    harvester: require('role.harvester'),
+    upgrader: require('role.upgrader'),
+    builder: require('role.builder'),
+    heralder: require('role.heralder'),
+    claimer: require("role.claimer"),
+    dropper: require("role.dropper"),
+    transporter: require("role.transporter")
+        //,        soldier: require("role.soldier")
+},
     roleNames = {
         harvester: "Harvester",
         heralder: "Heralder",
@@ -28,18 +28,18 @@ function createCreep(name, role, affinity) {
     var body;
     if (capacity >= 750) {
         if (role == "harvester") {
-            body = [WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE];
+            body = [WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
         } else {
-            body =[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+            body = [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
         }
     } else if (capacity >= 700) {
-        body =[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE];
+        body = [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
     } else if (capacity >= 550) {
-        body =[WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE];
+        body = [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE];
     } else if (capacity >= 500) {
-        body =[WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE];
+        body = [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
     } else if (capacity >= 300) {
-        body = [WORK,WORK,CARRY,MOVE];
+        body = [WORK, WORK, CARRY, MOVE];
     } else {
         return;
     }
@@ -58,7 +58,7 @@ function createCreep(name, role, affinity) {
 }
 
 function createTransporter(name, a, b) {
-    var result = main.spawn.createCreep([CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], name, {
+    var result = main.spawn.createCreep([CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], name, {
         role: "transporter",
         a: a,
         b: b
@@ -70,7 +70,7 @@ function createTransporter(name, a, b) {
 }
 
 function createCreeps(role, count) {
-    for (var i = 1; i<=count; i++) {
+    for (var i = 1; i <= count; i++) {
         var name = roleNames[role] + " " + i;
         if (!Game.creeps[name]) {
             createCreep(name, role);
@@ -88,26 +88,25 @@ function ensureHeralder() {
 
 function towerAi() {
     var tower = Game.getObjectById('57ab1d58a572e3a75721b2a2');
-    if(tower) {
-        if (tower.energy > tower.energyCapacity * .8)
-        {
-            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+    if (tower) {
+        if (tower.energy > tower.energyCapacity * .8) {
+            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES,{
                 filter: (structure) => structure.hits < structure.hitsMax
-            });
-            if(closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
-            }
-        }
-
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
+        });
+        if (closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
         }
     }
+    
+    var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    if (closestHostile) {
+        tower.attack(closestHostile);
+    }
+}
 }
 
 function createDropper(name, affinity, loadOff) {
-    var result = Game.spawns.Spawn.createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], name, { role: "dropper", affinity: affinity, loadOff: loadOff });
+    var result = Game.spawns.Spawn.createCreep([WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE], name, { role: "dropper", affinity: affinity, loadOff: loadOff });
     if (result == name) {
         console.log("Created creep " + name);
         return true;
@@ -116,7 +115,7 @@ function createDropper(name, affinity, loadOff) {
 }
 
 function createSoldier(name) {
-    var result = Game.spawns.Spawn.createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], name, {role:"soldier"});
+    var result = Game.spawns.Spawn.createCreep([TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], name, { role: "soldier" });
     if (result == name) {
         console.log("Created soldier " + name)
         return true;
@@ -144,20 +143,20 @@ function createAllCreeps() {
     if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
     if (!wasCreated) wasCreated = createCreeps("builder", 4);
     if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
-    if (!wasCreated) wasCreated = createSoldier("Soldier 1");
-    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
+//    if (!wasCreated) wasCreated = createSoldier("Soldier 1");
+//    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
 }
 
 module.exports.loop = function () {
-
+    
     initMain();
-
+    
     Memory.info = {
         energy: main.room.energyAvailable,
         main: main
     };
-
-    for(var name in Game.creeps) {
+    
+    for (var name in Game.creeps) {
         var creep = Game.creeps[name],
             role = creep ? roles[creep.memory.role] : null;
         if (!creep) {
@@ -175,7 +174,7 @@ module.exports.loop = function () {
             role.run(creep);
         }
     }
-
+    
     createAllCreeps();
     
     towerAi();
