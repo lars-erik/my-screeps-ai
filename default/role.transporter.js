@@ -12,14 +12,21 @@ module.exports = {
         var aId = creep.memory.a,
             bId = creep.memory.b,
             a = Game.getObjectById(aId),
-            b = Game.getObjectById(bId);
+            b = Game.getObjectById(bId),
+            result;
         if (a && b) {
             if (creep.carry.energy < creep.carryCapacity) {
-                if (creep.withdraw(a, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                result = creep.withdraw(a, RESOURCE_ENERGY);
+                if (result == OK && creep.carry.energy == creep.carryCapacity) {
+                    creep.moveTo(b);
+                } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(a);
-                }
+                } 
             } else {
-                if (creep.transfer(b, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                result = creep.transfer(b, RESOURCE_ENERGY);
+                if (result == OK) {
+                    creep.moveTo(a);
+                } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
                 }
             }

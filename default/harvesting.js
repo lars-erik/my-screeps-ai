@@ -10,7 +10,8 @@ module.exports = {
     harvestClosest: function(creep, allowContainer, from) {
         
         var target,
-            harvest = true;
+            harvest = true,
+            resetPath = false;
         if (creep.memory.affinity) {
             target = Game.getObjectById(creep.memory.affinity);
         } else {
@@ -27,18 +28,22 @@ module.exports = {
             } else {
                 target = closestSource;
             }
+            if (target && target != creep.memory.prevSource) {
+                creep.memory.prevSource = target.id; 
+                resetPath = true;
+            }
         }
 
         if(target) {
             if (target instanceof Source) {
                 if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    creep.moveTo(target, {reusePath: resetPath ? 0 : 5});
                 }
             } else if (target instanceof StructureContainer) {
                 var withdrawResult;
                 withdrawResult = creep.withdraw(target, RESOURCE_ENERGY);
                 if (withdrawResult == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    creep.moveTo(target, {reusePath: resetPath ? 0 : 5});
                 }
             }
             return true;

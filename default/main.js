@@ -15,6 +15,8 @@ var roles = {
     },
     main = {};
 
+// tis it
+
 function getLevel() {
     return Game.rooms[Game.spawns.Spawn.pos.roomName].controller.level;
 }
@@ -24,7 +26,11 @@ function createCreep(name, role, affinity) {
     
     var body;
     if (capacity >= 750) {
-        body =[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+        if (role == "harvester") {
+            body = [WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE];
+        } else {
+            body =[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+        }
     } else if (capacity >= 700) {
         body =[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE];
     } else if (capacity >= 550) {
@@ -82,11 +88,14 @@ function ensureHeralder() {
 function towerAi() {
     var tower = Game.getObjectById('57ab1d58a572e3a75721b2a2');
     if(tower) {
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
-        });
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
+        if (tower.energy > tower.energyCapacity * .8)
+        {
+            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => structure.hits < structure.hitsMax
+            });
+            if(closestDamagedStructure) {
+                tower.repair(closestDamagedStructure);
+            }
         }
 
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
@@ -119,11 +128,11 @@ function createAllCreeps() {
     var wasCreated = createCreeps("harvester", 3);
     ensureHeralder();
     if (!wasCreated && !Game.creeps["Dropper 1"]) wasCreated = createDropper("Dropper 1", "579fa8710700be0674d2d9cd");
-    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce");
     if (!wasCreated && !Game.creeps["Transporter 1"]) wasCreated = createTransporter("Transporter 1", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
+    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce");
     if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
-    if (!wasCreated) wasCreated = createCreeps("builder", 3);
-    if (!wasCreated) wasCreated = createCreeps("upgrader", 3);
+    if (!wasCreated) wasCreated = createCreeps("builder", 4);
+    if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
 
 }
 
@@ -147,7 +156,10 @@ module.exports.loop = function () {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if (role) {
+        if ((creep.memory.role != "dropper" && creep.memory.role != "heralder") &&
+            main.room.energyAvailable < main.room.energyCapacityAvailable) {
+            roles["harvester"].run(creep);
+        } else if (role) {
             role.run(creep);
         }
     }
