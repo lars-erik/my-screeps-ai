@@ -1,3 +1,5 @@
+require("extensions.creep");
+require("extensions.room");
 
 var roles = {
         harvester: require('role.harvester'),
@@ -131,7 +133,10 @@ function runCreeps() {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if (role) {
+        if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
+            creep.memory.role == "builder" || creep.memory.role == "upgrader")) {
+            roles["harvester"].run(creep);
+        } else if (role) {
             role.run(creep);
         }
     }

@@ -1,22 +1,46 @@
-var harvesting = require("harvesting");
-var upgrading = require("role.upgrader");
-var roleBuilder = {
+var harvesting = require("harvesting"),
+    upgrading = require("role.upgrader"),
+    levels = {};
+    
+levels[1] = function(creep) {
+    noLevel(creep);
+}
+
+function switchMode(creep) {
+    if(creep.memory.building && creep.isEmpty()) {
+        creep.memory.building = false;
+        creep.say('harvesting');
+    }
+    if(!creep.memory.building && creep.isFull()) {
+        creep.memory.building = true;
+        creep.say('building');
+    }
+}
+
+module.exports = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        
+        switchMode(creep);
+        
+        if (!creep.memory.level) {
+            noLevel(creep);
+        } else {
+            levels[creep.memory.level](creep);
+        }
+        
+	}
+};
 
-	    if(creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-            creep.say('harvesting');
-	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.building = true;
-	        creep.say('building');
-	    }
+
+/* OBSOLETE */
+
+function noLevel(creep) {
 
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
         
-        if (!creep.memory.building && !harvesting.harvestClosest(creep, true, targets[0]) && creep.carry.energy > 0)
+        if (!creep.memory.building && !harvesting.harvestClosest(creep, true, targets[0]) && !creep.isEmpty())
             creep.memory.building = true;
 
 	    if(creep.memory.building) {
@@ -25,7 +49,7 @@ var roleBuilder = {
                     creep.moveTo(targets[0]);
                 }
             } else {
-                    upgrading.run(creep);
+                upgrading.run(creep);
                 /*
                 var brokeRooms = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -41,7 +65,4 @@ var roleBuilder = {
                 */
             }
 	    }
-	}
-};
-
-module.exports = roleBuilder;
+}

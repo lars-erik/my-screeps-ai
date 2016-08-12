@@ -77,6 +77,16 @@ function getMainSpawn() {
     return room.memory.spawns[spawns[0].id];
 }
 
+function createAffinities() {
+    if (!memory.affinities) {
+        memory.affinities = {
+            harvester: "",
+            builder: "",
+            upgrader: ""
+        }
+    }
+}
+
 function init(key, initializer) {
     if (!memory[key] || debug) {
         memory[key] = initializer();
@@ -92,7 +102,9 @@ module.exports = {
 
         init("sources", getSourcesData);
         init("spawns", getSpawnsData);
-        init("mainSpawn", getMainSpawn)
+        init("mainSpawn", getMainSpawn);
+        
+        createAffinities();
     }
 };
 

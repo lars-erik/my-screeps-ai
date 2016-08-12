@@ -2,6 +2,48 @@ var harvesting = require("harvesting"),
     building = require("role.builder"),
     levels = {};
 
+levels[1] = function(creep) {
+    var spawn = creep.room.mainSpawn(),
+        closestSource = Game.getObjectById(
+            creep.affinity() ||
+            creep.room.memory.spawns[spawn.id].pathsByLength[0].id
+        ),
+        isAtCapacity = creep.room.isFull(),
+        result
+        ;
+    
+    if (isAtCapacity) {
+        building.run(creep);  
+    } else if (!creep.isFull()) {
+        result = creep.harvest(closestSource);
+        if (result == OK && creep.isFull() && !creep.room.isFull()) {
+            creep.moveTo(spawn);
+        } else if (result == ERR_NOT_IN_RANGE) {
+            creep.moveTo(closestSource);
+        }
+    } else {
+        result = creep.transfer(spawn, RESOURCE_ENERGY)
+        if (result == OK) {
+            creep.moveTo(closestSource);
+        } else if (result == ERR_NOT_IN_RANGE) {
+            creep.moveTo(spawn);
+        }
+    }
+}
+
+module.exports = {
+    run: function(creep) {
+        if (!creep.memory.level) {
+            noLevel(creep);
+        } else {
+            levels[creep.memory.level](creep);
+        }
+	}
+};
+
+
+/* OBSOLETE */
+
 function noLevel(creep) {
     var doRepair = false;
     if(creep.carry.energy < creep.carryCapacity) {
@@ -59,62 +101,3 @@ function noLevel(creep) {
     }
 }
 
-function closestPointAlongPath(path, obj) {
-    var pos = obj.pos || obj,
-        sorted = _.map(path, 
-            (point) => { return { point: point, range: pos.getRangeTo(point.x, point.y) }; }
-            ).sort((a, b) => a.range > b.range ? 1 : a.range < b.range ? -1 : 0);
-    return sorted[0];
-}
-
-function tryMoveByPath(targetId, path, creep) {
-    var closestPoint,
-        result = creep.moveByPath(path);
-    if (result == OK || result == ERR_TIRED) {
-        console.log(creep.name + " ok");
-        return;
-    } 
-    if (result == ERR_NOT_FOUND) {
-        closestPoint = closestPointAlongPath(path, creep);
-        if (closestPoint.range > 2)
-        {
-            result = creep.moveTo(closestPoint.x, closestPoint.y);
-            console.log(creep.name + " move towards " + closestPoint.x + "," + closestPoint.y + " gave " + result);
-            if (result == OK || ERR_TIRED)
-            {
-                return;
-            }
-        }
-    }
-    console.log(creep.name + " reverting " + result);
-    creep.moveTo(Game.getObjectById(targetId));
-}
-
-function tryMoveTo(target, creep) {
-    var result = creep.moveTo(target);
-}
-
-levels[1] = function(creep) {
-    var spawn = creep.room.mainSpawn(),
-        closestSource = Game.getObjectById(creep.room.memory.spawns[spawn.id].pathsByLength[0].id);
-        
-    if (creep.carry.energy < creep.carryCapacity) {
-        if (creep.harvest(closestSource) == ERR_NOT_IN_RANGE) {
-            tryMoveTo(closestSource, creep);
-        }
-    } else {
-        if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            tryMoveTo(spawn, creep);
-        }
-    }
-}
-
-module.exports = {
-    run: function(creep) {
-        if (!creep.memory.level) {
-            noLevel(creep);
-        } else {
-            levels[creep.memory.level](creep);
-        }
-	}
-};
