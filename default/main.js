@@ -5,7 +5,8 @@ var roles = {
         heralder: require('role.heralder'),
         claimer: require("role.claimer"),
         dropper: require("role.dropper"),
-        transporter: require("role.transporter")
+        transporter: require("role.transporter"),
+        soldier: require("role.soldier")
     },
     roleNames = {
         harvester: "Harvester",
@@ -105,12 +106,22 @@ function towerAi() {
     }
 }
 
-function createDropper(name, affinity) {
-    var result = Game.spawns.Spawn.createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], name, { role: "dropper", affinity: affinity });
+function createDropper(name, affinity, loadOff) {
+    var result = Game.spawns.Spawn.createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], name, { role: "dropper", affinity: affinity, loadOff: loadOff });
     if (result == name) {
         console.log("Created creep " + name);
+        return true;
     }
-    return result == name;
+    return false;
+}
+
+function createSoldier(name) {
+    var result = Game.spawns.Spawn.createCreep([TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], name, {role:"soldier"});
+    if (result == name) {
+        console.log("Created soldier " + name)
+        return true;
+    }
+    return false;
 }
 
 function initMain() {
@@ -127,13 +138,13 @@ function createAllCreeps() {
     
     var wasCreated = createCreeps("harvester", 3);
     ensureHeralder();
-    if (!wasCreated && !Game.creeps["Dropper 1"]) wasCreated = createDropper("Dropper 1", "579fa8710700be0674d2d9cd");
+    if (!wasCreated && !Game.creeps["Dropper 1"]) wasCreated = createDropper("Dropper 1", "579fa8710700be0674d2d9cd", "57ab415c4dddc2a3298b6c37");
     if (!wasCreated && !Game.creeps["Transporter 1"]) wasCreated = createTransporter("Transporter 1", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
-    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce");
+    if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce", "57ab83cc61838c5e0729a3b7");
     if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
     if (!wasCreated) wasCreated = createCreeps("builder", 4);
     if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
-
+    if (!wasCreated) wasCreated = createSoldier("Soldier 1");
 }
 
 module.exports.loop = function () {
@@ -156,7 +167,7 @@ module.exports.loop = function () {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if ((creep.memory.role != "dropper" && creep.memory.role != "heralder") &&
+        if ((creep.memory.role != "dropper" && creep.memory.role != "heralder" && creep.memory.role != "soldier") &&
             main.room.energyAvailable < main.room.energyCapacityAvailable) {
             roles["harvester"].run(creep);
         } else if (role) {

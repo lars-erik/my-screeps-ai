@@ -34,9 +34,17 @@ module.exports = {
         if (creep.carry.energy == creep.carryCapacity) {
             var result;
             result = creep.transfer(loadOff, RESOURCE_ENERGY);
+            if (result != OK) {
+                creep.say(result);
+            }
             if (result == ERR_NOT_IN_RANGE) {
                 creep.moveTo(loadOff);
             }
+        }
+
+        var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+        if (target) {
+            creep.pickup(target);
         }
         
         if (creep.harvest(resource) == ERR_NOT_IN_RANGE) {
