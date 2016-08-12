@@ -141,7 +141,7 @@ function createAllCreeps() {
     if (!wasCreated && !Game.creeps["Transporter 1"]) wasCreated = createTransporter("Transporter 1", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
     if (!wasCreated && !Game.creeps["Dropper 2"]) wasCreated = createDropper("Dropper 2", "579fa8710700be0674d2d9ce", "57ab83cc61838c5e0729a3b7");
     if (!wasCreated && !Game.creeps["Transporter 2"]) wasCreated = createTransporter("Transporter 2", "57ab83cc61838c5e0729a3b7", "57ac815400d93c7d39333830");
-    if (!wasCreated) wasCreated = createCreeps("builder", 4);
+    if (!wasCreated) wasCreated = createCreeps("builder", 5);
     if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
 //    if (!wasCreated) wasCreated = createSoldier("Soldier 1");
 //    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
