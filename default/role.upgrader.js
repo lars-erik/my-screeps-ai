@@ -19,6 +19,8 @@ var levels = {
 	}
 };
 
+// TRY PICKUP!!
+
 function switchMode(creep) {
     if (creep.memory.upgrading && creep.isEmpty()) {
         creep.memory.upgrading = false;
