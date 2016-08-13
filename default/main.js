@@ -1,5 +1,6 @@
 require("extensions.creep");
 require("extensions.room");
+require("extensions.spawn");
 
 // 'tis da very much newer shite even from the game. I love it so much!
 

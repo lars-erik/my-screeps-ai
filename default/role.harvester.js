@@ -2,32 +2,34 @@ var harvesting = require("harvesting"),
     building = require("role.builder"),
     levels = {};
 
+function shouldTransfer(creep) {
+    return creep.isFull() && !creep.room.isFull();
+}
+
+function divert(creep, result, successTarget, rangeTarget, predicate) {
+    if (result === OK && predicate(creep)) {
+        creep.moveTo(successTarget);
+    } else if (result === ERR_NOT_IN_RANGE) {
+        creep.moveTo(rangeTarget);
+    }
+}
+
 levels[1] = function(creep) {
-    var spawn = creep.room.mainSpawn(),
-        closestSource = Game.getObjectById(
-            creep.affinity() ||
-            creep.room.memory.spawns[spawn.id].pathsByLength[0].id
-        ),
-        isAtCapacity = creep.room.isFull(),
+    var room = creep.room,
+        spawn = room.mainSpawn(),
+        selectedSource = creep.affinity() || spawn.closestSource(),
+        isAtCapacity = room.isFull(),
         result
         ;
     
     if (isAtCapacity) {
         building.run(creep);  
     } else if (!creep.isFull()) {
-        result = creep.harvest(closestSource);
-        if (result == OK && creep.isFull() && !creep.room.isFull()) {
-            creep.moveTo(spawn);
-        } else if (result == ERR_NOT_IN_RANGE) {
-            creep.moveTo(closestSource);
-        }
+        result = creep.harvest(selectedSource);
+        divert(creep, result, spawn, selectedSource, shouldTransfer);
     } else {
-        result = creep.transfer(spawn, RESOURCE_ENERGY)
-        if (result == OK) {
-            creep.moveTo(closestSource);
-        } else if (result == ERR_NOT_IN_RANGE) {
-            creep.moveTo(spawn);
-        }
+        result = creep.transfer(spawn, RESOURCE_ENERGY);
+        divert(creep, result, selectedSource, spawn);
     }
 }
 
