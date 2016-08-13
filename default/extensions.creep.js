@@ -29,3 +29,23 @@ Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, pred
         this.moveTo(rangeTarget);
     }
 };
+
+Creep.prototype.closestDropOff = function() {
+    var target = null;
+    if (!target) {
+        target = this.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
+            }
+        });
+    }
+    if (!target) {
+        target = this.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+            }
+        });
+    }
+    return target;
+}

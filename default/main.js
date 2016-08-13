@@ -131,14 +131,13 @@ function runCreeps() {
             role = creep ? roles[creep.memory.role] : null;
         if (!creep) {
             delete Game.creeps[name];
-            delete Memory.creeps[name];
         }
-        if (creep.ticksToLive == 1) {
+        if (creep.ticksToLive === 0) {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
         if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
-            creep.memory.role == "builder" || creep.memory.role == "upgrader")) {
+            creep.memory.role === "builder" || creep.memory.role === "upgrader")) {
             roles["harvester"].run(creep);
         } else if (role) {
             role.run(creep);
