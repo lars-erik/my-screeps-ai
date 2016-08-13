@@ -31,6 +31,7 @@
     <Compile Include="default\role.heralder.js" />
     <Compile Include="default\role.transporter.js" />
     <Compile Include="default\role.upgrader.js" />
+    <Compile Include="Gruntfile.js" />
     <Compile Include="_references.js" />
     <Content Include="ScreepsAutocomplete\Readme.md" />
     <Compile Include="ScreepsAutocomplete\ConstructionSite.js" />

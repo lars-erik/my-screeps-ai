@@ -1,6 +1,8 @@
 require("extensions.creep");
 require("extensions.room");
 
+// 'tis da very much newer shite even
+
 var roles = {
         harvester: require('role.harvester'),
         upgrader: require('role.upgrader'),
