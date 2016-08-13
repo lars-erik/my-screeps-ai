@@ -33,6 +33,7 @@
     <Compile Include="default\role.upgrader.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="_references.js" />
+    <Content Include="package.json" />
     <Content Include="ScreepsAutocomplete\Readme.md" />
     <Compile Include="ScreepsAutocomplete\ConstructionSite.js" />
     <Compile Include="ScreepsAutocomplete\Creep.js" />
