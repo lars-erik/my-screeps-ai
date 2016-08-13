@@ -14,7 +14,7 @@ var levels = {
             if (!creep.pickupClosestEnergy(creep.room.controller)) {
                 creep.harvestClosestSource(
                     creep.room.controller.closestSource(), 
-                creep.room.controller
+                    creep.room.controller
                 );
             }
 	    }

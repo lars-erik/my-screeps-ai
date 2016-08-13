@@ -22,7 +22,10 @@ Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
 };
 
 Creep.prototype.pickupClosestEnergy = function(from) {
-    var closestEnergy = (this.affinity() || from || this).pos.findClosestByPath(FIND_DROPPED_ENERGY),
+    var self = this,
+        closestEnergy = 
+            this.pos.findInRange(FIND_DROPPED_ENERGY, 1, { filter: (energy) => energy.amount >= self.carryCapacity })[0] ||
+            (this.affinity() || from || this).pos.findClosestByPath(FIND_DROPPED_ENERGY,  {filter: (energy) => energy.amount >= self.carryCapacity}),
         result;
     if (closestEnergy) {
         result = this.pickup(closestEnergy);

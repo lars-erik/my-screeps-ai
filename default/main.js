@@ -132,7 +132,7 @@ function runCreeps() {
         if (!creep) {
             delete Game.creeps[name];
         }
-        if (creep.ticksToLive === 0) {
+        if (creep.ticksToLive === 1) {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
