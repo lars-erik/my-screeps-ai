@@ -16,8 +16,6 @@ var roles = {
     },
     main = {};
 
-// tis it
-
 function getLevel() {
     return Game.rooms[Game.spawns.Spawn.pos.roomName].controller.level;
 }
