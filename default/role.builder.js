@@ -3,7 +3,14 @@ var harvesting = require("harvesting"),
     levels = {};
     
 levels[1] = function(creep) {
-    noLevel(creep);
+    var prioritizedSite = creep.room.find(FIND_CONSTRUCTION_SITES)[0];
+    if (!creep.memory.builder) {
+        creep.harvestClosestSource(prioritizedSite);
+    } else if (prioritizedSite) {
+        creep.moveByResult(creep.build(prioritizedSite), null, prioritizedSite);
+    } else {
+        upgrading.run(creep);
+    }
 }
 
 function switchMode(creep) {

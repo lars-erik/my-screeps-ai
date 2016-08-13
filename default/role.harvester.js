@@ -6,14 +6,6 @@ function shouldTransfer(creep) {
     return creep.isFull() && !creep.room.isFull();
 }
 
-function divert(creep, result, successTarget, rangeTarget, predicate) {
-    if (result === OK && predicate(creep)) {
-        creep.moveTo(successTarget);
-    } else if (result === ERR_NOT_IN_RANGE) {
-        creep.moveTo(rangeTarget);
-    }
-}
-
 levels[1] = function(creep) {
     var room = creep.room,
         spawn = room.mainSpawn(),
@@ -26,10 +18,10 @@ levels[1] = function(creep) {
         building.run(creep);  
     } else if (!creep.isFull()) {
         result = creep.harvest(selectedSource);
-        divert(creep, result, spawn, selectedSource, shouldTransfer);
+        creep.moveByResult(result, spawn, selectedSource, shouldTransfer);
     } else {
         result = creep.transfer(spawn, RESOURCE_ENERGY);
-        divert(creep, result, selectedSource, spawn);
+        creep.moveByResult(result, selectedSource, spawn);
     }
 }
 
