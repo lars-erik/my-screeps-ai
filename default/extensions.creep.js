@@ -14,16 +14,16 @@ Creep.prototype.affinity = function() {
     return Game.getObjectById(this.affinityId());
 };
 
-Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess, predicate) {
+Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
     var selectedSource = this.affinity() || source || this.closestSource(),
         result = this.harvest(selectedSource);
-    result = this.moveByResult(result, moveToOnSuccess, selectedSource, predicate);
+    result = this.moveByResult(result, selectedSource, moveToOnSuccess, (creep) => creep.isFull());
     return result;
 };
 
-Creep.prototype.moveByResult = function(result, successTarget, rangeTarget, predicate) {
+Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, predicate) {
     var predicateResult = predicate ? predicate(this) : true;
-    if (result=== OK && successTarget && predicateResult) {
+    if (result === OK && successTarget && predicateResult) {
         this.moveTo(successTarget);
     } else if (result === ERR_NOT_IN_RANGE && rangeTarget) {
         this.moveTo(rangeTarget);

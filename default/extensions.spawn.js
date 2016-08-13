@@ -1,5 +1,9 @@
 ﻿StructureSpawn.prototype.closestSourceId = function() {
-    return spawn.memory.pathsByLength[0].id;
+    var roomMemory = this.room.memory.spawns[this.id];
+    if (roomMemory && roomMemory.pathsByLength) {
+        return roomMemory.pathsByLength[0].id;
+    }
+    return null;
 }
 
 StructureSpawn.prototype.closestSource = function() {

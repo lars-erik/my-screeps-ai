@@ -6,7 +6,8 @@ function shouldTransfer(creep) {
     return creep.isFull() && !creep.room.isFull();
 }
 
-levels[1] = function(creep) {
+levels[1] = function (creep) {
+
     var room = creep.room,
         spawn = room.mainSpawn(),
         selectedSource = creep.affinity() || spawn.closestSource(),
@@ -18,10 +19,10 @@ levels[1] = function(creep) {
         building.run(creep);  
     } else if (!creep.isFull()) {
         result = creep.harvest(selectedSource);
-        creep.moveByResult(result, spawn, selectedSource, shouldTransfer);
+        creep.moveByResult(result, selectedSource, spawn, shouldTransfer);
     } else {
         result = creep.transfer(spawn, RESOURCE_ENERGY);
-        creep.moveByResult(result, selectedSource, spawn);
+        creep.moveByResult(result, spawn, selectedSource);
     }
 }
 
