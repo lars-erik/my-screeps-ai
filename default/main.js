@@ -1,13 +1,13 @@
 var roles = {
-    harvester: require('role.harvester'),
-    upgrader: require('role.upgrader'),
-    builder: require('role.builder'),
-    heralder: require('role.heralder'),
-    claimer: require("role.claimer"),
-    dropper: require("role.dropper"),
-    transporter: require("role.transporter")
-    //,soldier: require("role.soldier")
-},
+        harvester: require('role.harvester'),
+        upgrader: require('role.upgrader'),
+        builder: require('role.builder'),
+        heralder: require('role.heralder'),
+        claimer: require("role.claimer"),
+        dropper: require("role.dropper"),
+        transporter: require("role.transporter")
+        //,soldier: require("role.soldier")
+    },
     roleNames = {
         harvester: "Harvester",
         heralder: "Heralder",
@@ -15,6 +15,8 @@ var roles = {
         builder: "Builder"
     },
     main = {};
+    
+// and back again
 
 function getLevel() {
     return Game.rooms[Game.spawns.Spawn.pos.roomName].controller.level;
