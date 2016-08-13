@@ -6,7 +6,7 @@ var roles = {
     claimer: require("role.claimer"),
     dropper: require("role.dropper"),
     transporter: require("role.transporter")
-        //,        soldier: require("role.soldier")
+    //,soldier: require("role.soldier")
 },
     roleNames = {
         harvester: "Harvester",
