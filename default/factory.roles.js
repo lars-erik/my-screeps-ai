@@ -1,5 +1,9 @@
 var roles = {
     1: {
+        heralder: {
+            prefix: "Heralder",
+            body: [MOVE]
+        },
         dropper: {
             prefix: "Dropper",
             body: [WORK, WORK, CARRY, MOVE]
@@ -18,6 +22,10 @@ var roles = {
         }
     },
     2: {
+        heralder: {
+            prefix: "Heralder",
+            body: [MOVE]
+        },
         dropper: {
             prefix: "Dropper",
             body: [WORK,WORK,WORK,WORK,CARRY,MOVE]

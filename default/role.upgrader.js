@@ -11,10 +11,12 @@ var levels = {
             );
         }
         else {
-            creep.harvestClosestSource(
-                creep.room.controller.closestSource(), 
+            if (!creep.pickupClosestEnergy(creep.room.controller)) {
+                creep.harvestClosestSource(
+                    creep.room.controller.closestSource(), 
                 creep.room.controller
-            );
+                );
+            }
 	    }
 	}
 };

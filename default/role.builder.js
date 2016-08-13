@@ -10,7 +10,9 @@ levels[1] = function(creep) {
     } else if (creep.memory.building) {
         creep.moveByResult(creep.build(prioritizedSite), prioritizedSite);
     } else {
-        creep.harvestClosestSource(prioritizedSite.closestSource(), prioritizedSite);
+        if (!creep.pickupClosestEnergy(prioritizedSite)) {
+            creep.harvestClosestSource(prioritizedSite.closestSource(), prioritizedSite);
+        }
     } 
 }
 

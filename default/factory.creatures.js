@@ -22,7 +22,7 @@ module.exports = {
                 if (!creep) {
                     name = role.prefix + " " + ci;
                     defaultMemory = { level:level.id, role:priority.role };
-                    if (spawn.createCreep(role.body, name, _.extend(defaultMemory, role.memory)) == name) {
+                    if (spawn.createCreep(role.body, name, _.extend(defaultMemory, role.memory, Memory.creeps[name])) === name) {
                         console.log("Created creature " + name + " with level " + level.id);
                     }
                     return;

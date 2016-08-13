@@ -21,8 +21,15 @@ Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
     return result;
 };
 
-Creep.prototype.pickupClosestEnergy = function() {
-    
+Creep.prototype.pickupClosestEnergy = function(from) {
+    var closestEnergy = (from || this).pos.findClosestByPath(FIND_DROPPED_ENERGY),
+        result;
+    if (closestEnergy) {
+        result = this.pickup(closestEnergy);
+        this.moveByResult(result, closestEnergy, from);
+        return true;
+    }
+    return false;
 }
 
 Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, predicate) {

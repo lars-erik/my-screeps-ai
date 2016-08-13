@@ -5,8 +5,11 @@ levels = {
     1: {
         id: 1,
         priority: [
+            { role: "dropper", count: 1 },
             { role: "harvester", count: 3 },
-            { role: "upgrader", count: 3 }
+            { role: "heralder", count: 1 },
+            { role: "builder", count: 2 },
+            { role: "upgrader", count: 2 }
         ]
     },
     2: {
