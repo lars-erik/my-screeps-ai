@@ -14,6 +14,10 @@ module.exports = {
             name,
             defaultMemory;
         
+        if (!level.priority) {
+            return;
+        }
+
         for(pi = 0; pi<level.priority.length; pi++) {
             priority = level.priority[pi];
             role = roles[priority.role];
