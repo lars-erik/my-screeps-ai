@@ -8,11 +8,22 @@
                 files: [
                     {expand: true, src:["default/*"], flatten: true, dest: "C:/Users/Lars-Erik/AppData/Local/Screeps/scripts/screeps.com/Sim 2"}
                 ]
+            },
+            game: {
+                files: [
+                    { expand: true, src: ["C:/Users/Lars-Erik/AppData/Local/Screeps/scripts/screeps.com/Sim 2/*"], flatten: true, dest: "default" }
+                ]
             }
         },
         watch: {
-            files: ["default/*"],
-            tasks: ["copy"]
+            fromVs: {
+                files: ["default/*"],
+                tasks: ["copy:main"]
+            },
+            fromGame: {
+                files: ["C:/Users/Lars-Erik/AppData/Local/Screeps/scripts/screeps.com/Sim 2/*"],
+                tasks: ["copy:game"]
+            }
         }
     });
 
