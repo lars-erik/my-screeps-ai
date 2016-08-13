@@ -167,7 +167,7 @@ module.exports.loop = function () {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if ((creep.memory.role != "dropper" && creep.memory.role != "heralder" && creep.memory.role != "soldier") &&
+        if ((creep.memory.role == "builder" || creep.memory.role == "upgrader") &&
             main.room.energyAvailable < main.room.energyCapacityAvailable) {
             roles["harvester"].run(creep);
         } else if (role) {
