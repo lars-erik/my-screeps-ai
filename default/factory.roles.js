@@ -1,5 +1,9 @@
 var roles = {
     1: {
+        dropper: {
+            prefix: "Dropper",
+            body: [WORK, WORK, CARRY, MOVE]
+        },
         harvester: {
             prefix: "Harvester",
             body: [WORK,WORK,CARRY,MOVE]
@@ -14,7 +18,22 @@ var roles = {
         }
     },
     2: {
-        
+        dropper: {
+            prefix: "Dropper",
+            body: [WORK,WORK,WORK,WORK,CARRY,MOVE]
+        },
+        harvester: {
+            prefix: "Harvester",
+            body: [WORK, WORK, CARRY, MOVE, MOVE]
+        },
+        builder: {
+            prefix: "Builder",
+            body: [WORK, WORK, CARRY, MOVE, MOVE]
+        },
+        upgrader: {
+            prefix: "Upgrader",
+            body: [WORK, WORK, CARRY, MOVE, MOVE]
+        }
     },
     3: {
         

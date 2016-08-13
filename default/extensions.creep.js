@@ -21,6 +21,10 @@ Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
     return result;
 };
 
+Creep.prototype.pickupClosestEnergy = function() {
+    
+}
+
 Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, predicate) {
     var predicateResult = predicate ? predicate(this) : true;
     if (result === OK && successTarget && predicateResult) {
