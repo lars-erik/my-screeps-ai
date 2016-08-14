@@ -23,7 +23,6 @@ module.exports = {
             if (loadOff) {
                 result = creep.transfer(loadOff, RESOURCE_ENERGY);
                 if (result === ERR_NOT_IN_RANGE) {
-                    console.log(creep.name + " moving to loadoff " + loadOff.id);
                     creep.moveTo(loadOff);
                 }
             } else {

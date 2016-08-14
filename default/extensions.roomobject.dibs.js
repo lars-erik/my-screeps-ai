@@ -6,8 +6,15 @@ RoomObject.prototype.dibs = function () {
         total; 
     
     function ensureDibsMemory() {
+        var i;
         if (!self.room.memory.dibs) {
             self.room.memory.dibs = {}
+        } else {
+            for (i = self.room.memory.dibs.length; i>=0; i--) {
+                if (!Game.getObjectById(self.room.memory.dibs[i])) {
+                    self.room.memory.dibs.splice(i, 1);
+                }
+            }
         }
         if (!self.room.memory.dibs[self.id]) {
             self.room.memory.dibs[self.id] = [];

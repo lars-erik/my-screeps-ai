@@ -7,7 +7,7 @@
                 }),
                     i;
                 for (i = 0; i < creeps.length; i++) {
-                    console.log(creeps[i].name + " (" + creeps[i].memory.level + ") " + JSON.stringify(creeps[i].memory));
+                    console.log(creeps[i].name + " LVL: " + creeps[i].memory.level + " BP: " + creeps[i].body.length + " " + JSON.stringify(creeps[i].memory));
                 }
                 return "";
             }
