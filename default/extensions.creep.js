@@ -17,18 +17,78 @@ Creep.prototype.affinity = function() {
 Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
     var selectedSource = this.affinity() || source || this.closestSource(),
         result = this.harvest(selectedSource);
-    result = this.moveByResult(result, selectedSource, moveToOnSuccess, (creep) => creep.isFull());
+    result = this.moveByResult(result, selectedSource, moveToOnSuccess, this.isFull);
     return result;
 };
 
-Creep.prototype.pickupClosestEnergy = function(from) {
+Creep.prototype.canPlaceDibs = function (roomObj) {
+    if (!roomObj) {
+        return false;
+    }
+    return roomObj.dibs().hasCapacity(this);
+}
+
+Creep.prototype.findClosestOfType = function(from, findType, filter) {
+    return this.pos.findInRange(findType, 1, { filter: filter })[0] 
+        || (from || this).pos.findClosestByPath(findType, { filter: filter });
+}
+
+function canPlaceDibs(creep, filter) {
+    return function (source) {
+        if (filter) {
+            filter(source);
+        }
+        return creep.canPlaceDibs(source);
+    }
+}
+
+Creep.prototype.giveDibs = function(source) {
+    this.memory.dibs = source.id;
+}
+
+Creep.prototype.removeDibs = function () {
+    this.memory.dibs = null;
+}
+
+Creep.prototype.getDibsSource = function() {
+    return this.memory.dibs;
+}
+
+Creep.prototype.pickupClosestEnergy = function(from, ignoreAffinity) {
     var self = this,
-        closestEnergy = 
-            this.pos.findInRange(FIND_DROPPED_ENERGY, 1, { filter: (energy) => energy.amount >= self.carryCapacity })[0] ||
-            (this.affinity() || from || this).pos.findClosestByPath(FIND_DROPPED_ENERGY,  {filter: (energy) => energy.amount >= self.carryCapacity}),
+        closestEnergy = this.getDibsSource(),
         result;
+
+    console.log(this.name + ": has dibs source: " + closestEnergy);
+
+    if (!closestEnergy) {
+        if (!ignoreAffinity && this.canPlaceDibs(this.affinity())) {
+            console.log(self.name + ": could place dibs on affinity: " + this.affinity());
+            closestEnergy = this.affinity();
+        }
+        if (!closestEnergy) {
+            closestEnergy = this.findClosestOfType(from, FIND_MY_STRUCTURES, canPlaceDibs(self, function(structure) {
+                return structure.structureType === STRUCTURE_CONTAINER;
+            }));
+            if (closestEnergy) {
+                console.log(self.name + ": could place dibs on container: " + closestEnergy.id);
+            }
+        }
+        if (!closestEnergy) {
+            closestEnergy = this.findClosestOfType(from, FIND_DROPPED_ENERGY, canPlaceDibs(self));
+            if (closestEnergy) {
+                console.log(self.name + ": could place dibs on dropped energy: " + closestEnergy.id);
+            }
+        }
+        if (closestEnergy) {
+            closestEnergy.dibs().place(this);
+        }
+    }
     if (closestEnergy) {
         result = this.pickup(closestEnergy);
+        if (result === OK) {
+            closestEnergy.dibs().remove(this);
+        }
         this.moveByResult(result, closestEnergy, from);
         return true;
     }
@@ -48,7 +108,7 @@ Creep.prototype.closestDropOff = function() {
     var target = null;
     if (!target) {
         target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (structure) => {
+            filter: function(structure) {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
                         structure.structureType === STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
@@ -56,7 +116,7 @@ Creep.prototype.closestDropOff = function() {
     }
     if (!target) {
         target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (structure) => {
+            filter: function(structure) {
                 return (structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
             }
         });

@@ -2,6 +2,7 @@ require("extensions.creep");
 require("extensions.room");
 require("extensions.spawn");
 require("extensions.roomobject");
+require("extensions.roomobject.dibs");
 
 // 'tis da very much newer shite even from the game. I love it so much!
 

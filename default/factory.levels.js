@@ -6,14 +6,21 @@ levels = {
         id: 1,
         priority: [
             { role: "harvester", count: 3 },
-            { role: "dropper", count: 4 },
+            { role: "dropper", count: 2},
             { role: "heralder", count: 1 },
-            { role: "builder", count: 2 },
+            { role: "builder", count: 3 },
             { role: "upgrader", count: 2 }
         ]
     },
     2: {
-        id: 2
+        id: 2,
+        priority: [
+            { role: "harvester", count: 3 },
+            { role: "dropper", count: 2 },
+            { role: "heralder", count: 1 },
+            { role: "builder", count: 3 },
+            { role: "upgrader", count: 2 }
+        ]
     },
     3: {
         id: 3

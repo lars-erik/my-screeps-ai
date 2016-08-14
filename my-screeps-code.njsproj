@@ -33,6 +33,7 @@
     <Compile Include="default\role.heralder.js" />
     <Compile Include="default\role.transporter.js" />
     <Compile Include="default\role.upgrader.js" />
+    <Compile Include="default\extensions.roomobject.dibs.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="_references.js" />
     <Content Include="package.json" />
