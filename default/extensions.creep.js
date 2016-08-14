@@ -36,13 +36,20 @@ Creep.prototype.findClosestOfType = function(from, findType, filter) {
 }
 
 function canPlaceDibs(creep, filter) {
-    return function (source) {
-        var filterResult = true;
+    return function(source) {
+        var filterResult = true,
+            result = false;
         if (filter) {
             filterResult = filter(source);
         }
-        return filterResult && creep.canPlaceDibs(source);
-    }
+        if (filterResult) {
+            result = creep.canPlaceDibs(source);
+        }
+        //if (filterResult && !result) {
+        //    console.log(creep.name + " can't place dibs on " + source.id);
+        //}
+        return result;
+    };
 }
 
 Creep.prototype.giveDibs = function(source) {
