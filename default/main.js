@@ -172,7 +172,6 @@ module.exports.loop = function () {
             role = creep ? roles[creep.memory.role] : null;
         if (!creep) {
             delete Game.creeps[name];
-            delete Memory.creeps[name];
         }
         if (creep.ticksToLive == 1) {
             roles.heralder.add(name + " dies! :(");
