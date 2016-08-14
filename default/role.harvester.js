@@ -43,7 +43,7 @@ module.exports = {
 
 function noLevel(creep) {
     var doRepair = false;
-    if(creep.carry.energy < creep.carryCapacity) {
+    if(!creep.isFull()) {
         var containers = creep.room.find(FIND_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_CONTAINER });
         if (containers.length) {
             doRepairs = !harvesting.harvestClosest(creep, true);

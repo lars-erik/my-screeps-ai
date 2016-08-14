@@ -35,10 +35,11 @@ Creep.prototype.findClosestOfType = function(from, findType, filter) {
 
 function canPlaceDibs(creep, filter) {
     return function (source) {
+        var filterResult = true;
         if (filter) {
-            filter(source);
+            filterResult = filter(source);
         }
-        return creep.canPlaceDibs(source);
+        return filterResult && creep.canPlaceDibs(source);
     }
 }
 
@@ -51,41 +52,33 @@ Creep.prototype.removeDibs = function () {
 }
 
 Creep.prototype.getDibsSource = function() {
-    return this.memory.dibs;
+    if (this.memory.dibs) {
+        return Game.getObjectById(this.memory.dibs);
+    }
+    return null;
 }
 
 Creep.prototype.pickupClosestEnergy = function(from, ignoreAffinity) {
     var self = this,
+        result,
         closestEnergy = this.getDibsSource(),
-        result;
+        placeDibs = !closestEnergy;
 
-    console.log(this.name + ": has dibs source: " + closestEnergy);
+    from = ignoreAffinity ? (from || this) : (this.affinity() || from || this);
 
     if (!closestEnergy) {
-        if (!ignoreAffinity && this.canPlaceDibs(this.affinity())) {
-            console.log(self.name + ": could place dibs on affinity: " + this.affinity());
-            closestEnergy = this.affinity();
-        }
-        if (!closestEnergy) {
-            closestEnergy = this.findClosestOfType(from, FIND_MY_STRUCTURES, canPlaceDibs(self, function(structure) {
-                return structure.structureType === STRUCTURE_CONTAINER;
-            }));
-            if (closestEnergy) {
-                console.log(self.name + ": could place dibs on container: " + closestEnergy.id);
-            }
-        }
-        if (!closestEnergy) {
-            closestEnergy = this.findClosestOfType(from, FIND_DROPPED_ENERGY, canPlaceDibs(self));
-            if (closestEnergy) {
-                console.log(self.name + ": could place dibs on dropped energy: " + closestEnergy.id);
-            }
-        }
-        if (closestEnergy) {
-            closestEnergy.dibs().place(this);
-        }
+        closestEnergy = this.findClosestOfType(from, FIND_DROPPED_ENERGY, canPlaceDibs(self));
+    }
+    if (!closestEnergy) {
+        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, canPlaceDibs(self, function(structure) {
+            return structure.structureType === STRUCTURE_CONTAINER;
+        }));
     }
     if (closestEnergy) {
-        result = this.pickup(closestEnergy);
+        if (placeDibs) {
+            closestEnergy.dibs().place(this);
+        }
+        result = closestEnergy.yield(this);
         if (result === OK) {
             closestEnergy.dibs().remove(this);
         }

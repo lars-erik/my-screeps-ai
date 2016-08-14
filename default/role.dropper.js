@@ -19,7 +19,7 @@ module.exports = {
         if (creep.memory.loadOff) {
             loadOff = Game.getObjectById(creep.memory.loadOff);
         }
-        if (creep.carry.energy === creep.carryCapacity) {
+        if (creep.isFull()) {
             if (loadOff) {
                 result = creep.transfer(loadOff, RESOURCE_ENERGY);
                 if (result === ERR_NOT_IN_RANGE) {

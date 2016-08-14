@@ -3,6 +3,8 @@ require("extensions.room");
 require("extensions.spawn");
 require("extensions.roomobject");
 require("extensions.roomobject.dibs");
+require("extensions.container");
+require("extensions.resource");
 
 // 'tis da very much newer shite even from the game. I love it so much!
 
