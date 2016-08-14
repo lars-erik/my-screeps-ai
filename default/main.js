@@ -86,23 +86,29 @@ function ensureHeralder() {
     }
 }
 
-function towerAi() {
-    var tower = Game.getObjectById('57ab1d58a572e3a75721b2a2');
-    if (tower) {
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (closestHostile) {
-            tower.attack(closestHostile);
-        }
-        
-        if (tower.energy > tower.energyCapacity * .8) {
-            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES,{
-                filter: (structure) => structure.hits < structure.hitsMax
-            });
-            if (closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
+function towerAi(room) {
+    var towers = room.find(FIND_MY_STRUCTURES, { filter: function (structure) { return structure.structureType === STRUCTURE_TOWER; } }),
+        tower,
+        i;
+    for (i = 0; i < towers.length; i++) {
+        tower = towers[i];
+        if (tower) {
+            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
+            
+            if (tower.energy > tower.energyCapacity * .8) {
+                var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: function (structure) {
+                        return structure.hits < structure.hitsMax;
+                    }
+                });
+                if (closestDamagedStructure) {
+                    tower.repair(closestDamagedStructure);
+                }
             }
         }
-    
     }
 }
 
@@ -182,6 +188,6 @@ module.exports.loop = function () {
     
     createAllCreeps();
     
-    towerAi();
+    towerAi(main.room);
 
 }
