@@ -1,4 +1,5 @@
-Creep.prototype.isFull = function() {
+Creep.prototype.isFull = function () {
+
     return _.sum(this.carry) === this.carryCapacity;
 };
 
@@ -16,8 +17,9 @@ Creep.prototype.affinity = function() {
 
 Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
     var selectedSource = this.affinity() || source || this.closestSource(),
-        result = this.harvest(selectedSource);
-    result = this.moveByResult(result, selectedSource, moveToOnSuccess, this.isFull);
+        result = this.harvest(selectedSource), 
+        self = this;
+    result = this.moveByResult(result, selectedSource, moveToOnSuccess, function () { return self.isFull() });
     return result;
 };
 

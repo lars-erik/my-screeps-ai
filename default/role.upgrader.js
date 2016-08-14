@@ -21,7 +21,11 @@ var levels = {
 	}
 };
 
-// TRY PICKUP!!
+levels[2] = levels[1];
+levels[3] = levels[1];
+levels[4] = levels[1];
+levels[5] = levels[1];
+levels[6] = levels[1];
 
 function switchMode(creep) {
     if (creep.memory.upgrading && creep.isEmpty()) {
