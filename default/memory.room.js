@@ -16,7 +16,7 @@ function translateObjects(objects, translation) {
 }
 
 function getPathsBetween(from, targets) {
-    return _.map(targets, (target) => { return { id:target.id, path:from.pos.findPathTo(target) }; });
+    return _.map(targets, function (target) { return { id:target.id, path:from.pos.findPathTo(target) }; });
 }
 
 function setPaths(data, paths) {
@@ -27,12 +27,13 @@ function setPaths(data, paths) {
         data.paths[id] = paths[i].path;
     }
     data.pathsByLength = paths.sort(
-        (a, b) => 
-        a.path.length > b.path.length 
-        ? 1 
-        : a.path.length < b.path.length 
-        ? -1 
-        : 0
+        function(a, b) {
+            return a.path.length > b.path.length
+                ? 1
+                : a.path.length < b.path.length
+                ? -1
+                : 0;
+        }
     );
 }
 
@@ -96,9 +97,9 @@ function init(key, initializer) {
 module.exports = {
     init: function(forRoom) {
         room = forRoom;
-        memory = room.memory;
+        memory = room.memory || (room.memory = {});
         sources = room.find(FIND_SOURCES);
-        spawns = room.find(FIND_STRUCTURES, {filter: (structure) => structure.structureType == STRUCTURE_SPAWN});
+        spawns = room.find(FIND_STRUCTURES, { filter: function(structure) { return structure.structureType == STRUCTURE_SPAWN; } });
 
         init("sources", getSourcesData);
         init("spawns", getSpawnsData);

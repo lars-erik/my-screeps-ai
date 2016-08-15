@@ -1,4 +1,4 @@
-﻿module.exports = {
+module.exports = {
     init: function(game) {
         game.utils = {
             listCreeps: function () {

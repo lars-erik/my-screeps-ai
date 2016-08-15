@@ -1,3 +1,3 @@
-﻿StructureContainer.prototype.yield = function(creep) {
+StructureContainer.prototype.yield = function(creep) {
     return creep.withdraw(this, RESOURCE_ENERGY);
 }

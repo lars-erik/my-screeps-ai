@@ -1,4 +1,4 @@
-﻿
+
 RoomObject.prototype.dibs = function () {
     var self = this,
         dibs,

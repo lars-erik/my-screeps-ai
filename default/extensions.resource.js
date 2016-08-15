@@ -1,3 +1,3 @@
-﻿Resource.prototype.yield = function(creep) {
+Resource.prototype.yield = function(creep) {
     return creep.pickup(this);
 }
