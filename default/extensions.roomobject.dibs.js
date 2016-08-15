@@ -54,6 +54,8 @@ RoomObject.prototype.dibs = function () {
     return {
         hasCapacity: hasCapacity,
         place: function (creep) {
+            totalDibbed = getTotalDibbed();
+            total = getTotal();
             if (hasCapacity(creep) && notAlreadyDibbedBy(creep)) {
                 dibs.push({ id: creep.id, amount: creep.carryCapacity });
                 creep.giveDibs(self);
@@ -64,6 +66,8 @@ RoomObject.prototype.dibs = function () {
         remove: function(creep) {
             _.remove(dibs, function (d) { return d.id === creep.id; });
             creep.removeDibs();
+            totalDibbed = getTotalDibbed();
+            total = getTotal();
         }
     }
 }
