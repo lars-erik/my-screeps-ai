@@ -43,12 +43,7 @@ module.exports = {
     run: function (creep) {
         
         switchMode(creep);
-        
-        if (!creep.memory.level) {
-            noLevel(creep);
-        } else {
-            levels[creep.memory.level](creep);
-        }
+        levels[creep.memory.level || 1](creep);
         
     }
 };

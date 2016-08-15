@@ -1,4 +1,5 @@
-var room,
+var levelFactory = require("factory.levels"),
+    room,
     memory,
     sources,
     spawns,
@@ -106,6 +107,8 @@ module.exports = {
         init("mainSpawn", getMainSpawn);
         
         createAffinities();
+
+        memory.level = levelFactory.get(room).id;
     }
 };
 

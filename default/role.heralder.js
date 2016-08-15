@@ -42,7 +42,7 @@ module.exports = {
                 creeplen++;
             }
             var maxlen = 0,
-                priority = creep.room.memory.levels[creep.memory.level].priority;
+                priority = creep.room.memory.levels[creep.room.memory.level].priority;
             for (var i = 0; i < priority.length; i++) {
                 maxlen += priority[i].count;
             }

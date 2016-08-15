@@ -17,7 +17,7 @@ levels[1] = function (creep) {
     
     if (isAtCapacity) {
         building.run(creep);  
-    } else if (!creep.isFull()) {
+    } else if (!creep.isFull() && creep.carry.energy < dropOff.energyCapacity - dropOff.energy) {
         if (!creep.pickupClosestEnergy(dropOff)) {
             result = creep.harvest(selectedSource);
             creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);

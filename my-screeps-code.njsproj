@@ -26,7 +26,6 @@
     <Compile Include="default\factory.levels.js" />
     <Compile Include="default\factory.roles.js" />
     <Compile Include="default\game.utils.js" />
-    <Compile Include="default\harvesting.js" />
     <Compile Include="default\main.js" />
     <Compile Include="default\memory.room.js" />
     <Compile Include="default\role.builder.js" />

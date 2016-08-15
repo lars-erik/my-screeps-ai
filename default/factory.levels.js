@@ -63,8 +63,8 @@ rules = [
     { threshold: 300, level: 1 }, // starting
     { threshold: 550, level: 2 }, // 5 extensions, lvl 2
     { threshold: 800, level: 3 }, // 10 extensions, lvl 3
-    { threshold: 1300, level: 3 }, // 20 extensions, lvl 4
-    { threshold: 1800, level: 4 } // 20 extensions, lvl 4
+    { threshold: 1300, level: 4 }, // 20 extensions, lvl 4
+    { threshold: 1800, level: 5 } // 20 extensions, lvl 4
 ];
 
 module.exports = {

@@ -85,8 +85,4 @@ module.exports.loop = function () {
     }
 
     runCreeps();
-    
-    /*
-    towerAi();
-    */
 }
