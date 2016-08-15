@@ -168,6 +168,16 @@ function createAllCreeps() {
 //    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
 }
 
+function logControllerProgress(room) {
+    if (!room.memory.controllerProgress) {
+        room.memory.controllerProgress = room.controller.progress;
+    }
+    if (room.controller.progress > room.memory.controllerProgress + 100) {
+        console.log("CTRL: " + room.controller.progress + "/" + room.controller.progressTotal);
+        room.memory.controllerProgress = room.controller.progress;
+    }
+}
+
 module.exports.loop = function () {
     
     initMain();
@@ -199,4 +209,5 @@ module.exports.loop = function () {
     
     towerAi(main.room);
 
+    logControllerProgress(main.room);
 }
