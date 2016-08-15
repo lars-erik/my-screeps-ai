@@ -26,7 +26,17 @@ function createCreep(name, role, affinity) {
     var capacity = main.room.energyCapacityAvailable;
     
     var body;
-    if (capacity >= 750) {
+    if (capacity >= 1300) {
+        if (role == "harvester") {
+            body = [WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+        } else {
+            body = [WORK, WORK, WORK, WORK, WORK, WORK, WORK
+                , CARRY, CARRY
+                , MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                , MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                ];
+        }
+    } else if (capacity >= 750) {
         if (role == "harvester") {
             body = [WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
         } else {
@@ -152,7 +162,7 @@ function createAllCreeps() {
     //if (!wasCreated && !Game.creeps["Transporter 3"]) wasCreated = createTransporter("Transporter 3", "57ab415c4dddc2a3298b6c37", "57ac6d9c335168207751f1f5");
     if (!wasCreated && !Game.creeps["Transporter 4"]) wasCreated = createTransporter("Transporter 4", "57ac6d9c335168207751f1f5", "57af29c7d519a84b334f8e9e");
 //    if (!wasCreated && !Game.creeps["Transporter 5"]) wasCreated = createTransporter("Transporter 5", "57ac6d9c335168207751f1f5", "57af29c7d519a84b334f8e9e");
-    if (!wasCreated) wasCreated = createCreeps("builder", 6);
+    if (!wasCreated) wasCreated = createCreeps("builder", 4);
     if (!wasCreated) wasCreated = createCreeps("upgrader", 2);
 //    if (!wasCreated) wasCreated = createSoldier("Soldier 1");
 //    if (!wasCreated) wasCreated = createSoldier("Soldier 2");
