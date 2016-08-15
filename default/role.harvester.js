@@ -25,6 +25,9 @@ levels[1] = function (creep) {
         result = creep.transfer(dropOff, RESOURCE_ENERGY);
         creep.moveByResult(result, dropOff, selectedSource);
     }
+    if (creep.name == "Harvester 2" && creep.pos.x == 12 && creep.pos.y == 25) {
+        creep.moveTo(13, 24);
+    }
 }
 
 levels[2] = levels[1];
