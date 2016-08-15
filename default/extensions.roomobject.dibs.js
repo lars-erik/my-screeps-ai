@@ -1,9 +1,6 @@
 
 RoomObject.prototype.dibs = function () {
-    var self = this,
-        dibs,
-        totalDibbed,
-        total; 
+    var self = this; 
     
     function ensureDibsMemory() {
         var i,
@@ -27,6 +24,7 @@ RoomObject.prototype.dibs = function () {
     }
     
     function getTotalDibbed() {
+        var dibs = ensureDibsMemory();
         return _.sum(dibs, function(d) { return d.amount; });
     }
     
@@ -40,22 +38,21 @@ RoomObject.prototype.dibs = function () {
     }
 
     function hasCapacity(creep) {
+        var totalDibbed = getTotalDibbed(),
+            total = getTotal();
+        
         return total - totalDibbed >= creep.carryCapacity;
     }
     
     function notAlreadyDibbedBy(creep) {
+        var dibs = ensureDibsMemory();
         return _.filter(dibs, function (d) { return d.id === creep.id; }).length === 0;
     }
-
-    dibs = ensureDibsMemory();
-    totalDibbed = getTotalDibbed();
-    total = getTotal();
 
     return {
         hasCapacity: hasCapacity,
         place: function (creep) {
-            totalDibbed = getTotalDibbed();
-            total = getTotal();
+            var dibs = ensureDibsMemory();
             if (hasCapacity(creep) && notAlreadyDibbedBy(creep)) {
                 dibs.push({ id: creep.id, amount: creep.carryCapacity });
                 creep.giveDibs(self);
@@ -64,10 +61,9 @@ RoomObject.prototype.dibs = function () {
             return false;
         },
         remove: function(creep) {
+            var dibs = ensureDibsMemory();
             _.remove(dibs, function (d) { return d.id === creep.id; });
             creep.removeDibs();
-            totalDibbed = getTotalDibbed();
-            total = getTotal();
         }
     }
 }
