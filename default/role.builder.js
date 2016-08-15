@@ -1,5 +1,4 @@
-var harvesting = require("harvesting"),
-    upgrading = require("role.upgrader"),
+var upgrading = require("role.upgrader"),
     levels = {};
     
 levels[1] = function(creep) {
@@ -45,36 +44,3 @@ module.exports = {
 	}
 };
 
-
-/* OBSOLETE */
-
-function noLevel(creep) {
-
-        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-        
-        if (!creep.memory.building && !harvesting.harvestClosest(creep, true, targets[0]) && !creep.isEmpty())
-            creep.memory.building = true;
-
-	    if(creep.memory.building) {
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
-                }
-            } else {
-                upgrading.run(creep);
-                /*
-                var brokeRooms = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return structure.hits < structure.hitsMax;
-                    }
-                })
-                if (brokeRooms.length) {
-                    if (creep.repair(brokeRooms[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(brokeRooms[0]);
-                    }
-                } else {
-                }
-                */
-            }
-	    }
-}

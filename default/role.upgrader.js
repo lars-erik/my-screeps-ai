@@ -1,4 +1,3 @@
-var harvesting = require("harvesting");
 var levels = {
     
     /** @param {Creep} creep **/
