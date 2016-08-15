@@ -16,9 +16,19 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="default\extensions.container.js" />
+    <Compile Include="default\extensions.creep.js" />
+    <Compile Include="default\extensions.resource.js" />
+    <Compile Include="default\extensions.room.js" />
+    <Compile Include="default\extensions.roomobject.js" />
+    <Compile Include="default\extensions.spawn.js" />
     <Compile Include="default\factory.creatures.js" />
+    <Compile Include="default\factory.levels.js" />
+    <Compile Include="default\factory.roles.js" />
+    <Compile Include="default\game.utils.js" />
     <Compile Include="default\harvesting.js" />
     <Compile Include="default\main.js" />
+    <Compile Include="default\memory.room.js" />
     <Compile Include="default\role.builder.js" />
     <Compile Include="default\role.claimer.js" />
     <Compile Include="default\role.dropper.js" />
@@ -26,7 +36,10 @@
     <Compile Include="default\role.heralder.js" />
     <Compile Include="default\role.transporter.js" />
     <Compile Include="default\role.upgrader.js" />
+    <Compile Include="default\extensions.roomobject.dibs.js" />
+    <Compile Include="Gruntfile.js" />
     <Compile Include="_references.js" />
+    <Content Include="package.json" />
     <Content Include="ScreepsAutocomplete\Readme.md" />
     <Compile Include="ScreepsAutocomplete\ConstructionSite.js" />
     <Compile Include="ScreepsAutocomplete\Creep.js" />

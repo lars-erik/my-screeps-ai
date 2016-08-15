@@ -1,27 +1,54 @@
 var harvesting = require("harvesting");
-var roleUpgrader = {
-
+var levels = {
+    
     /** @param {Creep} creep **/
-    run: function(creep) {
-
-        if(creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-            creep.say('harvesting');
-	    }
-	    if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.upgrading = true;
-	        creep.say('upgrading');
-	    }
+    1: function(creep) {
 
 	    if(creep.memory.upgrading) {
-            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
-            }
+            creep.moveByResult(
+                creep.upgradeController(creep.room.controller), 
+                creep.room.controller
+            );
         }
         else {
-            harvesting.harvestClosest(creep, true, creep.room.controller);
-        }
+            if (!creep.pickupClosestEnergy(creep.room.controller)) {
+                creep.harvestClosestSource(
+                    creep.room.controller.closestSource(), 
+                    creep.room.controller
+                );
+            }
+	    }
 	}
 };
 
-module.exports = roleUpgrader;
+levels[2] = levels[1];
+levels[3] = levels[1];
+levels[4] = levels[1];
+levels[5] = levels[1];
+levels[6] = levels[1];
+
+function switchMode(creep) {
+    if (creep.memory.upgrading && creep.isEmpty()) {
+        creep.memory.upgrading = false;
+        creep.say('harvesting');
+    }
+    if (!creep.memory.upgrading && creep.isFull()) {
+        creep.memory.upgrading = true;
+        creep.say('upgrading');
+    }
+}
+
+module.exports = {
+    
+    run: function (creep) {
+        
+        switchMode(creep);
+        
+        if (!creep.memory.level) {
+            noLevel(creep);
+        } else {
+            levels[creep.memory.level](creep);
+        }
+        
+    }
+};

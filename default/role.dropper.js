@@ -9,46 +9,29 @@
 
 module.exports = {
     run: function(creep) {
+        var result;
         if (!creep.memory.affinity) {
             creep.say("Where?");
             return;
         }
         var resource = Game.getObjectById(creep.memory.affinity);
         var loadOff = null;
-        if (!creep.memory.loadOff) {
-            loadOff = resource.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType == STRUCTURE_CONTAINER && structure.store.energy < structure.storeCapacity;
-                }
-            });
-            if (!loadOff) {
-                creep.say("no loadoff");
-                return;
-            }
-            if (loadOff) {
-                creep.memory.loadOff = loadOff.id;
-            }
-        } else {
+        if (creep.memory.loadOff) {
             loadOff = Game.getObjectById(creep.memory.loadOff);
         }
-        if (creep.carry.energy == creep.carryCapacity) {
-            var result;
-            result = creep.transfer(loadOff, RESOURCE_ENERGY);
-            if (result != OK) {
-                creep.say(result);
+        if (creep.isFull()) {
+            if (loadOff) {
+                result = creep.transfer(loadOff, RESOURCE_ENERGY);
+                if (result === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(loadOff);
+                }
+            } else {
+                creep.drop(RESOURCE_ENERGY, creep.carryCapacity);
             }
-            if (result == ERR_NOT_IN_RANGE) {
-                creep.moveTo(loadOff);
+        } else {
+            if (creep.harvest(resource) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(resource);
             }
-        }
-
-        var target = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-        if (target) {
-            creep.pickup(target);
-        }
-        
-        if (creep.harvest(resource) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(resource);
         }
     }
 };

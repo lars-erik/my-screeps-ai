@@ -1,86 +1,106 @@
 var harvesting = require("harvesting"),
-    building = require("role.builder");
+    building = require("role.builder"),
+    levels = {};
 
-function dropOffTarget(creep, allowStorage) {
-    var target = null;
-    if (!target) {
-        target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION ||
-                        structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
-            }
-        });
-    }
-    if (!target) {
-        target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-            }
-        });
-    }
-    if (!target && allowStorage) {
-        target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType == STRUCTURE_CONTAINER && structure.store.energy < structure.storeCapacity;
-            }
-        });
-    }
-    return target;
+function shouldTransfer(creep) {
+    return creep.isFull() && !creep.room.isFull();
 }
 
-function dropOff(creep, allowStorage) {
-    var target = dropOffTarget(creep, allowStorage);
+levels[1] = function (creep) {
 
-    if(target) {
-        if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(target);
-            return true;
-        }
-    }
+    var room = creep.room,
+        dropOff = creep.closestDropOff() || room.mainSpawn(),
+        selectedSource = creep.affinity() || dropOff.closestSource(),
+        isAtCapacity = room.isFull(),
+        result
+        ;
     
-    return false;
+    if (isAtCapacity) {
+        building.run(creep);  
+    } else if (!creep.isFull()) {
+        if (!creep.pickupClosestEnergy(dropOff)) {
+            result = creep.harvest(selectedSource);
+            creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
+        }
+    } else {
+        result = creep.transfer(dropOff, RESOURCE_ENERGY);
+        creep.moveByResult(result, dropOff, selectedSource);
+    }
 }
 
-var roleHarvester = {
+levels[2] = levels[1];
+levels[3] = levels[1];
+levels[4] = levels[1];
+levels[5] = levels[1];
+levels[6] = levels[1];
 
-    /** @param {Creep} creep **/
+module.exports = {
     run: function(creep) {
-        var doRepair = false,
-            moved = false;
-        if (creep.carry.energy == creep.carryCapacity) {
-            moved = dropOff(creep);
+        if (!creep.memory.level) {
+            noLevel(creep);
+        } else {
+            levels[creep.memory.level](creep);
         }
-        
-	    if(!moved && creep.carry.energy < creep.carryCapacity) {
-	        from = creep.room.energyAvailable < creep.room.energyCapacityAvailable ? creep : Game.spawns.Spawn;
-            var containers = creep.room.find(FIND_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_CONTAINER && structure.store.energy > 0 });
-            if (containers.length) {
-                doRepairs = !harvesting.harvestClosest(creep, true, from);
-            } else {
-                doRepairs = !harvesting.harvestClosest(creep, false, from);
-            }
-        }
-        
-        if (creep.carry.energy > 0) {
-            doRepair = !dropOff(creep, false);
-        }
-        
-        if (doRepair && creep.carry.energy > 0) {
-            building.run(creep);
-            /*
-            var brokeRoom = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.hits < structure.hitsMax;
-                }
-            })
-            if (brokeRoom && creep.repair(brokeRoom) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(brokeRoom);
-            } else {
-                building.run(creep);
-            }
-            */
-        }
-    }
+	}
 };
 
-module.exports = roleHarvester;
+
+/* OBSOLETE */
+
+function noLevel(creep) {
+    var doRepair = false;
+    if(!creep.isFull()) {
+        var containers = creep.room.find(FIND_STRUCTURES, { filter: (structure) => structure.structureType == STRUCTURE_CONTAINER });
+        if (containers.length) {
+            doRepairs = !harvesting.harvestClosest(creep, true);
+        } else {
+            doRepairs = !harvesting.harvestClosest(creep);
+        }
+    }
+    else {
+        var target = null;
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION ||
+                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
+                }
+            });
+        }
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    }
+            });
+        }
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType == STRUCTURE_CONTAINER && structure.store.energy < structure.storeCapacity;
+                    }
+                });
+        }
+
+        if(target) {
+            if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            }
+        } else {
+            doRepair = true;
+        }
+    }
+    if (doRepair && creep.carry.energy > 0) {
+        var brokeRoom = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.hits < structure.hitsMax;
+            }
+        })
+        if (brokeRoom && creep.repair(brokeRoom) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(brokeRoom);
+        } else {
+            building.run(creep);
+        }
+    }
+}
+

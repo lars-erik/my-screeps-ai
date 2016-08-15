@@ -1,0 +1,3 @@
+fix encoding
+ensure rooms memory & room memory
+don't merge grunt!

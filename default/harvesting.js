@@ -11,9 +11,9 @@ module.exports = {
         
         var target,
             harvest = true,
-            resetPath = false;
-        if (creep.memory.affinity) {
-            target = Game.getObjectById(creep.memory.affinity);
+            affinity = creep.room.memory.affinities[creep.memory.role] || creep.memory.affinity;
+        if (affinity) {
+            target = Game.getObjectById(affinity);
         } else {
             from = from || creep;
             //console.log(creep.name + "(" + creep.id + ")" + " finding path from " + from.id);
@@ -28,22 +28,19 @@ module.exports = {
             } else {
                 target = closestSource;
             }
-            if (target && target != creep.memory.prevSource) {
-                creep.memory.prevSource = target.id; 
-                resetPath = true;
-            }
         }
 
         if(target) {
             if (target instanceof Source) {
                 if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {reusePath: resetPath ? 0 : 5});
+                    creep.say("doh " + target.id);
+                    creep.moveTo(target);
                 }
             } else if (target instanceof StructureContainer) {
                 var withdrawResult;
                 withdrawResult = creep.withdraw(target, RESOURCE_ENERGY);
                 if (withdrawResult == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {reusePath: resetPath ? 0 : 5});
+                    creep.moveTo(target);
                 }
             }
             return true;
