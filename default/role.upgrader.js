@@ -2,7 +2,6 @@ var levels = {
     
     /** @param {Creep} creep **/
     1: function(creep) {
-
 	    if(creep.memory.upgrading) {
             creep.moveByResult(
                 creep.upgradeController(creep.room.controller), 

@@ -28,7 +28,7 @@ levels[1] = function (creep) {
             dropOff.dibs("dropOff").place(creep);
         }
         result = creep.transfer(dropOff, RESOURCE_ENERGY);
-        if (result === OK) {
+        if (result === OK || result === ERR_FULL) {
             console.log(creep.name + " removes dibs on " + dropOff.idAndPos());
             dropOff.dibs("dropOff").remove(creep);
         }
