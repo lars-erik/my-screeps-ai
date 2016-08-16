@@ -14,7 +14,8 @@ var roles = {
         claimer: require("role.claimer"),
         dropper: require("role.dropper"),
         transporter: require("role.transporter"),
-        renewer: require("role.renewer")
+        renewer: require("role.renewer"),
+        recycled: require("role.recycled")
     },
     roleNames = {
         harvester: "Harvester",
@@ -69,7 +70,7 @@ function runCreeps() {
         if (creep.memory.role !== "dropper" && (creep.ticksToLive < 100 || creep.memory.renewing)) {
             roles.renewer.run(creep);
         } else if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
-            creep.memory.allowRefillRoom || creep.memory.role === "builder" || creep.memory.role === "upgrader")) {
+            creep.memory.allowRefillRoom || creep.memory.role === "builder")) {
             roles["harvester"].run(creep);
         } else if (role) {
             role.run(creep);

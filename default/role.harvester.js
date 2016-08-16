@@ -24,12 +24,10 @@ levels[1] = function (creep) {
         building.run(creep);  
     } else if (canDrop(creep, dropOff) || creep.isFull()) {
         if (!creep.memory.dropOff) {
-            console.log(creep.name + " takes dibs on " + dropOff.idAndPos());
             dropOff.dibs("dropOff").place(creep);
         }
         result = creep.transfer(dropOff, RESOURCE_ENERGY);
         if (result === OK || result === ERR_FULL) {
-            console.log(creep.name + " removes dibs on " + dropOff.idAndPos());
             dropOff.dibs("dropOff").remove(creep);
         }
         creep.moveByResult(result, dropOff, selectedSource);
