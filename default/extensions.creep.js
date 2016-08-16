@@ -23,16 +23,16 @@ Creep.prototype.harvestClosestSource = function (source, moveToOnSuccess) {
     return result;
 };
 
-Creep.prototype.canPlaceDibs = function (roomObj) {
+Creep.prototype.canPlaceDibs = function (roomObj, key) {
     if (!roomObj) {
         return false;
     }
-    return roomObj.dibs().hasCapacity(this);
+    return roomObj.dibs(key).hasCapacity(this);
 }
 
 Creep.prototype.findClosestOfType = function (from, findType, filter) {
-    return this.pos.findInRange(findType, 1, { filter: filter })[0] 
-        || (from || this).pos.findClosestByPath(findType, { filter: filter });
+    return this.pos.findInRange(findType, 1, { filter: filter })[0] || 
+           (from || this).pos.findClosestByPath(findType, { filter: filter });
 }
 
 function canPlaceDibs(creep, filter) {
@@ -57,7 +57,7 @@ Creep.prototype.removeDibs = function (key) {
     this.memory[key || "dibs"] = null;
 }
 
-Creep.prototype.getDibsSource = function (key) {
+Creep.prototype.getDibsObj = function (key) {
     if (this.memory[key || "dibs"]) {
         return Game.getObjectById(this.memory[key || "dibs"]);
     }
@@ -67,7 +67,7 @@ Creep.prototype.getDibsSource = function (key) {
 Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity) {
     var self = this,
         result,
-        closestEnergy = this.getDibsSource(),
+        closestEnergy = this.getDibsObj(),
         placeDibs = !closestEnergy;
     
     from = ignoreAffinity ? (from || this) : (this.affinity() || from || this);
@@ -104,24 +104,25 @@ Creep.prototype.moveByResult = function (result, rangeTarget, successTarget, pre
 };
 
 Creep.prototype.closestDropOff = function () {
-    var target = this.getDibsSource("dropOff"),
+    var target = this.getDibsObj("dropOff"),
         self = this;
     if (!target) {
-        target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: canPlaceDibs(self, function (structure) {
-                return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN) && 
-                        structure.energy < structure.energyCapacity;
-            })
-        });
+        target = this.findClosestOfType(self, FIND_STRUCTURES, function(structure) {
+                var isValidStructure = (structure.structureType === STRUCTURE_EXTENSION ||
+                    structure.structureType === STRUCTURE_SPAWN) &&
+                    structure.energy < structure.energyCapacity &&
+                    self.canPlaceDibs(structure, "dropOff");
+                return isValidStructure;
+            }
+        );
     }
     if (!target) {
-        target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: canPlaceDibs(self, function (structure) {
-                return (structure.structureType === STRUCTURE_TOWER) &&
-                    structure.energy < structure.energyCapacity;
-            })
-        });
+        target = this.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            return (structure.structureType === STRUCTURE_TOWER) &&
+                structure.energy < structure.energyCapacity &&
+                self.canPlaceDibs(structure, "dropOff");
+            }
+        );
     }
     return target;
 }

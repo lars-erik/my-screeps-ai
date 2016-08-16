@@ -39,7 +39,7 @@ RoomObject.prototype.dibs = function (key) {
     }
 
     function hasCapacity(creep) {
-        if (self.structureType === STRUCTURE_SPAWN || self.structureType === STRUCTURE_CONTAINER || self.structureType === STRUCTURE_TOWER) {
+        if (self.structureType === STRUCTURE_SPAWN || self.structureType === STRUCTURE_EXTENSION || self.structureType === STRUCTURE_TOWER) {
             return total + totalDibbed < self.energyCapacity;
         } else {
             return total - totalDibbed >= creep.carryCapacity;
@@ -53,7 +53,6 @@ RoomObject.prototype.dibs = function (key) {
     return {
         hasCapacity: hasCapacity,
         place: function (creep, ignoreCapacity) {
-            console.log("ignorecap: " + ignoreCapacity + ", hasCap: " + hasCapacity(creep) + ", notDibbed: " + notAlreadyDibbedBy(creep));
             if ((ignoreCapacity || hasCapacity(creep)) && notAlreadyDibbedBy(creep)) {
                 dibs.push({ id: creep.name, amount: creep.carryCapacity });
                 creep.giveDibs(self, key);

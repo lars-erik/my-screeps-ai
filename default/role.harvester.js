@@ -5,23 +5,24 @@ function shouldTransfer(creep) {
     return creep.isFull() && !creep.room.isFull();
 }
 
+function canDrop(creep, dropOff) {
+    return creep.carry.energy >= dropOff.energyCapacity - dropOff.energy;
+}
+
 levels[1] = function (creep) {
 
     var room = creep.room,
-        dropOff = creep.getDibsSource("dropOff") || creep.closestDropOff() || room.mainSpawn(),
-        selectedSource = creep.affinity() || dropOff.closestSource(),
+        dibsSource = creep.getDibsObj("dropOff"),
+        closestDropOff = creep.closestDropOff(),
+        dropOff = dibsSource || closestDropOff,
+        selectedSource = creep.affinity() || (dropOff || creep).closestSource(),
         isAtCapacity = room.isFull(),
         result
         ;
     
-    if (isAtCapacity) {
+    if (isAtCapacity || !dropOff) {
         building.run(creep);  
-    } else if (!creep.isFull() && creep.carry.energy < dropOff.energyCapacity - dropOff.energy) {
-        if (!creep.pickupClosestEnergy(dropOff)) {
-            result = creep.harvest(selectedSource);
-            creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
-        }
-    } else {
+    } else if (canDrop(creep, dropOff) || creep.isFull()) {
         if (!creep.memory.dropOff) {
             console.log(creep.name + " takes dibs on " + dropOff.idAndPos());
             dropOff.dibs("dropOff").place(creep);
@@ -32,6 +33,11 @@ levels[1] = function (creep) {
             dropOff.dibs("dropOff").remove(creep);
         }
         creep.moveByResult(result, dropOff, selectedSource);
+    } else if (!creep.isFull()) {
+        if (!creep.pickupClosestEnergy(dropOff)) {
+            result = creep.harvest(selectedSource);
+            creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
+        }
     }
 }
 
