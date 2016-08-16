@@ -1,6 +1,7 @@
 module.exports = {
     run: function(creep) {
         creep.say("renewing");
+        creep.memory.renewing = true;
         if (creep.room.mainSpawn().renewCreep(creep) !== OK) {
             creep.say("go to renew");
             creep.moveTo(creep.room.mainSpawn());
