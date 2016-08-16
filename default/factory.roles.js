@@ -87,25 +87,28 @@ var roles = {
             harvester: {
                 prefix: "Harvester",
                 body: [
-                WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
-                CARRY, CARRY, 
-                MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    WORK, WORK, WORK, WORK, WORK, 
+                    CARRY, CARRY, 
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+
                 ] // 1200
             },
             builder: {
                 prefix: "Builder",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
+                    WORK, WORK, WORK, WORK, WORK, 
                     CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+
                 ] // 1200
             },
             upgrader: {
                 prefix: "Upgrader",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
+                    WORK, WORK, WORK, WORK, WORK, 
                     CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+
                 ] // 1200
             },
             transporter: {
@@ -126,25 +129,25 @@ var roles = {
             harvester: {
                 prefix: "Harvester",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
+                    WORK, WORK, WORK, WORK, WORK, 
                     CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ] // 1200
             },
             builder: {
                 prefix: "Builder",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    WORK, WORK, WORK, WORK, WORK, 
+                    CARRY, CARRY, 
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ] // 1800
             },
             upgrader: {
                 prefix: "Upgrader",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+                    WORK, WORK, WORK, WORK, WORK, 
+                    CARRY, CARRY, 
+                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
                 ] // 1800
             },
             transporter: {
