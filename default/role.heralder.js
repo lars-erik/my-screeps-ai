@@ -37,16 +37,7 @@ module.exports = {
         if (Game.time % 2 == 0) {
             creep.say("E:" + creep.room.energyAvailable + "/" + creep.room.energyCapacityAvailable);
         } else {
-            var creeplen = 0;
-            for(var key in Game.creeps) {
-                creeplen++;
-            }
-            var maxlen = 0,
-                priority = creep.room.memory.levels[creep.room.memory.level].priority;
-            for (var i = 0; i < priority.length; i++) {
-                maxlen += priority[i].count;
-            }
-            creep.say("C:" + creeplen + "/" + maxlen);
+            creep.say("C:" + creep.room.creepCount() + "/" + creep.room.creepMax());
         }
     }
 };
