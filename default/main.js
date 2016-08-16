@@ -74,6 +74,23 @@ function runCreeps() {
     }
 }
 
+function reportProgress(room) {
+    if (!room.memory.progress) {
+        room.memory.progress = {
+            amount: room.controller.progress,
+            prevTick: Game.time
+        };
+    } else {
+        if (room.memory.progress.amount < room.controller.progress - 100) {
+            console.log((room.controller.progress - room.memory.progress.amount) + "/" + room.controller.progressTotal + " in " + (Game.time - room.memory.progress.prevTick + " ticks");
+            room.memory.progress = {
+                amount: room.controller.progress,
+                prevTick: Game.time
+            };
+        }
+    }
+}
+
 module.exports.loop = function () {
 
     utils.init(Game);
@@ -82,6 +99,7 @@ module.exports.loop = function () {
         memInit.room.init(Game.rooms[key]);
         creatureFactory.create(Game.rooms[key].mainSpawn());
         towerAi(Game.rooms[key]);
+        reportProgress(Game.rooms[key]);
     }
 
     runCreeps();
