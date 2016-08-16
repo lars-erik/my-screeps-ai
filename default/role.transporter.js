@@ -1,4 +1,3 @@
-
 module.exports = {
     run: function(creep) {
         var aId = creep.memory.a,
@@ -15,10 +14,10 @@ module.exports = {
                     creep.moveTo(a);
                 } 
             } else {
-                b.dibs().remove(this);
+                b.dibs().remove(creep);
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result == OK) {
-                    a.dibs().place(this);
+                    a.dibs().place(creep);
                     creep.moveTo(a);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
