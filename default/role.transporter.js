@@ -9,17 +9,14 @@ module.exports = {
             if (creep.carry.energy < creep.carryCapacity) {
                 result = creep.withdraw(a, RESOURCE_ENERGY);
                 if (result == OK && creep.carry.energy == creep.carryCapacity) {
-                    console.log(creep.name + " removing dibs");
                     a.dibs().remove(creep);
                     creep.moveTo(b);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(a);
                 } else if (result != -6) {
-                    console.log(creep.name + " withdrew with result " + result);
                 }
             } else {
                 if (creep.memory.dibs) {
-                    console.log(creep.name + " removing dibs");
                     a.dibs().remove(creep);
                 }
                 result = creep.transfer(b, RESOURCE_ENERGY);
@@ -29,7 +26,6 @@ module.exports = {
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
                 } else {
-                    console.log(creep.name + " dropped with result " + result)
                 }
             }
         }
