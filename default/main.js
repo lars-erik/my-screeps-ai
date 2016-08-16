@@ -66,7 +66,7 @@ function runCreeps() {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if (creep.ticksToLive < 100) {
+        if (creep.ticksToLive < 100 || creep.memory.renewing) {
             roles.renewer.run(creep);
         } else if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
             creep.memory.role === "builder" || creep.memory.role === "upgrader")) {
