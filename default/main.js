@@ -82,7 +82,11 @@ function reportProgress(room) {
         };
     } else {
         if (room.memory.progress.amount < room.controller.progress - 100) {
-            console.log((room.controller.progress - room.memory.progress.amount) + "/" + room.controller.progressTotal + " in " + (Game.time - room.memory.progress.prevTick + " ticks");
+            console.log(
+                (room.controller.progress - room.memory.progress.amount) +
+                "/" + room.controller.progressTotal + " in " + 
+                (Game.time - room.memory.progress.prevTick + " ticks")
+                );
             room.memory.progress = {
                 amount: room.controller.progress,
                 prevTick: Game.time
