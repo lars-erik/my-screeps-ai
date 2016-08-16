@@ -17,7 +17,7 @@ module.exports = {
             } else {
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result == OK) {
-                    a.dibs().place(creep);
+                    a.dibs().place(creep, true);
                     creep.moveTo(a);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
