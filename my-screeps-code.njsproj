@@ -21,6 +21,7 @@
     <Compile Include="default\extensions.resource.js" />
     <Compile Include="default\extensions.room.js" />
     <Compile Include="default\extensions.roomobject.js" />
+    <Compile Include="default\extensions.source.js" />
     <Compile Include="default\extensions.spawn.js" />
     <Compile Include="default\factory.creatures.js" />
     <Compile Include="default\factory.levels.js" />
