@@ -31,11 +31,13 @@
     <Compile Include="default\memory.room.js" />
     <Compile Include="default\role.builder.js" />
     <Compile Include="default\role.claimer.js" />
+    <Compile Include="default\role.distributor.js" />
     <Compile Include="default\role.dropper.js" />
     <Compile Include="default\role.harvester.js" />
     <Compile Include="default\role.heralder.js" />
     <Compile Include="default\role.recycled.js" />
     <Compile Include="default\role.renewer.js" />
+    <Compile Include="default\role.scout.js" />
     <Compile Include="default\role.transporter.js" />
     <Compile Include="default\role.upgrader.js" />
     <Compile Include="default\extensions.roomobject.dibs.js" />

@@ -1,5 +1,9 @@
 RoomObject.prototype.closestSource = function () {
-    return this.pos.findClosestByPath(FIND_SOURCES,{filter: (source) => source.energy > 0 });
+    return (this instanceof Source ? this : null) ||
+           this.pos.findInRange(FIND_SOURCES, 1)[0] ||
+           this.pos.findClosestByPath(FIND_SOURCES,  { filter: function(source) {
+               return source.energy > 0;
+           }});
 };
 
 RoomObject.prototype.idAndPos = function () {

@@ -22,6 +22,11 @@ levels[1] = function (creep) {
     
     if (isAtCapacity || !dropOff) {
         building.run(creep);  
+    } else if (!creep.isFull()) {
+        if (creep.memory.harvestOnly || !creep.pickupClosestEnergy(dropOff)) {
+            result = creep.harvest(selectedSource);
+            creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
+        }
     } else if (canDrop(creep, dropOff) || creep.isFull()) {
         if (!creep.memory.dropOff) {
             dropOff.dibs("dropOff").place(creep);
@@ -31,11 +36,6 @@ levels[1] = function (creep) {
             dropOff.dibs("dropOff").remove(creep);
         }
         creep.moveByResult(result, dropOff, selectedSource);
-    } else if (!creep.isFull()) {
-        if (creep.memory.harvestOnly || !creep.pickupClosestEnergy(dropOff)) {
-            result = creep.harvest(selectedSource);
-            creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
-        }
     }
 }
 

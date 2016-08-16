@@ -52,6 +52,7 @@ levels = {
             { role: "harvester", count: 3 },
             { role: "dropper", count: 2 },
             { role: "heralder", count: 1 },
+            { role: "distributor", count: 4 },
             { role: "builder", count: 3 },
             { role: "upgrader", count: 2 },
             { role: "transporter", count: 0 }
@@ -83,6 +84,6 @@ module.exports = {
                 return currentLevels[rule.level];
             }
         }
-        throw new Error("Threshold too low");
+        return {};
     }
 };

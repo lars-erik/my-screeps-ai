@@ -11,7 +11,7 @@
             },
             game: {
                 files: [
-                    { expand: true, src: ["C:/Users/Lars-Erik/AppData/Local/Screeps/scripts/screeps.com/Sim 2/*"], flatten: true, dest: "default" }
+                    { expand: true, src: ["C:/Users/Lars-Erik/AppData/Local/Screeps/scripts/screeps.com/default/*"], flatten: true, dest: "default" }
                 ]
             }
         },

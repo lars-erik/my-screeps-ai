@@ -2,30 +2,33 @@ module.exports = {
     run: function(creep) {
         var aId = creep.memory.a,
             bId = creep.memory.b,
-            a = Game.getObjectById(aId),
+            a = Game.creeps[aId] || Game.getObjectById(aId),
             b = Game.getObjectById(bId),
             result;
+        
+        if (a instanceof Creep) {
+            a = a.pos.findInRange(FIND_DROPPED_ENERGY, 1)[0];
+        }
+
         if (a && b) {
             if (creep.carry.energy < creep.carryCapacity) {
                 result = a.yield(creep, RESOURCE_ENERGY);
-                if (result == OK && creep.carry.energy == creep.carryCapacity) {
+                if (result === OK && creep.carry.energy === creep.carryCapacity) {
                     a.dibs().remove(creep);
                     creep.moveTo(b);
-                } else if (result == ERR_NOT_IN_RANGE) {
+                } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(a);
-                } else if (result != -6) {
                 }
             } else {
                 if (creep.memory.dibs) {
                     a.dibs().remove(creep);
                 }
                 result = creep.transfer(b, RESOURCE_ENERGY);
-                if (result == OK) {
+                if (result === OK) {
                     a.dibs().place(creep, true);
                     creep.moveTo(a);
-                } else if (result == ERR_NOT_IN_RANGE) {
+                } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
-                } else {
                 }
             }
         }

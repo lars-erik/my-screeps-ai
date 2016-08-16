@@ -16,7 +16,9 @@ var roles = {
         dropper: require("role.dropper"),
         transporter: require("role.transporter"),
         renewer: require("role.renewer"),
-        recycled: require("role.recycled")
+        recycled: require("role.recycled"),
+        distributor: require("role.distributor"),
+        scout: require("role.scout")
     },
     roleNames = {
         harvester: "Harvester",
@@ -68,11 +70,11 @@ function runCreeps() {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-        if (creep.memory.role !== "dropper" && creep.room.creepComplete() && (creep.ticksToLive < 100 || creep.memory.renewing)) {
+        if (creep.memory.role !== "dropper" && creep.memory.role !== "scout" && creep.room.creepComplete() && (creep.ticksToLive < 100 || creep.memory.renewing)) {
             roles.renewer.run(creep);
-        } else if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
+        } else if (!Game.creeps["Distro 1"] && creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
             creep.memory.allowRefillRoom || creep.memory.role === "builder")) {
-            roles["harvester"].run(creep);
+            roles["distributor"].run(creep);
         } else if (role) {
             role.run(creep);
         }
@@ -107,7 +109,9 @@ module.exports.loop = function () {
 
     for(var key in Game.rooms) {
         memInit.room.init(Game.rooms[key]);
-        creatureFactory.create(Game.rooms[key].mainSpawn());
+        if (Game.rooms[key].mainSpawn()) {
+            creatureFactory.create(Game.rooms[key].mainSpawn());
+        }
         towerAi(Game.rooms[key]);
         reportProgress(Game.rooms[key]);
     }

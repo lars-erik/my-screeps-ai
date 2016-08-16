@@ -126,6 +126,14 @@ var roles = {
                 prefix: "Dropper",
                 body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 850
             },
+            distributor: {
+                prefix: "Distro",
+                body: [CARRY, MOVE, MOVE]
+            },
+            scout: {
+                prefix: "Scout",
+                body: [TOUGH, TOUGH, MOVE, MOVE]
+            },
             harvester: {
                 prefix: "Harvester",
                 body: [

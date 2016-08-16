@@ -23,7 +23,7 @@ Room.prototype.creepCount = function() {
 
 Room.prototype.creepMax = function() {
     var maxlen = 0,
-        priority = this.memory.levels[this.memory.level].priority;
+        priority = this.memory.level ? this.memory.levels[this.memory.level].priority : [];
     for (var i = 0; i < priority.length; i++) {
         maxlen += priority[i].count;
     }

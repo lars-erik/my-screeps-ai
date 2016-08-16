@@ -13,6 +13,14 @@ module.exports = {
                 }
                 return "";
             },
+            listCreepMemory: function () {
+                var creeps = Memory.creeps,
+                    key;
+                for (key in creeps) {
+                    console.log(key + " LVL: " + creeps[key].level + " MEM: " + JSON.stringify(creeps[key]));
+                }
+                return "";
+            },
             resetDibs: function(roomName) {
                 var room = Game.rooms[roomName],
                     creep,

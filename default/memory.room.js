@@ -76,7 +76,7 @@ function getSpawnsData() {
 }
 
 function getMainSpawn() {
-    return room.memory.spawns[spawns[0].id];
+    return spawns.length ? room.memory.spawns[spawns[0].id] : null;
 }
 
 function createAffinities() {
@@ -112,6 +112,9 @@ module.exports = {
     }
 };
 
-Room.prototype.mainSpawn = function() {
-    return Game.getObjectById(this.memory.mainSpawn.id);
+Room.prototype.mainSpawn = function () {
+    if (this.memory.mainSpawn) {
+        return Game.getObjectById(this.memory.mainSpawn.id);
+    }
+    return null;
 }
