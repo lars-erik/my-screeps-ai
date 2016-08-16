@@ -5,5 +5,8 @@ module.exports = {
             creep.say("go to renew");
             creep.moveTo(creep.room.mainSpawn());
         }
+        if (creep.ticksToLive > 1400) {
+            creep.memory.renewing = false;
+        }
     }
 }
