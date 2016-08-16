@@ -15,7 +15,7 @@ RoomObject.prototype.dibs = function () {
         } else {
             theseDibs = self.room.memory.dibs[self.id];
             for (i = theseDibs.length; i >= 0; i--) {
-                if (!theseDibs[i] || !theseDibs[i].id || !Game.getObjectById(theseDibs[i].id)) {
+                if (!theseDibs[i] || !theseDibs[i].id || !Game.creeps[theseDibs[i].id]) {
                     theseDibs.splice(i, 1);
                 }
             }
@@ -46,7 +46,7 @@ RoomObject.prototype.dibs = function () {
     
     function notAlreadyDibbedBy(creep) {
         var dibs = ensureDibsMemory();
-        return _.filter(dibs, function (d) { return d.id === creep.id; }).length === 0;
+        return _.filter(dibs, function (d) { return d.id === creep.name; }).length === 0;
     }
 
     return {
@@ -54,7 +54,7 @@ RoomObject.prototype.dibs = function () {
         place: function (creep, ignoreCapacity) {
             var dibs = ensureDibsMemory();
             if ((ignoreCapacity || hasCapacity(creep)) && notAlreadyDibbedBy(creep)) {
-                dibs.push({ id: creep.id, amount: creep.carryCapacity });
+                dibs.push({ id: creep.name, amount: creep.carryCapacity });
                 creep.giveDibs(self);
                 return true;
             }
@@ -62,7 +62,7 @@ RoomObject.prototype.dibs = function () {
         },
         remove: function(creep) {
             var dibs = ensureDibsMemory();
-            _.remove(dibs, function (d) { return d.id === creep.id; });
+            _.remove(dibs, function (d) { return d.id === creep.name; });
             creep.removeDibs();
         }
     }
