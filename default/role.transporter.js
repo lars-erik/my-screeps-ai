@@ -14,7 +14,9 @@ module.exports = {
                     creep.moveTo(b);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(a);
-                } 
+                } else {
+                    console.log(creep.name + " withdrew with result " + result);
+                }
             } else {
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result == OK) {
