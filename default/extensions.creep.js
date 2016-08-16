@@ -1,21 +1,21 @@
 Creep.prototype.isFull = function () {
-
+    
     return _.sum(this.carry) === this.carryCapacity;
 };
 
-Creep.prototype.isEmpty = function() {
+Creep.prototype.isEmpty = function () {
     return _.sum(this.carry) === 0;
 };
 
-Creep.prototype.affinityId = function() {
+Creep.prototype.affinityId = function () {
     return this.memory.affinity || this.room.memory.affinities[this.memory.role];
 };
 
-Creep.prototype.affinity = function() {
+Creep.prototype.affinity = function () {
     return Game.getObjectById(this.affinityId());
 };
 
-Creep.prototype.harvestClosestSource = function(source, moveToOnSuccess) {
+Creep.prototype.harvestClosestSource = function (source, moveToOnSuccess) {
     var selectedSource = this.affinity() || source || this.closestSource(),
         result = this.harvest(selectedSource), 
         self = this;
@@ -30,13 +30,13 @@ Creep.prototype.canPlaceDibs = function (roomObj) {
     return roomObj.dibs().hasCapacity(this);
 }
 
-Creep.prototype.findClosestOfType = function(from, findType, filter) {
+Creep.prototype.findClosestOfType = function (from, findType, filter) {
     return this.pos.findInRange(findType, 1, { filter: filter })[0] 
         || (from || this).pos.findClosestByPath(findType, { filter: filter });
 }
 
 function canPlaceDibs(creep, filter) {
-    return function(source) {
+    return function (source) {
         var filterResult = true,
             result = false;
         if (filter) {
@@ -45,41 +45,38 @@ function canPlaceDibs(creep, filter) {
         if (filterResult) {
             result = creep.canPlaceDibs(source);
         }
-        //if (filterResult && !result) {
-        //    console.log(creep.name + " can't place dibs on " + source.id);
-        //}
         return result;
     };
 }
 
-Creep.prototype.giveDibs = function(source) {
-    this.memory.dibs = source.id;
+Creep.prototype.giveDibs = function (source, key) {
+    this.memory[key || "dibs"] = source.id;
 }
 
-Creep.prototype.removeDibs = function () {
-    this.memory.dibs = null;
+Creep.prototype.removeDibs = function (key) {
+    this.memory[key || "dibs"] = null;
 }
 
-Creep.prototype.getDibsSource = function() {
-    if (this.memory.dibs) {
-        return Game.getObjectById(this.memory.dibs);
+Creep.prototype.getDibsSource = function (key) {
+    if (this.memory[key || "dibs"]) {
+        return Game.getObjectById(this.memory[key || "dibs"]);
     }
     return null;
 }
 
-Creep.prototype.pickupClosestEnergy = function(from, ignoreAffinity) {
+Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity) {
     var self = this,
         result,
         closestEnergy = this.getDibsSource(),
         placeDibs = !closestEnergy;
-
+    
     from = ignoreAffinity ? (from || this) : (this.affinity() || from || this);
-
+    
     if (!closestEnergy) {
         closestEnergy = this.findClosestOfType(from, FIND_DROPPED_ENERGY, canPlaceDibs(self));
     }
     if (!closestEnergy) {
-        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, canPlaceDibs(self, function(structure) {
+        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, canPlaceDibs(self, function (structure) {
             return structure.structureType === STRUCTURE_CONTAINER;
         }));
     }
@@ -97,7 +94,7 @@ Creep.prototype.pickupClosestEnergy = function(from, ignoreAffinity) {
     return false;
 }
 
-Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, predicate) {
+Creep.prototype.moveByResult = function (result, rangeTarget, successTarget, predicate) {
     var predicateResult = predicate ? predicate(this) : true;
     if (result === OK && successTarget && predicateResult) {
         this.moveTo(successTarget);
@@ -106,21 +103,24 @@ Creep.prototype.moveByResult = function(result, rangeTarget, successTarget, pred
     }
 };
 
-Creep.prototype.closestDropOff = function() {
-    var target = null;
+Creep.prototype.closestDropOff = function () {
+    var target = this.getDibsSource("dropOff"),
+        self = this;
     if (!target) {
         target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) {
+            filter: canPlaceDibs(self, function (structure) {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
-            }
+                        structure.structureType === STRUCTURE_SPAWN) && 
+                        structure.energy < structure.energyCapacity;
+            })
         });
     }
     if (!target) {
         target = this.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) {
-                return (structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-            }
+            filter: canPlaceDibs(self, function (structure) {
+                return (structure.structureType === STRUCTURE_TOWER) &&
+                    structure.energy < structure.energyCapacity;
+            })
         });
     }
     return target;

@@ -8,7 +8,7 @@ function shouldTransfer(creep) {
 levels[1] = function (creep) {
 
     var room = creep.room,
-        dropOff = creep.closestDropOff() || room.mainSpawn(),
+        dropOff = creep.getDibsSource("dropOff") || creep.closestDropOff() || room.mainSpawn(),
         selectedSource = creep.affinity() || dropOff.closestSource(),
         isAtCapacity = room.isFull(),
         result
@@ -21,11 +21,16 @@ levels[1] = function (creep) {
             result = creep.harvest(selectedSource);
             creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
         }
-        if (!creep.memory.dibs && creep.pos.findInRange(FIND_STRUCTURES, 1, {filter:function(structure) { return structure.structureType === STRUCTURE_EXTENSION; }}).length > 0) {
-            creep.moveTo(room.mainSpawn())
-        }
     } else {
+        if (!creep.memory.dropOff) {
+            console.log(creep.name + " takes dibs on " + dropOff.idAndPos());
+            dropOff.dibs("dropOff").place(creep);
+        }
         result = creep.transfer(dropOff, RESOURCE_ENERGY);
+        if (result === OK) {
+            console.log(creep.name + " removes dibs on " + dropOff.idAndPos());
+            dropOff.dibs("dropOff").remove(creep);
+        }
         creep.moveByResult(result, dropOff, selectedSource);
     }
 }
