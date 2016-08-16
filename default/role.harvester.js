@@ -21,8 +21,8 @@ levels[1] = function (creep) {
             result = creep.harvest(selectedSource);
             creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
         }
-        if (creep.pos.x == 12 && creep.pos.y == 25) {
-            creep.moveTo(13, 24);
+        if (!creep.memory.dibs && creep.pos.findInRange(FIND_STRUCTURES, 1, {filter:function(structure) { return structure.structureType === STRUCTURE_EXTENSION; }}).length > 0) {
+            creep.moveTo(room.mainSpawn())
         }
     } else {
         result = creep.transfer(dropOff, RESOURCE_ENERGY);
