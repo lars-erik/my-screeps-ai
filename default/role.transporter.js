@@ -9,12 +9,12 @@ module.exports = {
             if (creep.carry.energy < creep.carryCapacity) {
                 result = creep.withdraw(a, RESOURCE_ENERGY);
                 if (result == OK && creep.carry.energy == creep.carryCapacity) {
+                    a.dibs().remove(creep);
                     creep.moveTo(b);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(a);
                 } 
             } else {
-                b.dibs().remove(creep);
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result == OK) {
                     a.dibs().place(creep);
