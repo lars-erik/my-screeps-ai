@@ -18,6 +18,10 @@ module.exports = {
                     console.log(creep.name + " withdrew with result " + result);
                 }
             } else {
+                if (creep.memory.dibs) {
+                    console.log(creep.name + " removing dibs");
+                    a.dibs().remove(creep);
+                }
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result == OK) {
                     a.dibs().place(creep, true);
