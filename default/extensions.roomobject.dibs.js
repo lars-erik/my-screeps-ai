@@ -51,9 +51,9 @@ RoomObject.prototype.dibs = function () {
 
     return {
         hasCapacity: hasCapacity,
-        place: function (creep) {
+        place: function (creep, ignoreCapacity) {
             var dibs = ensureDibsMemory();
-            if (hasCapacity(creep) && notAlreadyDibbedBy(creep)) {
+            if ((ignoreCapacity || hasCapacity(creep)) && notAlreadyDibbedBy(creep)) {
                 dibs.push({ id: creep.id, amount: creep.carryCapacity });
                 creep.giveDibs(self);
                 return true;
