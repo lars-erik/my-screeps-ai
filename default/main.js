@@ -67,8 +67,7 @@ function runCreeps() {
             console.log(name + " dies! :(");
         }
         if (creep.ticksToLive < 100) {
-            creep.say("renewing");
-            creep.memory.role = "renewer";
+            roles.renewer.run(creep);
         } else if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
             creep.memory.role === "builder" || creep.memory.role === "upgrader")) {
             roles["harvester"].run(creep);
