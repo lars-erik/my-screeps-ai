@@ -7,7 +7,9 @@ module.exports = {
                 }),
                     i;
                 for (i = 0; i < creeps.length; i++) {
-                    console.log(creeps[i].name + " LVL: " + creeps[i].memory.level + " BP: " + creeps[i].body.length + " " + JSON.stringify(creeps[i].memory));
+                    console.log(creeps[i].name + " LVL: " + creeps[i].memory.level + " BP: " + creeps[i].body.length + " " + 
+                    " TCK: " + creeps[i].ticksToLive + " MEM: " +
+                    JSON.stringify(creeps[i].memory));
                 }
                 return "";
             },
