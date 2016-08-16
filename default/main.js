@@ -5,6 +5,7 @@ require("extensions.roomobject");
 require("extensions.roomobject.dibs");
 require("extensions.container");
 require("extensions.resource");
+require("extensions.source");
 
 var roles = {
         harvester: require('role.harvester'),

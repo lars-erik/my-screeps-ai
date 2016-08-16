@@ -18,7 +18,7 @@ levels[1] = function (creep) {
         selectedSource = creep.affinity() || (dropOff || creep).closestSource(),
         isAtCapacity = room.isFull(),
         result
-        ;
+    ;
     
     if (isAtCapacity || !dropOff) {
         building.run(creep);  
@@ -32,7 +32,7 @@ levels[1] = function (creep) {
         }
         creep.moveByResult(result, dropOff, selectedSource);
     } else if (!creep.isFull()) {
-        if (!creep.pickupClosestEnergy(dropOff)) {
+        if (creep.memory.harvestOnly || !creep.pickupClosestEnergy(dropOff)) {
             result = creep.harvest(selectedSource);
             creep.moveByResult(result, selectedSource, dropOff, shouldTransfer);
         }

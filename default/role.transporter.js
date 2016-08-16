@@ -7,7 +7,7 @@ module.exports = {
             result;
         if (a && b) {
             if (creep.carry.energy < creep.carryCapacity) {
-                result = creep.withdraw(a, RESOURCE_ENERGY);
+                result = a.yield(creep, RESOURCE_ENERGY);
                 if (result == OK && creep.carry.energy == creep.carryCapacity) {
                     a.dibs().remove(creep);
                     creep.moveTo(b);
