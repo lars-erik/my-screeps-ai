@@ -149,7 +149,7 @@ var roles = {
             },
             transporter: {
                 prefix: "Transporter",
-                body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 600
+                body: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE] // 600
             }
         }
     },
