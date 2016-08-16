@@ -22,6 +22,8 @@ module.exports = {
                     creep.moveTo(a);
                 } else if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
+                } else {
+                    console.log(creep.name + " dropped with result " + result)
                 }
             }
         }
