@@ -1,138 +1,41 @@
-var roles = {
+var bodies = {
+    microDropper: [WORK, WORK, CARRY, MOVE],
+    minidropper: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
+    semidropper: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    distributor: [CARRY, MOVE, MOVE],
+    transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    heralder: [MOVE],
+    scout: [TOUGH, TOUGH, MOVE, MOVE],
+    microWorker: [WORK, CARRY, MOVE, MOVE, MOVE],
+    miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
+    semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimer: [CLAIM, CLAIM, MOVE, MOVE]
+    },
+    defaultRoles = {
+        heralder: {
+            prefix: "Heralder",
+            body: bodies.heralder
+        },
+        distributor: {
+            prefix: "Distro",
+            body: bodies.distributor
+        },
+        transporter: {
+            prefix: "Transporter",
+            body: bodies.transporter
+        },
+        claimer: {
+            prefix: "Claimer",
+            body: bodies.claimer
+        }
+    },
+    roles = {
         1: {
-            heralder: {
-                prefix: "Heralder",
-                body: [MOVE]
-            },
             dropper: {
                 prefix: "Dropper",
-                body: [WORK, WORK, CARRY, MOVE]
-            },
-            distributor: {
-                prefix: "Distro",
-                body: [CARRY, MOVE, MOVE]
-            },
-            harvester: {
-                prefix: "Harvester",
-                body: [WORK, WORK, CARRY, MOVE]
-            },
-            builder: {
-                prefix: "Builder",
-                body: [WORK, WORK, CARRY, MOVE]
-            },
-            upgrader: {
-                prefix: "Upgrader",
-                body: [WORK, WORK, CARRY, MOVE]
-            }
-        },
-        2: {
-            heralder: {
-                prefix: "Heralder",
-                body: [MOVE]
-            },
-            dropper: {
-                prefix: "Dropper",
-                body: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE]
-            },
-            harvester: {
-                prefix: "Harvester",
-                body: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE]
-            },
-            builder: {
-                prefix: "Builder",
-                body: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE]
-            },
-            upgrader: {
-                prefix: "Upgrader",
-                body: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE]
-            },
-            transporter: {
-                prefix: "Transporter",
-                body: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
-            }
-        },
-        3: {
-            // 800
-            heralder: {
-                prefix: "Heralder",
-                body: [MOVE]
-            },
-            dropper: {
-                prefix: "Dropper",
-                body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE] // 800
-            },
-            harvester: {
-                prefix: "Harvester",
-                body: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
-            },
-            builder: {
-                prefix: "Builder",
-                body: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
-            },
-            upgrader: {
-                prefix: "Upgrader",
-                body: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
-            },
-            transporter: {
-                prefix: "Transporter",
-                body: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE] // 400
-            }
-        },
-        4: {
-            // 1300
-            heralder: {
-                prefix: "Heralder",
-                body: [MOVE]
-            },
-            dropper: {
-                prefix: "Dropper",
-                body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 850
-            },
-            harvester: {
-                prefix: "Harvester",
-                body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-
-                ] // 1200
-            },
-            builder: {
-                prefix: "Builder",
-                body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-
-                ] // 1200
-            },
-            upgrader: {
-                prefix: "Upgrader",
-                body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-
-                ] // 1200
-            },
-            transporter: {
-                prefix: "Transporter",
-                body: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 600
-            }
-        },
-        5: {
-            // 1800
-            heralder: {
-                prefix: "Heralder",
-                body: [MOVE]
-            },
-            dropper: {
-                prefix: "Dropper",
-                body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 850
-            },
-            distributor: {
-                prefix: "Distro",
-                body: [CARRY, MOVE, MOVE]
+                body: bodies.microDropper
             },
             scout: {
                 prefix: "Scout",
@@ -140,42 +43,96 @@ var roles = {
             },
             harvester: {
                 prefix: "Harvester",
-                body: [
-                    WORK, WORK, 
-                    CARRY, 
-                    MOVE, MOVE, MOVE, MOVE
-                ] // 450
+                body: bodies.microWorker
             },
             builder: {
                 prefix: "Builder",
-                body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ] // 1800
+                body: bodies.microWorker
             },
             upgrader: {
                 prefix: "Upgrader",
-                body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ] // 1800
+                body: bodies.microWorker
+            }
+        },
+        2: {
+            dropper: {
+                prefix: "Dropper",
+                body: bodies.minidropper
+            },
+            harvester: {
+                prefix: "Harvester",
+                body: bodies.miniWorker
+            },
+            builder: {
+                prefix: "Builder",
+                body: bodies.miniWorker
+            },
+            upgrader: {
+                prefix: "Upgrader",
+                body: bodies.miniWorker
+            }
+        },
+        3: {
+            dropper: {
+                prefix: "Dropper",
+                body: bodies.semidropper
+            },
+            harvester: {
+                prefix: "Harvester",
+                body: bodies.semiWorker
+            },
+            builder: {
+                prefix: "Builder",
+                body: bodies.semiWorker
+            },
+            upgrader: {
+                prefix: "Upgrader",
+                body: bodies.semiWorker
+            }
+        },
+        4: {
+            dropper: {
+                prefix: "Dropper",
+                body: bodies.dropper
+            },
+            builder: {
+                prefix: "Builder",
+                body: bodies.worker
+            },
+            upgrader: {
+                prefix: "Upgrader",
+                body: bodies.worker
             },
             transporter: {
                 prefix: "Transporter",
-                body: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 450
-            },
-            claimer: {
-                prefix: "Claimer",
-                body: [CLAIM, CLAIM, MOVE, MOVE] // 1300
+                body: bodies.transporter
             }
+        },
+        5: {
+            dropper: {
+                prefix: "Dropper",
+                body: bodies.dropper
+            },
+            builder: {
+                prefix: "Builder",
+                body: bodies.worker
+            },
+            upgrader: {
+                prefix: "Upgrader",
+                body: bodies.worker
+            },
+            transporter: {
+                prefix: "Transporter",
+                body: bodies.transporter
+            }
+
+
         }
     },
     maxLevel = 5;
 
 module.exports = {
     get: function(level) {
-        return roles[Math.min(level.id, maxLevel)];
+        return _.extend({}, defaultRoles, roles[Math.min(level.id, maxLevel)]);
     }
 };

@@ -126,3 +126,23 @@ Creep.prototype.closestDropOff = function () {
     }
     return target;
 }
+
+Creep.prototype.routeChange = function() {
+    var routeTime = this.memory.routeTime || (this.memory.routeTime = {
+            start: Game.time,
+            avg: 0,
+            history: []
+        }),
+        routeLength,
+        maxHistory = 20;
+
+    if (routeTime.start !== Game.time) {
+        routeLength = Game.time - routeTime.start;
+        routeTime.history.push(routeLength);
+        routeTime.avg = _.sum(routeTime.history) / routeTime.history.length;
+        if (routeTime.history.length > maxHistory) {
+            routeTime.history.splice(0, routeTime.history.length - maxHistory);
+        }
+    }
+    routeTime.start = Game.time;
+}

@@ -14,6 +14,7 @@ module.exports = {
             if (creep.carry.energy < creep.carryCapacity) {
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
+                    creep.routeChange();
                     a.dibs().remove(creep);
                     creep.moveTo(b);
                 } else if (result === ERR_NOT_IN_RANGE) {
@@ -25,6 +26,7 @@ module.exports = {
                 }
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result === OK) {
+                    creep.routeChange();
                     a.dibs().place(creep, true);
                     creep.moveTo(a);
                 } else if (result === ERR_NOT_IN_RANGE) {
