@@ -43,9 +43,7 @@ function towerAi(room) {
             var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (closestHostile) {
                 tower.attack(closestHostile);
-            }
-
-            if (tower.energy > tower.energyCapacity * .8) {
+            } else if (tower.energy > tower.energyCapacity * .8) {
                 var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: function(structure) {
                         return structure.hits < structure.hitsMax;
@@ -55,28 +53,6 @@ function towerAi(room) {
                     tower.repair(closestDamagedStructure);
                 }
             }
-        }
-    }
-}
-
-function runCreeps() {
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name],
-            role = creep ? roles[creep.memory.role] : null;
-        if (!creep) {
-            delete Game.creeps[name];
-        }
-        if (creep.ticksToLive === 1) {
-            roles.heralder.add(name + " dies! :(");
-            console.log(name + " dies! :(");
-        }
-        if (creep.memory.role !== "dropper" && creep.memory.role !== "scout" && creep.room.creepComplete() && (creep.ticksToLive < 100 || creep.memory.renewing)) {
-            roles.renewer.run(creep);
-        } else if (!Game.creeps["Distro 1"] && creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
-            creep.memory.allowRefillRoom || creep.memory.role === "builder")) {
-            roles["distributor"].run(creep);
-        } else if (role) {
-            role.run(creep);
         }
     }
 }
@@ -103,6 +79,31 @@ function reportProgress(room) {
     }
 }
 
+function runCreeps() {
+    for(var name in Game.creeps) {
+        var creep = Game.creeps[name],
+            role = creep ? roles[creep.memory.role] : null;
+        if (!creep) {
+            delete Game.creeps[name];
+        }
+        if (creep.ticksToLive === 1) {
+            roles.heralder.add(name + " dies! :(");
+            console.log(name + " dies! :(");
+        }
+//        if (creep.memory.role !== "dropper" && creep.memory.role !== "scout" && creep.room.creepComplete() && (creep.ticksToLive < 100 || creep.memory.renewing)) {
+//            roles.renewer.run(creep);
+//        } else 
+        if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
+            creep.memory.allowRefillRoom || 
+            (creep.memory.role != "dropper" && creep.memory.role != "heralder" && creep.memory.role != "scout")
+            )) { //  || creep.memory.role === "builder"
+            roles["distributor"].run(creep);
+        } else if (role) {
+            role.run(creep);
+        }
+    }
+}
+
 module.exports.loop = function () {
 
     utils.init(Game);
@@ -110,7 +111,7 @@ module.exports.loop = function () {
     for(var key in Game.rooms) {
         memInit.room.init(Game.rooms[key]);
         if (Game.rooms[key].mainSpawn()) {
-            creatureFactory.create(Game.rooms[key].mainSpawn());
+            //creatureFactory.create(Game.rooms[key].mainSpawn());
         }
         towerAi(Game.rooms[key]);
         reportProgress(Game.rooms[key]);

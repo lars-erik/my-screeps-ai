@@ -103,8 +103,8 @@ module.exports = {
         spawns = room.find(FIND_STRUCTURES, { filter: function(structure) { return structure.structureType == STRUCTURE_SPAWN; } });
 
         init("sources", getSourcesData);
-        init("spawns", getSpawnsData);
-        init("mainSpawn", getMainSpawn);
+        room.memory.spawns = getSpawnsData();
+        room.memory.mainSpawn = getMainSpawn();
         
         createAffinities();
 

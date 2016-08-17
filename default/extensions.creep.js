@@ -7,12 +7,12 @@ Creep.prototype.isEmpty = function () {
     return _.sum(this.carry) === 0;
 };
 
-Creep.prototype.affinityId = function () {
-    return this.memory.affinity || this.room.memory.affinities[this.memory.role];
+Creep.prototype.affinityId = function (key) {
+    return this.memory[key || "affinity"] || this.room.memory.affinities[this.memory.role];
 };
 
-Creep.prototype.affinity = function () {
-    return Game.getObjectById(this.affinityId());
+Creep.prototype.affinity = function (key) {
+    return Game.getObjectById(this.affinityId(key));
 };
 
 Creep.prototype.harvestClosestSource = function (source, moveToOnSuccess) {

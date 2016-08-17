@@ -1,3 +1,4 @@
+var creatureFactory = require("factory.creatures");
 module.exports = {
     init: function(game) {
         game.utils = {
@@ -35,7 +36,8 @@ module.exports = {
                         creep.memory.dropOff = null;
                     }
                 }
-            }
+            },
+            createOne: creatureFactory.createOne
         }
     }
 }

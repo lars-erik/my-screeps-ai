@@ -3,7 +3,7 @@ var upgrading = require("role.upgrader"),
     
 levels[1] = function(creep) {
     
-    var prioritizedSite = creep.room.find(FIND_CONSTRUCTION_SITES)[0];
+    var prioritizedSite = creep.affinity("buildAffinity") || creep.room.find(FIND_CONSTRUCTION_SITES)[0];
     if (!prioritizedSite) {
         upgrading.run(creep);
     } else if (creep.memory.building) {

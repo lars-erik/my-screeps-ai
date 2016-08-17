@@ -8,6 +8,10 @@ var roles = {
                 prefix: "Dropper",
                 body: [WORK, WORK, CARRY, MOVE]
             },
+            distributor: {
+                prefix: "Distro",
+                body: [CARRY, MOVE, MOVE]
+            },
             harvester: {
                 prefix: "Harvester",
                 body: [WORK, WORK, CARRY, MOVE]
@@ -124,7 +128,7 @@ var roles = {
             },
             dropper: {
                 prefix: "Dropper",
-                body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 850
+                body: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 850
             },
             distributor: {
                 prefix: "Distro",
@@ -137,10 +141,10 @@ var roles = {
             harvester: {
                 prefix: "Harvester",
                 body: [
-                    WORK, WORK, WORK, WORK, WORK, 
-                    CARRY, CARRY, 
-                    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
-                ] // 1200
+                    WORK, WORK, 
+                    CARRY, 
+                    MOVE, MOVE, MOVE, MOVE
+                ] // 450
             },
             builder: {
                 prefix: "Builder",
@@ -160,7 +164,11 @@ var roles = {
             },
             transporter: {
                 prefix: "Transporter",
-                body: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE] // 600
+                body: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 450
+            },
+            claimer: {
+                prefix: "Claimer",
+                body: [CLAIM, CLAIM, MOVE, MOVE] // 1300
             }
         }
     },

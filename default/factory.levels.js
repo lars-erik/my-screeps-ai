@@ -73,7 +73,7 @@ module.exports = {
         var i,
             rule,
             capacity = room.energyCapacityAvailable,
-            currentLevels = room.memory.levels || levels;
+            currentLevels = room.memory.levels || level;
         if (!room.memory.levels) {
             console.log("replacing levels");
             room.memory.levels = levels;
