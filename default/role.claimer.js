@@ -8,9 +8,9 @@
  */
 
 module.exports = {
-    run: function(creep) {
+    run: function (creep) {
         var room = creep.pos.roomName;
-        if (room != creep.memory.room ) {
+        if (room != creep.memory.room) {
             console.log("moving to room");
             creep.moveTo(new RoomPosition(20, 20, creep.memory.room));
         } else {

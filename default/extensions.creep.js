@@ -107,13 +107,13 @@ Creep.prototype.closestDropOff = function () {
     var target = this.getDibsObj("dropOff"),
         self = this;
     if (!target) {
-        target = this.findClosestOfType(self, FIND_STRUCTURES, function(structure) {
-                var isValidStructure = (structure.structureType === STRUCTURE_EXTENSION ||
+        target = this.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            var isValidStructure = (structure.structureType === STRUCTURE_EXTENSION ||
                     structure.structureType === STRUCTURE_SPAWN) &&
                     structure.energy < structure.energyCapacity &&
                     self.canPlaceDibs(structure, "dropOff");
-                return isValidStructure;
-            }
+            return isValidStructure;
+        }
         );
     }
     if (!target) {
@@ -121,7 +121,7 @@ Creep.prototype.closestDropOff = function () {
             return (structure.structureType === STRUCTURE_TOWER) &&
                 structure.energy < structure.energyCapacity &&
                 self.canPlaceDibs(structure, "dropOff");
-            }
+        }
         );
     }
     return target;

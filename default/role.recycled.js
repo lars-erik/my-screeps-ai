@@ -1,12 +1,7 @@
 module.exports = {
     run: function (creep) {
-        var mainSpawn = creep.room.mainSpawn(),
-            result;
-        if (mainSpawn) {
-            result = mainSpawn.recycleCreep(creep);
-            if (result != OK) {
-                creep.moveTo(creep.room.mainSpawn());
-            }
+        if (creep.room.mainSpawn().recycleCreep(creep) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(creep.room.mainSpawn());
         }
     }
 }

@@ -5,7 +5,7 @@ module.exports = {
             dropOff = dibbedDropOff || closestDropOff,
             result;
         
-        if (creep.isFull()) {
+        if (creep.isFull() && dropOff) {
             if (!creep.memory.dropOff) {
                 dropOff.dibs("dropOff").place(creep);
             }
