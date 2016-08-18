@@ -35,6 +35,7 @@
     <Compile Include="default\role.dropper.js" />
     <Compile Include="default\role.harvester.js" />
     <Compile Include="default\role.heralder.js" />
+    <Compile Include="default\role.prober.js" />
     <Compile Include="default\role.recycled.js" />
     <Compile Include="default\role.renewer.js" />
     <Compile Include="default\role.scout.js" />

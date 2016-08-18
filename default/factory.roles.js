@@ -11,7 +11,8 @@ var bodies = {
     miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
     semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    claimer: [CLAIM, CLAIM, MOVE, MOVE]
+    claimer: [CLAIM, CLAIM, MOVE, MOVE],
+    prober: [TOUGH, TOUGH, MOVE, MOVE]
     },
     defaultRoles = {
         heralder: {
@@ -29,6 +30,10 @@ var bodies = {
         claimer: {
             prefix: "Claimer",
             body: bodies.claimer
+        },
+        prober: {
+            prefix: "Prober",
+            body: bodies.prober
         }
     },
     roles = {

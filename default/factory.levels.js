@@ -88,5 +88,8 @@ module.exports = {
             }
         }
         return {};
+    },
+    getById: function(id) {
+        return levels[id];
     }
 };
