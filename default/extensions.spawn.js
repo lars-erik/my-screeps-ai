@@ -26,14 +26,14 @@ StructureSpawn.prototype.createRoleCreep = function (roleName, level) {
     if (!role) {
         return -100;
     }
-    name = role.prefix + " " + Number(_.filter(Game.creeps, function(creep) {
+    name = this.room.name + " " + role.prefix + " " + (Number(_.filter(Game.creeps, function(creep) {
         return creep.name.indexOf(self.name) === 0 && creep.memory.role === roleName;
-    }).length) + 1;
+    }).length) + 1);
 
     var result = this.createCreep(
         role.body, 
         name, 
-        _.extend(defaultMemory, role.memory, Memory.creeps[name], { level: level.id, role: role })
+        _.extend(defaultMemory, role.memory, Memory.creeps[name], { level: level.id, role: roleName })
     );
 
     return result;

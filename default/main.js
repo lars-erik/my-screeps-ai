@@ -18,13 +18,10 @@ var roles = {
         renewer: require("role.renewer"),
         recycled: require("role.recycled"),
         distributor: require("role.distributor"),
-        scout: require("role.scout")
-    },
-    roleNames = {
-        harvester: "Harvester",
-        heralder: "Heralder",
-        upgrader: "Upgrader",
-        builder: "Builder"
+        scout: require("role.scout"),
+        prober: require("role.prober"),
+        cannonfodder: require("role.prober"),
+        attacker: require("role.attacker")
     },
     main = {},
     utils = require("game.utils"),

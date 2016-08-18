@@ -12,7 +12,9 @@ var bodies = {
     semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     claimer: [CLAIM, CLAIM, MOVE, MOVE],
-    prober: [TOUGH, TOUGH, MOVE, MOVE]
+    prober: [TOUGH, TOUGH, MOVE, MOVE],
+    miniCannonFodder: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    miniAttacker: [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE]
     },
     defaultRoles = {
         heralder: {
@@ -129,9 +131,15 @@ var bodies = {
             transporter: {
                 prefix: "Transporter",
                 body: bodies.transporter
+            }, 
+            cannonfodder: {
+                prefix: "Cannonfodder",
+                body: bodies.miniCannonFodder
+            },
+            attacker: {
+                prefix: "Attacker",
+                body: bodies.miniAttacker
             }
-
-
         }
     },
     maxLevel = 5;

@@ -100,7 +100,7 @@ module.exports = {
         room = forRoom;
         memory = room.memory || (room.memory = {});
         sources = room.find(FIND_SOURCES);
-        spawns = room.find(FIND_STRUCTURES, { filter: function(structure) { return structure.structureType == STRUCTURE_SPAWN; } });
+        spawns = room.find(FIND_MY_STRUCTURES, { filter: function(structure) { return structure.structureType === STRUCTURE_SPAWN; } });
 
         init("sources", getSourcesData);
         room.memory.spawns = getSpawnsData();
