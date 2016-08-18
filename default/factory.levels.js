@@ -72,12 +72,15 @@ module.exports = {
     get: function(room) {
         var i,
             rule,
-            capacity = room.energyCapacityAvailable,
-            currentLevels = room.memory.levels || level;
-        if (!room.memory.levels) {
+            capacity = room.find(FIND_MY_CREEPS).length < 4 ?
+                room.energyAvailable :
+                room.energyCapacityAvailable,
+            currentLevels = room.memory.levels;
+        if (!currentLevels) {
             console.log("replacing levels");
-            room.memory.levels = levels;
+            currentLevels = room.memory.levels = levels;
         }
+        
         for(i = rules.length - 1; i>=0; i--) {
             rule = rules[i];
             if (capacity >= rule.threshold) {
