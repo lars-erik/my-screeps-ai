@@ -11,7 +11,7 @@ module.exports = {
         }
 
         if (a && b) {
-            if (creep.carry.energy < creep.carryCapacity) {
+            if (creep.carry.energy < creep.carryCapacity && a.yield) {
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
                     creep.routeChange();

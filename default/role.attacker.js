@@ -12,12 +12,12 @@ module.exports = {
             }
         }
         if (target.room) {
-            closestTower = creep.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
+            closestTower = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
                 filter: function(structure) {
                     return structure.structureType === STRUCTURE_TOWER;
                 }
             });
-            closestHostile = creep.findClosestByPath(FIND_HOSTILE_CREEPS);
+            closestHostile = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
             attackTarget = closestTower || closestHostile;
             if (attackTarget) {
                 if (creep.attack(attackTarget) !== OK) {

@@ -26,6 +26,10 @@ module.exports = {
                 name = spawn.room.name + " " + role.prefix + " " + ci;
                 creep = Game.creeps[name];
                 if (!creep) {
+                    if (priority.role === "attacker" && room.energyAvailable < 1380) {
+                        return;
+                    }
+
                     defaultMemory = { level: level.id, role: priority.role };
                     var result = spawn.createCreep(
                         role.body, 
