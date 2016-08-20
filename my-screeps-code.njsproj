@@ -12,6 +12,7 @@
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <AnalysisIgnoredDirectories>node_modules</AnalysisIgnoredDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -28,8 +29,10 @@
     <Compile Include="default\factory.roles.js" />
     <Compile Include="default\game.utils.js" />
     <Compile Include="default\main.js" />
+    <Compile Include="default\memory.groups.js" />
     <Compile Include="default\memory.room.js" />
     <Compile Include="default\role.builder.js" />
+    <Compile Include="default\role.cannonfodder.js" />
     <Compile Include="default\role.claimer.js" />
     <Compile Include="default\role.distributor.js" />
     <Compile Include="default\role.dropper.js" />

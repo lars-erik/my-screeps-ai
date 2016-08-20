@@ -20,13 +20,14 @@ var roles = {
         distributor: require("role.distributor"),
         scout: require("role.scout"),
         prober: require("role.prober"),
-        cannonfodder: require("role.prober"),
+        cannonfodder: require("role.cannonfodder"),
         attacker: require("role.attacker")
     },
     main = {},
     utils = require("game.utils"),
     memInit = {
-        room: require("memory.room")
+        room: require("memory.room"),
+        groups: require("memory.groups")
     },
     creatureFactory = require("factory.creatures");
 
@@ -55,6 +56,9 @@ function towerAi(room) {
 }
 
 function reportProgress(room) {
+    if (!room || !room.controller) {
+        return;
+    }
     if (!room.memory.progress) {
         room.memory.progress = {
             amount: room.controller.progress,
@@ -103,10 +107,11 @@ function runCreeps() {
 
 module.exports.loop = function () {
 
-    utils.init(Game);
+    memInit.groups.init();
 
     for(var key in Game.rooms) {
         memInit.room.init(Game.rooms[key]);
+
         if (Game.rooms[key].mainSpawn()) {
             creatureFactory.create(Game.rooms[key].mainSpawn());
         }

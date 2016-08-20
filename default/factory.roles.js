@@ -1,7 +1,7 @@
 var bodies = {
     microDropper: [WORK, WORK, CARRY, MOVE],
     minidropper: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
-    semidropper: [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    semidropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     distributor: [CARRY, MOVE, MOVE],
     transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
@@ -11,10 +11,19 @@ var bodies = {
     miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
     semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    miniClaimer: [CLAIM, MOVE],
     claimer: [CLAIM, CLAIM, MOVE, MOVE],
     prober: [TOUGH, TOUGH, MOVE, MOVE],
     miniCannonFodder: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     miniAttacker: [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE]
+    },
+    partCosts = {
+        "work": 100,
+        "carry": 50,
+        "move": 50,
+        "tough": 10,
+        "claim": 600,
+        "attack": 80
     },
     defaultRoles = {
         heralder: {
@@ -95,6 +104,10 @@ var bodies = {
             upgrader: {
                 prefix: "Upgrader",
                 body: bodies.semiWorker
+            },
+            claimer: {
+                prefix: "Claimer",
+                body: bodies.miniClaimer
             }
         },
         4: {
@@ -113,6 +126,10 @@ var bodies = {
             transporter: {
                 prefix: "Transporter",
                 body: bodies.transporter
+            },
+            claimer: {
+                prefix: "Claimer",
+                body: bodies.miniClaimer
             }
         },
         5: {
@@ -147,5 +164,8 @@ var bodies = {
 module.exports = {
     get: function(level) {
         return _.extend({}, defaultRoles, roles[Math.min(level.id, maxLevel)]);
+    },
+    bodyCost: function(bodyName) {
+        return _.sum(bodies[bodyName], function(partType) { return partCosts[partType]; });
     }
 };

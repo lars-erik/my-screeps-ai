@@ -9,25 +9,19 @@
 
 module.exports = {
     run: function (creep) {
-        var room = creep.pos.roomName;
-        if (room != creep.memory.room) {
-            console.log("moving to room");
-            creep.moveTo(new RoomPosition(20, 20, creep.memory.room));
+        var room = creep.pos.roomName,
+            target = _.extend({ room:creep.memory.room, x: 20, y: 20 }, creep.memory.target),
+            targetPos = new RoomPosition(target.x, target.y, target.room);
+        if (room !== targetPos.roomName) {
+            creep.moveTo(targetPos);
         } else {
-            if (creep.pos.y == 49 || creep.pos.y == 0 || creep.pos.x == 0 || creep.pos.x == 49) {
-                creep.moveTo(new RoomPosition(20, 20, creep.memory.room));
-            } else {
-                var controller = creep.room.controller;
-                var result = creep.claimController(controller);
-                if (result == ERR_GCL_NOT_ENOUGH) {
-                    result = creep.reserveController(controller);
-                    if (result != OK) {
-                        console.log("couldn't reserve due to " + result);
-                    }
-                } else if (result != OK) {
-                    console.log("couldn't claim due to " + result);
-                    creep.moveTo(controller);
-                }
+            var controller = creep.room.controller;
+            var result = creep.claimController(controller);
+            if (result === ERR_GCL_NOT_ENOUGH) {
+                result = creep.reserveController(controller);
+            }
+            if (result !== OK) {
+                creep.moveTo(controller);
             }
         }
     }

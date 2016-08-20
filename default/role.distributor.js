@@ -4,7 +4,7 @@ module.exports = {
             closestDropOff = creep.closestDropOff(),
             dropOff = dibbedDropOff || closestDropOff,
             result;
-        
+
         if (creep.isFull() && dropOff) {
             if (!creep.memory.dropOff) {
                 dropOff.dibs("dropOff").place(creep);
@@ -19,6 +19,8 @@ module.exports = {
             if (result === ERR_NOT_IN_RANGE) {
                 creep.moveTo(dropOff);
             }
+        } else if (creep.isFull() && creep.memory.dibs) {
+            creep.getDibsObj().dibs().remove(creep);
         } else {
             creep.pickupClosestEnergy(dropOff);
         }
