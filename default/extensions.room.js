@@ -37,7 +37,11 @@ Room.prototype.creepMax = function() {
             role.count = Math.max(priorityRole.count, role.count);
         }
     }
-    return _.sumBy(roles, function (role) { return role.count; });
+    if (_.sumBy) {
+        return _.sumBy(roles, function(role) { return role.count; });
+    } else {
+        return 0;
+    }
 }
 
 Room.prototype.creepComplete = function() {

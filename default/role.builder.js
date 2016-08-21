@@ -2,9 +2,12 @@ var upgrading = require("role.upgrader"),
     levels = {};
     
 levels[1] = function(creep) {
-    
-    var prioritizedSite = creep.affinity("buildAffinity") || creep.room.find(FIND_CONSTRUCTION_SITES)[0];
-    if (!prioritizedSite) {
+    var prioritizedSite = creep.affinity("buildAffinity") || creep.room.find(FIND_CONSTRUCTION_SITES)[0],
+        groupMemory = Memory.groups[creep.memory.group] || {},
+        prioritizedRoom = groupMemory.room || creep.memory.room || creep.room.name;
+    if (creep.room.name !== prioritizedRoom) {
+        creep.moveTo(new RoomPosition(24, 24, prioritizedRoom));
+    } else if (!prioritizedSite) {
         upgrading.run(creep);
     } else if (creep.memory.building) {
         creep.moveByResult(creep.build(prioritizedSite), prioritizedSite);

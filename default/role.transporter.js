@@ -1,7 +1,8 @@
 module.exports = {
     run: function(creep) {
-        var aId = creep.memory.a,
-            bId = creep.memory.b,
+        var memory = Memory.groups[creep.memory.group] || creep.memory,
+            aId = memory.a,
+            bId = memory.b,
             a = Game.creeps[aId] || Game.getObjectById(aId),
             b = Game.getObjectById(bId),
             result;

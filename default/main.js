@@ -67,6 +67,7 @@ function reportProgress(room) {
     } else {
         if (room.memory.progress.amount < room.controller.progress - 1000) {
             console.log(
+                room.name + " " + 
                 (room.controller.progress - room.memory.progress.amount) +
                 " of " + room.controller.progress +
                 "/" + room.controller.progressTotal + " in " + 

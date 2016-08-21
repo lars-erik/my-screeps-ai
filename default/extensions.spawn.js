@@ -24,6 +24,7 @@ StructureSpawn.prototype.createRoleCreep = function (roleName, level) {
     roles = roleFactory.get(level);
     role = roles[roleName];
     if (!role) {
+        console.log("no such role");
         return -100;
     }
     name = this.room.name + " " + role.prefix + " " + (Number(_.filter(Game.creeps, function(creep) {

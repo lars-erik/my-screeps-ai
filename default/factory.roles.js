@@ -41,6 +41,10 @@ var bodies = {
         prober: {
             prefix: "Prober",
             body: bodies.prober
+        },
+        scout: {
+            prefix: "Scout",
+            body: bodies.scout
         }
     },
     roles = {
@@ -167,5 +171,13 @@ module.exports = {
     },
     bodyCost: function(bodyName) {
         return _.sum(bodies[bodyName], function(partType) { return partCosts[partType]; });
+    },
+    parts: function(bodyName, partType) {
+        if (partType) {
+            console.log(JSON.stringify(_.countBy(bodies[bodyName], function (bn) { return bn; })));
+            return _.countBy(bodies[bodyName])[partType];
+        } else {
+            return bodies[bodyName].length;
+        }
     }
 };

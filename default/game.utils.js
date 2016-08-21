@@ -1,5 +1,6 @@
 var creatureFactory = require("factory.creatures"),
-    roleFactory = require("factory.roles");
+    roles = require("factory.roles"),
+    groups = require("memory.groups");
 
 global.Utils = {
     listCreeps: function (showMemory) {
@@ -38,6 +39,40 @@ global.Utils = {
         output += "Total  E:" + totE + " C: " + totC + " " + Math.round(totE / totC * 100) + "%\n";
         return output;
     },
+    listTransporters: function () {
+        var info = _.sortBy(
+            _.map(
+            _.filter(Game.creeps, function(creep) { return creep.memory.role === "transporter"; }),
+            function (creep) {
+                return creep.name + " A: " + creep.memory.a + " B: " + creep.memory.b;
+            }
+        ));
+        return JSON.stringify(info, null, "\t");
+
+    },
+    listContainers: function() {
+        var roomKey,
+            room,
+            containers,
+            i,
+            roomTotal,
+            total = 0,
+            output = "";
+
+        for (roomKey in Game.rooms) {
+            room = Game.rooms[roomKey];
+            roomTotal = 0;
+            containers = room.find(FIND_STRUCTURES, { filter: function (structure) { return structure.structureType === STRUCTURE_CONTAINER } } );
+            for (i = 0; i < containers.length; i++) {
+                output += room.name + " " + containers[i].id + " " + containers[i].pos.x + "," + containers[i].pos.y + " " + containers[i].store.energy + "\n";
+                roomTotal += containers[i].store.energy;
+            }
+            total += roomTotal;
+            output += room.name + " " + roomTotal + "\n";
+        }
+        output += "Total  " + total;
+        return output;
+    },
     resetDibs: function(roomName) {
         var room = Game.rooms[roomName],
             creep,
@@ -47,7 +82,7 @@ global.Utils = {
     
         for (key in Game.creeps) {
             creep = Game.creeps[key];
-            if (creep.role !== "dropper") {
+            if (creep.role !== "dropper" && creep.room.name === roomName) {
                 creep.memory.dibs = null;
                 creep.memory.dropOff = null;
             }
@@ -57,9 +92,25 @@ global.Utils = {
         var aObj = Game.getObjectById(a),
             bObj = Game.getObjectById(b),
             len = aObj.pos.findPathTo(bObj).length;
+        if (aObj.room !== bObj.room) {
+            len += bObj.pos.findPathTo(aObj).length;
+        }
         return len;
     },
+    optimalRoute: function(a, b) {
+        var length = Utils.pathLength(a, b)*2,
+            energyPerTrip = roles.parts("transporter", CARRY) * 50,
+            transporterCost = roles.bodyCost("transporter"),
+            dropperCost = roles.bodyCost("dropper"),
+            claimerCost = roles.bodyCost("miniClaimer"),
+            energyPerLifetime = 1500 / length * energyPerTrip,
+            transportersNeeded = 15000 / energyPerLifetime,
+            transporters = Math.round(transportersNeeded),
+            profitPerTransporter = energyPerLifetime - transporterCost - dropperCost / transporters - claimerCost / transporters;
+        
+        return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100)/100 + " PPT:" + Math.round(profitPerTransporter * 100)/100 + " OPT: " + transportersNeeded + " RND: " + transporters;
+    },
     createOne: creatureFactory.createOne,
-    bodyCost: roleFactory.bodyCost,
-    
+    bodyCost: roles.bodyCost,
+    groups: groups.utils
 };
