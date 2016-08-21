@@ -10,8 +10,10 @@
 module.exports = {
     run: function (creep) {
         var room = creep.pos.roomName,
-            target = _.extend({ room:creep.memory.room, x: 20, y: 20 }, creep.memory.target),
-            targetPos = new RoomPosition(target.x, target.y, target.room);
+            target = _.extend({ room: creep.memory.room || room, x: 20, y: 20 }, creep.memory.target),
+            targetPos;
+        
+        targetPos = new RoomPosition(target.x, target.y, target.room);
         if (room !== targetPos.roomName) {
             creep.moveTo(targetPos);
         } else {

@@ -53,8 +53,12 @@ global.Utils = {
             }
         }
     },
-    
-
+    pathLength: function(a, b) {
+        var aObj = Game.getObjectById(a),
+            bObj = Game.getObjectById(b),
+            len = aObj.pos.findPathTo(bObj).length;
+        return len;
+    },
     createOne: creatureFactory.createOne,
     bodyCost: roleFactory.bodyCost,
     

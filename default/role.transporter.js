@@ -6,7 +6,7 @@ module.exports = {
             b = Game.getObjectById(bId),
             result;
         
-        if (a instanceof Creep) {
+        if (a instanceof Source) {
             a = a.pos.findInRange(FIND_DROPPED_ENERGY, 1)[0];
         }
 

@@ -38,10 +38,6 @@ var bodies = {
             prefix: "Transporter",
             body: bodies.transporter
         },
-        claimer: {
-            prefix: "Claimer",
-            body: bodies.claimer
-        },
         prober: {
             prefix: "Prober",
             body: bodies.prober
@@ -129,7 +125,7 @@ var bodies = {
             },
             claimer: {
                 prefix: "Claimer",
-                body: bodies.miniClaimer
+                body: bodies.claimer
             }
         },
         5: {
@@ -148,6 +144,10 @@ var bodies = {
             transporter: {
                 prefix: "Transporter",
                 body: bodies.transporter
+            },
+            claimer: {
+                prefix: "Claimer",
+                body: bodies.claimer
             }, 
             cannonfodder: {
                 prefix: "Cannonfodder",

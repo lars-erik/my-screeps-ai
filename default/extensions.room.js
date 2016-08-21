@@ -22,12 +22,22 @@ Room.prototype.creepCount = function() {
 }
 
 Room.prototype.creepMax = function() {
-    var maxlen = 0,
-        priority = this.memory.level ? this.memory.levels[this.memory.level].priority : [];
+    var priority = this.memory.level ? this.memory.levels[this.memory.level].priority : [],
+        roles = {},
+        priorityRole,
+        role,
+        roleName;
     for (var i = 0; i < priority.length; i++) {
-        maxlen += priority[i].count;
+        roleName = priority[i].role;
+        priorityRole = priority[i];
+        role = roles[roleName];
+        if (!role) {
+            roles[roleName] = _.extend({},priority[i]);
+        } else {
+            role.count = Math.max(priorityRole.count, role.count);
+        }
     }
-    return maxlen;
+    return _.sumBy(roles, function (role) { return role.count; });
 }
 
 Room.prototype.creepComplete = function() {
