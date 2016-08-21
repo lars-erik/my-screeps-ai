@@ -92,7 +92,7 @@ global.Utils = {
         var aObj = Game.getObjectById(a),
             bObj = Game.getObjectById(b),
             len = aObj.pos.findPathTo(bObj).length;
-        if (aObj.room !== bObj.room) {
+        if (aObj.pos.roomName !== bObj.pos.roomName) {
             len += bObj.pos.findPathTo(aObj).length;
         }
         return len;
