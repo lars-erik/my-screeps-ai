@@ -9,16 +9,14 @@
 
 module.exports = {
     run: function(creep) {
-        var result;
-        if (!creep.memory.affinity) {
+        var result,
+            affinity = creep.affinity(),
+            loadOff = creep.affinity("loadOff");
+        if (!affinity) {
             creep.say("Where?");
             return;
         }
-        var resource = Game.getObjectById(creep.memory.affinity);
-        var loadOff = null;
-        if (creep.memory.loadOff) {
-            loadOff = Game.getObjectById(creep.memory.loadOff);
-        }
+        var resource = affinity;
         if (creep.isFull()) {
             if (loadOff) {
                 result = creep.transfer(loadOff, RESOURCE_ENERGY);

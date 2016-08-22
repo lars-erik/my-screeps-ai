@@ -8,7 +8,7 @@ Creep.prototype.isEmpty = function () {
 };
 
 Creep.prototype.affinityId = function (key) {
-    var group = Memory.groups[this.name],
+    var group = Memory.groups[this.memory.group],
         groupValue = group ? group[key || "affinity"] : null;
     return groupValue || this.memory[key || "affinity"] || this.room.memory.affinities[this.memory.role];
 };

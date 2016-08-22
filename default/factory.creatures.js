@@ -16,12 +16,12 @@ module.exports = {
             defaultMemory,
             attemptedRoles = {};
         
-        function tryCreateCreep(groupName) {
-            defaultMemory = { level: level.id, role: priority.role };
+        function tryCreateCreep(pri, groupName) {
+            defaultMemory = { level: level.id, role: pri.role, group: groupName };
             var result = spawn.createCreep(
                 role.body, 
                 name, 
-                _.extend(defaultMemory, role.memory, Memory.creeps[name], { level: level.id, role: priority.role }) // , group: groupName
+                _.extend(defaultMemory, role.memory, Memory.creeps[name], { level: level.id, role: pri.role }) // , group: groupName
             );
             if (result === name) {
                 console.log("Created creature " + name + " with level " + level.id);
@@ -34,14 +34,14 @@ module.exports = {
             return priority.role === "attacker" && room.energyAvailable < 1380;
         }
         
-        function createIfNew(groupName) {
+        function createIfNew(pri, groupName) {
             creep = Game.creeps[name];
             if (!creep) {
                 if (prohibitRole()) {
                     return true;
                 }
 
-                tryCreateCreep(groupName);
+                tryCreateCreep(pri, groupName);
                 return true;
             } else {
                 return false;
@@ -49,17 +49,21 @@ module.exports = {
         }
         
         function createRolePriority(pri, groupName) {
+            var startAt = attemptedRoles[pri.role];
             role = roles[pri.role];
             
-            if (!attemptedRoles[pri.role]) {
-                attemptedRoles[pri.role] = 1;
+            if (!startAt) {
+                console.log("init " + pri.role);
+                startAt = attemptedRoles[pri.role] = 0;
             }
-            
-            for (creepNumber = attemptedRoles[pri.role]; creepNumber <= pri.count; creepNumber++) {
+
+            console.log(JSON.stringify(attemptedRoles));
+            //console.log("attempting " + pri.role + " from " + startAt + " to " + (startAt + pri.count));
+            for (creepNumber = startAt + 1; creepNumber <= startAt + pri.count; creepNumber++) {
                 attemptedRoles[pri.role]++;
                 
                 name = spawn.room.name + " " + role.prefix + " " + creepNumber;
-                if (createIfNew(groupName)) {
+                if (createIfNew(pri, groupName)) {
                     return true;
                 }
             }

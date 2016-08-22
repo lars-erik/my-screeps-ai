@@ -1,6 +1,7 @@
 var creatureFactory = require("factory.creatures"),
     roles = require("factory.roles"),
-    groups = require("memory.groups");
+    groups = require("memory.groups"),
+    levelFactory = require("factory.levels");
 
 global.Utils = {
     listCreeps: function (showMemory) {
@@ -123,132 +124,6 @@ global.Utils = {
     createOne: creatureFactory.createOne,
     bodyCost: roles.bodyCost,
     groups: groups.utils,
-    
-    tempGroupedPriorities: function () {
-        return {
-            W58S48: {
-                "5": [
-                    {
-                        groupName: "W58S48 Lower Energy",
-                        group: [
-                            { role: "dropper", count: 1 },
-                            { role: "distributor", count: 4 }
-                        ],
-                        memory: {
-                            affinity: "579fa8710700be0674d2d9ce",
-                            dropOff: "57b756c4e76871b06b5fed7e"
-                        }
-                    },
-                    { role: "heralder", count: 1 },
-                    {
-                        groupName: "W58S48 Upper Energy",
-                        group: [
-                            { role: "dropper", count: 1 },
-                            { role: "distributor", count: 4 }
-                        ],
-                        memory: {
-                            affinity: "579fa8710700be0674d2d9cd",
-                            dropOff: "57ab415c4dddc2a3298b6c37"
-                        }
-                    },
-                    {
-                        groupName: "W58S48 Builders",
-                        group: [
-                            { role: "builder", count: 2 }
-                        ]
-                    },
-                    {
-                        groupName: "W58S48 Upgraders",
-                        group: [
-                            { role: "upgrader", count: 2 }
-                        ]
-                    },
-                    {
-                        groupName: "W58S48 Upper Transport",
-                        group: [
-                            { role: "transporter", count: 4 }
-                        ],
-                        memory: {
-                            a: "57ab415c4dddc2a3298b6c37",
-                            b: "57af29c7d519a84b334f8e9e"
-                        }
-                    },
-                    {
-                        groupName: "W58S48 Taxers W58S49",
-                        group: [
-                            { role: "transporter", count: 2 }
-                        ],
-                        memory: {
-                            a: "57b8c732ecb4b1922c4039fd",
-                            b: "57ac815400d93c7d39333830"
-                        }
-                    },
-                    {
-                        groupName: "W58S48 Harvesters W59S47",
-                        group: [
-                            { role: "attacker", count: 2 },
-                            { role: "claimer", count: 1 },
-                            { role: "dropper", count: 1 },
-                            { role: "transporter", count: 9 }
-                        ],
-                        memory: {
-                            a: "579fa85e0700be0674d2d84b",
-                            b: "57ab415c4dddc2a3298b6c37",
-                            target: {
-                                room: "W59S47",
-                                x: 24,
-                                y: 24
-                            }
-                        }
-                    }
-                ]
-            },
-            W58S49: {
-                3: [
-                    {
-                        groupName: "W58S49 Energy",
-                        group: [
-                            { role: "dropper", count: 1 },
-                            { role: "distributor", count: 3 }
-                        ],
-                        memory: {
-                            affinity: "579fa8710700be0674d2d9d0",
-                            dropOff: "57ba514d255683f215ad5d7c"
-                        }
-                    },
-                    { role: "heralder", count: 1 },
-                    {
-                        groupName: "W58S49 Builders",
-                        group: [
-                            { role: "builder", count: 2 }
-                        ]
-                    },
-                    {
-                        groupName: "W58S49 Upgraders",
-                        group: [
-                            { role: "builder", count: 1 }
-                        ]
-                    },
-                    {
-                        groupName: "W58S49 Lower Harvesters W59S49",
-                        group: [
-                            { role: "attacker", count: 1 },
-                            { role: "claimer", count: 1 },
-                            { role: "dropper", count: 1 },
-                            { role: "transporter", count: 6 }
-                        ],
-                        memory: {
-                            a: "579fa85e0700be0674d2d852",
-                            b: "57b8c732ecb4b1922c4039fd",
-                            target: {
-                                room: "W59S49",
-                                x: 41,
-                                y: 42
-                            }
-                        }
-                    }
-                ]
-            }
-        };
-    }
+    levelFactory: levelFactory
+
 };
