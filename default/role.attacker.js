@@ -1,6 +1,7 @@
 module.exports = {
     run: function (creep) {
-        var target = creep.memory.target,
+        var group = Memory.groups[creep.memory.group],
+            target = (group ? group.target : null) || creep.memory.target,
             closestTower,
             closestHostile,
             attackTarget;

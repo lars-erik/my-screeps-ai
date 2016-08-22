@@ -110,6 +110,16 @@ global.Utils = {
         
         return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100)/100 + " PPT:" + Math.round(profitPerTransporter * 100)/100 + " OPT: " + transportersNeeded + " RND: " + transporters;
     },
+    listPriorities: function(room) {
+        var roomMemory = Memory.rooms[room],
+            priorities = roomMemory.levels[roomMemory.level].priority,
+            i,
+            output = "";
+        for (i = 0; i < priorities.length; i++) {
+            output += i + " " + priorities[i].role + " " + priorities[i].count + "\n";
+        }
+        return output;
+    },
     createOne: creatureFactory.createOne,
     bodyCost: roles.bodyCost,
     groups: groups.utils
