@@ -13,7 +13,7 @@ module.exports = {
         }
 
         if (aObj && b) {
-            if (creep.carry.energy < creep.carryCapacity && a.yield) {
+            if (creep.carry.energy < creep.carryCapacity && a && a.yield) {
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
                     creep.routeChange();
@@ -23,14 +23,18 @@ module.exports = {
                     creep.moveTo(a);
                 }
             } else {
-                if (creep.memory.dibs) {
+                if (a && creep.memory.dibs) {
                     a.dibs().remove(creep);
                 }
                 result = creep.transfer(b, RESOURCE_ENERGY);
                 if (result === OK) {
                     creep.routeChange();
-                    a.dibs().place(creep, true);
-                    creep.moveTo(a);
+                    if (a) {
+                        a.dibs().place(creep, true);
+                        creep.moveTo(a);
+                    } else {
+                        creep.moveTo(aObj);
+                    }
                 } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(b);
                 }
