@@ -4,6 +4,7 @@ module.exports = {
             aId = memory.a,
             bId = memory.b,
             a = Game.creeps[aId] || Game.getObjectById(aId),
+            aObj = Game.creeps[aId] || Game.getObjectById(aId),
             b = Game.getObjectById(bId),
             result;
         
@@ -11,7 +12,7 @@ module.exports = {
             a = a.pos.findInRange(FIND_DROPPED_ENERGY, 1)[0];
         }
 
-        if (a && b) {
+        if (aObj && b) {
             if (creep.carry.energy < creep.carryCapacity && a.yield) {
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
