@@ -53,12 +53,9 @@ module.exports = {
             role = roles[pri.role];
             
             if (!startAt) {
-                console.log("init " + pri.role);
                 startAt = attemptedRoles[pri.role] = 0;
             }
 
-            console.log(JSON.stringify(attemptedRoles));
-            //console.log("attempting " + pri.role + " from " + startAt + " to " + (startAt + pri.count));
             for (creepNumber = startAt + 1; creepNumber <= startAt + pri.count; creepNumber++) {
                 attemptedRoles[pri.role]++;
                 
