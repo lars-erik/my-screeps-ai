@@ -25,8 +25,10 @@ module.exports = {
             );
             if (result === name) {
                 console.log("Created creature " + name + " with level " + level.id);
+                Memory.rooms[room.name].nextCreep = null;
             } else {
                 //console.log("Couldn't create creature " + name + " with level " + level.id + " due to " + result);
+                Memory.rooms[room.name].nextCreep = name.substring(room.name.length + 1);
             }
         }
         

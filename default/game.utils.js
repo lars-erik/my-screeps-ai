@@ -109,7 +109,26 @@ global.Utils = {
             transporters = Math.round(transportersNeeded),
             profitPerTransporter = energyPerLifetime - transporterCost - dropperCost / transporters - claimerCost / transporters;
         
-        return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100) / 100 + " PPT:" + Math.round(profitPerTransporter * 100) / 100 + " OPT: " + transportersNeeded + " RND: " + transporters;
+        return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100) / 100 + " PPT:" + Math.round(profitPerTransporter * 100) / 100 + " OPT: " + Math.round(transportersNeeded * 1000)/1000 + " RND: " + transporters;
+    },
+    optimizeRoutes: function () {
+        var key,
+            memory,
+            hasCreeps,
+            aObj, bObj,
+            output = "";
+        function creepFilter(k) {
+            return function (creep) { return creep.group === k; }
+        }
+        for (key in Memory.groups) {
+            memory = Memory.groups[key];
+            if (memory.a && memory.b) {
+                aObj = Game.getObjectById(memory.a);
+                bObj = Game.getObjectById(memory.b);
+                output += key + " " + (aObj.xy() + "-" + bObj.xy() + " " + Utils.optimalRoute(memory.a, memory.b)) + "\n";
+            }
+        }
+        return output;
     },
     listPriorities: function (room) {
         var roomMemory = Memory.rooms[room],

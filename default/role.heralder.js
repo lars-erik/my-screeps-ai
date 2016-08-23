@@ -41,7 +41,9 @@ module.exports = {
             return;
         }
         
-        if (Game.time % 3 === 0) {
+        if (Game.time % 4 === 0 && Memory.rooms[creep.room.name].nextCreep) {
+            creep.say("N: " + Memory.rooms[creep.room.name].nextCreep);
+        } else if (Game.time % 3 === 0) {
             creep.say("F: " + Math.round(creep.room.fullness() * 100) + "%");
         } else if (Game.time % 2 === 0) {
             creep.say("E:" + shorten(creep.room.energyAvailable) + "/" + shorten(creep.room.energyCapacityAvailable));

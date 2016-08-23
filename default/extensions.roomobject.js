@@ -7,6 +7,9 @@ RoomObject.prototype.closestSource = function () {
 };
 
 RoomObject.prototype.idAndPos = function () {
-    return this.id + "(" + this.pos.x + "," + this.pos.y + ")";
+    return this.id + " " + this.xy();
 };
 
+RoomObject.prototype.xy = function() {
+    return "<" + this.pos.x + "," + this.pos.y + ">";
+}

@@ -131,6 +131,10 @@ var bodies = {
             claimer: {
                 prefix: "Claimer",
                 body: bodies.claimer
+            },
+            attacker: {
+                prefix: "Attacker",
+                body: bodies.miniAttacker
             }
         },
         5: {
