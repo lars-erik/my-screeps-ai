@@ -52,6 +52,10 @@ module.exports = {
             var startAt = attemptedRoles[pri.role];
             role = roles[pri.role];
             
+            if (!role) {
+                return;
+            }
+            
             if (!startAt) {
                 startAt = attemptedRoles[pri.role] = 0;
             }

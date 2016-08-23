@@ -96,7 +96,7 @@ function runCreeps() {
 //            roles.renewer.run(creep);
 //        } else 
         if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
-            creep.memory.allowRefillRoom || creep.memory.role === "builder"
+            creep.memory.allowRefillRoom //|| creep.memory.role === "builder"
             //|| (creep.memory.role != "dropper" && creep.memory.role != "heralder" && creep.memory.role != "scout")
             )) { // 
             roles["distributor"].run(creep);
