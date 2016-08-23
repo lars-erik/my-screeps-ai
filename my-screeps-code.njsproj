@@ -48,6 +48,7 @@
     <Compile Include="default\role.attacker.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="_references.js" />
+    <Content Include="memorybackups\pre-groups-2016-08-23.json" />
     <Content Include="package.json" />
     <Content Include="ScreepsAutocomplete\Readme.md" />
     <Compile Include="ScreepsAutocomplete\ConstructionSite.js" />
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="default\" />
+    <Folder Include="memorybackups\" />
     <Folder Include="ScreepsAutocomplete" />
     <Folder Include="ScreepsAutocomplete\Config" />
     <Folder Include="ScreepsAutocomplete\Global" />

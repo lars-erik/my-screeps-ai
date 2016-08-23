@@ -21,7 +21,7 @@ module.exports = {
             var result = spawn.createCreep(
                 role.body, 
                 name, 
-                _.extend(defaultMemory, role.memory, Memory.creeps[name], { level: level.id, role: pri.role }) // , group: groupName
+                _.extend({}, Memory.creeps[name], defaultMemory)
             );
             if (result === name) {
                 console.log("Created creature " + name + " with level " + level.id);

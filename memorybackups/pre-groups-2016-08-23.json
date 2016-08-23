@@ -1,0 +1,412 @@
+﻿{
+    "groups": {
+        "CF A": {
+            "target": {
+                "room": "W58S48",
+                "x": 40,
+                "y": 13
+            }
+        },
+        "W58S48 Upper": {
+            "a": "57ab415c4dddc2a3298b6c37",
+            "b": "57af29c7d519a84b334f8e9e"
+        },
+        "W58S49 W59S49 Lower": {
+            "a": "579fa85e0700be0674d2d852",
+            "b": "57b8c732ecb4b1922c4039fd"
+        },
+        "W58S49 Builders": { "room": "W58S49" },
+        "W58S49 to W58S48": {
+            "a": "57b8c732ecb4b1922c4039fd",
+            "b": "57ac815400d93c7d39333830"
+        },
+        "W59S47 to W58S48": {
+            "a": "579fa85e0700be0674d2d84b",
+            "b": "57ab415c4dddc2a3298b6c37"
+        },
+        "W58S48 W59S47 Defense": {
+            "room": "W59S47",
+            "x": 24,
+            "y": 24,
+            "target": {
+                "room": "W59S47",
+                "x": 24,
+                "y": 24
+            }
+        }
+    },
+    "W58S48": {
+        "1": {
+            "id": 1,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 3
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 0
+                },
+                {
+                    "role": "upgrader",
+                    "count": 0
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "2": {
+            "id": 2,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 3
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "3": {
+            "id": 3,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 3
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "4": {
+            "id": 4,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 3
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "5": {
+            "id": 5,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "distributor",
+                    "count": 8
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 2
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 4
+                },
+                {
+                    "role": "scout",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 0
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                },
+                {
+                    "role": "claimer",
+                    "count": 1
+                },
+                {
+                    "role": "cannonfodder",
+                    "count": 0
+                },
+                {
+                    "role": "attacker",
+                    "count": 2
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "transporter",
+                    "count": 9
+                }
+            ]
+        }
+    },
+    "W58S49": {
+        "1": {
+            "id": 1,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "distributor",
+                    "count": 3
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "2": {
+            "id": 2,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 3
+                },
+                {
+                    "role": "distributor",
+                    "count": 3
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        },
+        "3": {
+            "id": 3,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "distributor",
+                    "count": 3
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 1
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                },
+                {
+                    "role": "claimer",
+                    "count": 1
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "transporter",
+                    "count": 6
+                }
+            ]
+        },
+        "4": {
+            "id": 3,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 0
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "distributor",
+                    "count": 3
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 1
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                },
+                {
+                    "role": "claimer",
+                    "count": 1
+                },
+                {
+                    "role": "dropper",
+                    "count": 1
+                },
+                {
+                    "role": "transporter",
+                    "count": 6
+                }
+            ]
+        },
+        "5": {
+            "id": 5,
+            "priority": [
+                {
+                    "role": "harvester",
+                    "count": 3
+                },
+                {
+                    "role": "dropper",
+                    "count": 2
+                },
+                {
+                    "role": "heralder",
+                    "count": 1
+                },
+                {
+                    "role": "distributor",
+                    "count": 4
+                },
+                {
+                    "role": "builder",
+                    "count": 3
+                },
+                {
+                    "role": "upgrader",
+                    "count": 2
+                },
+                {
+                    "role": "transporter",
+                    "count": 0
+                }
+            ]
+        }
+    }
+}

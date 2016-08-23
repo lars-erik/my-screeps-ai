@@ -13,6 +13,7 @@ Room.prototype.isEmpty = function() {
 
 Room.prototype.creepCount = function() {
     var creeplen = 0;
+    console.log("hello world");
     for (var key in Game.creeps) {
         if (Game.creeps[key].room === this) {
             creeplen++;
@@ -22,26 +23,26 @@ Room.prototype.creepCount = function() {
 }
 
 Room.prototype.creepMax = function() {
-    var priority = this.memory.level ? this.memory.levels[this.memory.level].priority : [],
-        roles = {},
-        priorityRole,
-        role,
-        roleName;
-    for (var i = 0; i < priority.length; i++) {
-        roleName = priority[i].role;
-        priorityRole = priority[i];
-        role = roles[roleName];
-        if (!role) {
-            roles[roleName] = _.extend({},priority[i]);
+    var priorities = this.memory.level ? this.memory.levels[this.memory.level].priority : [],
+        total = 0,
+        i, j;
+
+    if (this.total > 0) {
+        return this.total;
+    }
+
+    for (i = 0; i < priorities.length; i++) {
+        if (priorities.groupName) {
+            for (j = 0; j < priorities[i].group.length; j++) {
+                total += priorities[i].group[j].count;
+            }
         } else {
-            role.count = Math.max(priorityRole.count, role.count);
+            total += priorities[i].count;
         }
     }
-    if (_.sumBy) {
-        return _.sumBy(roles, function(role) { return role.count; });
-    } else {
-        return 0;
-    }
+    
+    this.total = total;
+    return total;
 }
 
 Room.prototype.creepComplete = function() {
