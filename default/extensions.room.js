@@ -11,11 +11,14 @@ Room.prototype.isEmpty = function() {
     return this.energyAvailable === 0;
 }
 
+Room.prototype.fullness = function() {
+    return this.energyAvailable / this.energyCapacityAvailable;
+}
+
 Room.prototype.creepCount = function() {
     var creeplen = 0;
-    console.log("hello world");
     for (var key in Game.creeps) {
-        if (Game.creeps[key].room === this) {
+        if (Game.creeps[key].name.indexOf(this.name) > -1) {
             creeplen++;
         }
     }
@@ -32,11 +35,13 @@ Room.prototype.creepMax = function() {
     }
 
     for (i = 0; i < priorities.length; i++) {
-        if (priorities.groupName) {
+        if (priorities[i].groupName) {
             for (j = 0; j < priorities[i].group.length; j++) {
+                //console.log("adding " + priorities[i].group[j].count);
                 total += priorities[i].group[j].count;
             }
         } else {
+            //console.log("adding " + priorities[i].count);
             total += priorities[i].count;
         }
     }

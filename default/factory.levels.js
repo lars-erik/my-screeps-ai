@@ -173,7 +173,7 @@ module.exports = {
                     {
                         groupName: "W58S48 Lower Energy",
                         group: [
-                            { role: "dropper", count: 1 },
+                            { role: "dropper", body: "slowDropper", count: 1 },
                             { role: "distributor", count: 4 }
                         ]
                     },
@@ -260,11 +260,11 @@ module.exports = {
         return {
             "W58S48 Lower Energy": {
                 affinity: "579fa8710700be0674d2d9ce",
-                dropOff: "57b756c4e76871b06b5fed7e"
+                loadOff: "57b756c4e76871b06b5fed7e"
             },
             "W58S48 Upper Energy": {
                 affinity: "579fa8710700be0674d2d9cd",
-                dropOff: "57ab415c4dddc2a3298b6c37"
+                loadOff: "57ab415c4dddc2a3298b6c37"
             },
             "W58S48 Builders": {},
             "W58S48 Upgraders" : {},
@@ -287,7 +287,7 @@ module.exports = {
             },
             "W58S49 Energy": {
                 affinity: "579fa8710700be0674d2d9d0",
-                dropOff: "57ba514d255683f215ad5d7c"
+                loadOff: "57ba514d255683f215ad5d7c"
             },
             "W58S49 Builders": {},
             "W58S49 Upgraders": {},

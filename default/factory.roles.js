@@ -3,6 +3,7 @@ var bodies = {
     minidropper: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
     semidropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    slowDropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
     distributor: [CARRY, MOVE, MOVE],
     transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     heralder: [MOVE],
@@ -168,6 +169,9 @@ var bodies = {
 module.exports = {
     get: function(level) {
         return _.extend({}, defaultRoles, roles[Math.min(level.id, maxLevel)]);
+    },
+    body: function(bodyName) {
+        return bodies[bodyName];
     },
     bodyCost: function(bodyName) {
         return _.sum(bodies[bodyName], function(partType) { return partCosts[partType]; });

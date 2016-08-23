@@ -19,7 +19,7 @@ module.exports = {
         function tryCreateCreep(pri, groupName) {
             defaultMemory = { level: level.id, role: pri.role, group: groupName };
             var result = spawn.createCreep(
-                role.body, 
+                pri.body ? roleFactory.body(pri.body) : role.body, 
                 name, 
                 _.extend({}, Memory.creeps[name], defaultMemory)
             );
@@ -31,7 +31,7 @@ module.exports = {
         }
         
         function prohibitRole() {
-            return priority.role === "attacker" && room.energyAvailable < 1380;
+            return priority.role === "attacker" && room.fullness() > .75;
         }
         
         function createIfNew(pri, groupName) {
@@ -81,11 +81,13 @@ module.exports = {
             priority = level.priority[pi];
             if (priority.group) {
                 for (gpi = 0; gpi < priority.group.length; gpi++) {
+                    //console.log(room.name + " eval " + priority.groupName + " " + priority.group[gpi].role);
                     if (createRolePriority(priority.group[gpi], priority.groupName)) {
                         return true;
                     }
                 }
             } else {
+                //console.log(room.name + " eval " + priority.role);
                 if (createRolePriority(priority)) {
                     return true;
                 }

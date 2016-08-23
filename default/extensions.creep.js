@@ -34,7 +34,7 @@ Creep.prototype.canPlaceDibs = function (roomObj, key) {
 
 Creep.prototype.findClosestOfType = function (from, findType, filter) {
     return this.pos.findInRange(findType, 1, { filter: filter })[0] || 
-           (from || this).pos.findClosestByPath(findType, { filter: filter });
+           (from || this).pos.findClosestByPath(findType, { filter: filter, ignoreCreeps: true });
 }
 
 function canPlaceDibs(creep, filter) {
@@ -70,19 +70,25 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity) {
     var self = this,
         result,
         closestEnergy = this.getDibsObj(),
-        placeDibs = !closestEnergy;
-    
+        hasDibs = !(!closestEnergy),
+        isAllowedPickup = (["distributor", "harvester", "upgrader"].indexOf(this.memory.role) > -1 || this.room.fullness() > .75),
+        placeDibs = !closestEnergy && isAllowedPickup
+        ;
+
     from = ignoreAffinity ? (from || this) : (this.affinity() || from || this);
     
     if (!closestEnergy) {
         closestEnergy = this.findClosestOfType(from, FIND_DROPPED_ENERGY, canPlaceDibs(self));
     }
+    
     if (!closestEnergy) {
-        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, canPlaceDibs(self, function (structure) {
-            return structure.structureType === STRUCTURE_CONTAINER;
-        }));
+        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, function (structure) {
+            return structure.structureType === STRUCTURE_CONTAINER &&
+                self.canPlaceDibs(structure);
+        });
     }
-    if (closestEnergy) {
+    
+    if (closestEnergy && (hasDibs || isAllowedPickup)) { //  && hasDibs
         if (placeDibs) {
             closestEnergy.dibs().place(this);
         }

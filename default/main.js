@@ -82,6 +82,8 @@ function reportProgress(room) {
 }
 
 function runCreeps() {
+    //JSON.stringify(_.map(_.sortBy(Game.creeps, function(creep) { return creep.memory.role == "distributor" ? 0 : 1; }), function(creep) {return creep.name;}))
+
     for(var name in Game.creeps) {
         var creep = Game.creeps[name],
             role = creep ? roles[creep.memory.role] : null;

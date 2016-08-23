@@ -9,6 +9,13 @@
 
 var messages = [];
 
+function shorten(number) {
+    if (number >= 1000) {
+        return (Math.round(number / 100) / 10) + "'";
+    }
+    return number.toString();
+}
+
 module.exports = {
     add: function(message) {
         messages.push(message);
@@ -34,8 +41,10 @@ module.exports = {
             return;
         }
         
-        if (Game.time % 2 == 0) {
-            creep.say("E:" + creep.room.energyAvailable + "/" + creep.room.energyCapacityAvailable);
+        if (Game.time % 3 === 0) {
+            creep.say("F: " + Math.round(creep.room.fullness() * 100) + "%");
+        } else if (Game.time % 2 === 0) {
+            creep.say("E:" + shorten(creep.room.energyAvailable) + "/" + shorten(creep.room.energyCapacityAvailable));
         } else {
             creep.say("C:" + creep.room.creepCount() + "/" + creep.room.creepMax());
         }
