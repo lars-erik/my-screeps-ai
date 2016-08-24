@@ -182,7 +182,6 @@ module.exports = {
     },
     parts: function(bodyName, partType) {
         if (partType) {
-            console.log(JSON.stringify(_.countBy(bodies[bodyName], function (bn) { return bn; })));
             return _.countBy(bodies[bodyName])[partType];
         } else {
             return bodies[bodyName].length;

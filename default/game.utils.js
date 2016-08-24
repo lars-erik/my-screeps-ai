@@ -3,16 +3,41 @@ var creatureFactory = require("factory.creatures"),
     groups = require("memory.groups"),
     levelFactory = require("factory.levels");
 
+String.prototype.padRight = function(length, fillChar) {
+    var newVal = this.toString(),
+        i;
+    if (this.length < length) {
+        for (i = this.length; i < length; i++) {
+            newVal += fillChar || " ";
+        }
+    }
+    return newVal;
+}
+
+String.prototype.padLeft = function(length, fillChar) {
+    var newVal = this.toString(),
+        i;
+    if (this.length < length) {
+        for (i = this.length; i < length; i++) {
+            newVal = (fillChar || " ") + newVal;
+        }
+    }
+    return newVal;
+}
+
 global.Utils = {
     listCreeps: function (showMemory) {
         var creeps = _.sortBy(Game.creeps, function (creep) {
             return creep.room.roomName + creep.name;
         }),
             i;
+        console.log("Name                  Level Bodyparts   TTL " + (showMemory ? "Memory" : ""));
         for (i = 0; i < creeps.length; i++) {
-            console.log(creeps[i].name + " LVL: " + creeps[i].memory.level + " BP: " + creeps[i].body.length + " " + 
-                        " TCK: " + creeps[i].ticksToLive + 
-                        (showMemory ? " MEM: " + JSON.stringify(creeps[i].memory) : ""));
+            console.log(creeps[i].name.padRight(21) + " " + 
+                        creeps[i].memory.level.toString().padLeft(5) + " " + 
+                        creeps[i].body.length.toString().padLeft(9) + " " + 
+                        creeps[i].ticksToLive.toString().padLeft(5) + 
+                        (showMemory ? " " + JSON.stringify(creeps[i].memory) : ""));
         }
         return "";
     },
@@ -98,7 +123,7 @@ global.Utils = {
         }
         return len;
     },
-    optimalRoute: function (a, b) {
+    optimalRoute: function (a, b, prefix) {
         var length = Utils.pathLength(a, b) * 2,
             energyPerTrip = roles.parts("transporter", CARRY) * 50,
             transporterCost = roles.bodyCost("transporter"),
@@ -109,7 +134,15 @@ global.Utils = {
             transporters = Math.round(transportersNeeded),
             profitPerTransporter = energyPerLifetime - transporterCost - dropperCost / transporters - claimerCost / transporters;
         
-        return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100) / 100 + " PPT:" + Math.round(profitPerTransporter * 100) / 100 + " OPT: " + Math.round(transportersNeeded * 1000)/1000 + " RND: " + transporters;
+        if (prefix) {
+            return "L:" + length + " EPL: " + Math.round(energyPerLifetime * 100) / 100 + " PPT:" + Math.round(profitPerTransporter * 100) / 100 + " OPT: " + Math.round(transportersNeeded * 1000) / 1000 + " RND: " + transporters;
+        } else {
+            return length.toString().padLeft(7) + " " + 
+                Math.floor(energyPerLifetime).toString().padLeft(6) + " " +
+                Math.floor(profitPerTransporter).toString().padLeft(6) + " " + 
+                (Math.floor(transportersNeeded * 1000) / 1000).toString().padLeft(8) + " " +
+                transporters.toString().padLeft(7);
+        }
     },
     optimizeRoutes: function () {
         var key,
@@ -118,14 +151,20 @@ global.Utils = {
             aObj, bObj,
             output = "";
         function creepFilter(k) {
-            return function (creep) { return creep.group === k; }
+            return function(creep) {
+                return creep.memory.group === k && creep.memory.role === "transporter";
+            }
         }
+        output += "Group                           From-To         Creeps  Length    EPL    PPT      OPT   OPT.R.\n";
         for (key in Memory.groups) {
             memory = Memory.groups[key];
             if (memory.a && memory.b) {
                 aObj = Game.getObjectById(memory.a);
                 bObj = Game.getObjectById(memory.b);
-                output += key + " " + (aObj.xy() + "-" + bObj.xy() + " " + Utils.optimalRoute(memory.a, memory.b)) + "\n";
+                output += key.padRight(31) + " " + 
+                        (aObj.xy() + "-" + bObj.xy()).padRight(15) + " " + 
+                        _.filter(Game.creeps, creepFilter(key)).length.toString().padLeft(6) + " " +
+                        Utils.optimalRoute(memory.a, memory.b) + "\n";
             }
         }
         return output;

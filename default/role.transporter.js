@@ -6,6 +6,7 @@ module.exports = {
             a = Game.creeps[aId] || Game.getObjectById(aId),
             aObj = Game.creeps[aId] || Game.getObjectById(aId),
             b = Game.getObjectById(bId),
+            dropoffTarget,
             result,
             moveOpts = { reusePath: (creep.memory.routeTime ? Math.round(creep.memory.routeTime.avg / 2) : 0) || 20 };
 
@@ -27,7 +28,14 @@ module.exports = {
                 if (a && creep.memory.dibs) {
                     a.dibs().remove(creep);
                 }
-                result = creep.transfer(b, RESOURCE_ENERGY);
+                
+                if (_.sum(b.store) === b.storeCapacity) {
+                    dropoffTarget = creep.room.storage;
+                } else {
+                    dropoffTarget = b;
+                }
+
+                result = creep.transfer(dropoffTarget, RESOURCE_ENERGY);
                 if (result === OK) {
                     creep.routeChange();
                     if (a) {
@@ -37,7 +45,7 @@ module.exports = {
                         creep.moveTo(aObj, moveOpts);
                     }
                 } else if (result === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(b, moveOpts);
+                    creep.moveTo(dropoffTarget, moveOpts);
                 }
             }
         }
