@@ -115,6 +115,7 @@ module.exports.loop = function () {
 
     for(var key in Game.rooms) {
         memInit.room.init(Game.rooms[key]);
+        Memory.rooms[key].upgraded = 0;
 
         if (Game.rooms[key].mainSpawn()) {
             creatureFactory.create(Game.rooms[key].mainSpawn());
