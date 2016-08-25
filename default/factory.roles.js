@@ -4,18 +4,27 @@ var bodies = {
     semidropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     slowDropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
+
     distributor: [CARRY, MOVE, MOVE],
+    
     transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    
     heralder: [MOVE],
+    
     scout: [TOUGH, TOUGH, MOVE, MOVE],
+    
     microWorker: [WORK, CARRY, MOVE, MOVE, MOVE],
     miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
     semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    
     miniClaimer: [CLAIM, MOVE],
     claimer: [CLAIM, CLAIM, MOVE, MOVE],
+    
     prober: [TOUGH, TOUGH, MOVE, MOVE],
+    
     miniCannonFodder: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    
     miniAttacker: [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE]
     },
     partCosts = {

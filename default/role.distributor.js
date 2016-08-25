@@ -3,9 +3,16 @@ module.exports = {
         var dibbedDropOff = creep.getDibsObj("dropOff"),
             closestDropOff = creep.closestDropOff(),
             dropOff = dibbedDropOff || closestDropOff,
+            mode = creep.memory.mode,
             result;
-
+        
         if (creep.isFull() && dropOff) {
+            mode = creep.memory.mode = "dropOff";
+        } else if (creep.carry.energy < 50) {
+            mode = creep.memory.mode = "pickup";
+        }
+
+        if (mode === "dropOff" && dropOff) {
             if (!creep.memory.dropOff) {
                 dropOff.dibs("dropOff").place(creep);
                 creep.routeChange();
@@ -14,15 +21,21 @@ module.exports = {
             if (result === OK || result === ERR_FULL) {
                 dropOff.dibs("dropOff").remove(creep);
                 creep.routeChange();
-                creep.pickupClosestEnergy(dropOff);
+                if (creep.carry.energy < 50) {
+                    creep.pickupClosestEnergy(dropOff);
+                } else {
+                    creep.moveTo(closestDropOff);
+                }
             }
             if (result === ERR_NOT_IN_RANGE) {
                 creep.moveTo(dropOff);
             }
-        } else if (creep.isFull() && creep.memory.dibs) {
-            creep.getDibsObj().dibs().remove(creep);
-        } else {
+        } else if (!mode || mode === "pickup") {
             creep.pickupClosestEnergy(dropOff);
+        }
+
+        if (creep.isFull() && creep.memory.dibs) {
+            creep.getDibsObj().dibs().remove(creep);
         }
         
     }
