@@ -88,15 +88,55 @@ global.Utils = {
         for (roomKey in Game.rooms) {
             room = Game.rooms[roomKey];
             roomTotal = 0;
-            containers = room.find(FIND_STRUCTURES, { filter: function (structure) { return structure.structureType === STRUCTURE_CONTAINER } });
+            containers = room.find(FIND_STRUCTURES, { filter: function (structure) { return structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE; } });
             for (i = 0; i < containers.length; i++) {
                 output += room.name + " " + containers[i].id + " " + containers[i].pos.x + "," + containers[i].pos.y + " " + containers[i].store.energy + "\n";
                 roomTotal += containers[i].store.energy;
             }
             total += roomTotal;
-            output += room.name + " " + roomTotal + "\n";
+            output += room.name + " " + roomTotal.toString().padLeft(7) + "\n";
         }
         output += "Total  " + total;
+        return output;
+    },
+    totalCreepCost: function(details) {
+        var output = "",
+            total = 0,
+            subTotal = 0,
+            bodyCost,
+            roomKey,
+            priorities,
+            roleSpecs,
+            level,
+            i, j;
+        for (roomKey in Game.rooms) {
+            subTotal = 0;
+            level = levelFactory.get(Game.rooms[roomKey]);
+            priorities = level.priority;
+            roleSpecs = roles.get(level);
+            if (priorities) {
+                for (i = 0; i < priorities.length; i++) {
+                    if (priorities[i].group) {
+                        for (j = 0; j < priorities[i].group.length; j++) {
+                            bodyCost = roles.bodyCost(priorities[i].group[j].body || roleSpecs[priorities[i].group[j].role].body);
+                            subTotal += bodyCost * priorities[i].group[j].count;
+                            if (details) {
+                                output += priorities[i].groupName + " " + priorities[i].group[j].role + " " + priorities[i].group[j].body + " " + priorities[i].group[j].count + " " + bodyCost * priorities[i].group[j].count + "\n";
+                            }
+                        }
+                    } else {
+                        bodyCost = roles.bodyCost(priorities[i].body || roleSpecs[priorities[i].role]);
+                        subTotal += bodyCost * priorities[i].count;
+                        if (details) {
+                            output += priorities[i].role + " " + priorities[i].body + " " + priorities[i].count + " " + bodyCost * priorities[i].count + "\n";
+                        }
+                    }
+                }
+                output += roomKey + " " + subTotal + "\n";
+                total += subTotal;
+            }
+        }
+        output += "Total  " + total + "\n";
         return output;
     },
     resetDibs: function (roomName) {
@@ -123,10 +163,10 @@ global.Utils = {
         }
         return len;
     },
-    optimalRoute: function (a, b, prefix) {
+    optimalRoute: function (a, b, bodyType, prefix) {
         var length = Utils.pathLength(a, b) * 2,
-            energyPerTrip = roles.parts("transporter", CARRY) * 50,
-            transporterCost = roles.bodyCost("transporter"),
+            energyPerTrip = roles.parts(bodyType || "transporter", CARRY) * 50,
+            transporterCost = roles.bodyCost(bodyType || "transporter"),
             dropperCost = roles.bodyCost("dropper"),
             claimerCost = roles.bodyCost("miniClaimer"),
             energyPerLifetime = 1500 / length * energyPerTrip,
@@ -144,7 +184,7 @@ global.Utils = {
                 transporters.toString().padLeft(7);
         }
     },
-    optimizeRoutes: function () {
+    optimizeRoutes: function (bodyType) {
         var key,
             memory,
             hasCreeps,
@@ -164,18 +204,8 @@ global.Utils = {
                 output += key.padRight(31) + " " + 
                         (aObj.xy() + "-" + bObj.xy()).padRight(15) + " " + 
                         _.filter(Game.creeps, creepFilter(key)).length.toString().padLeft(6) + " " +
-                        Utils.optimalRoute(memory.a, memory.b) + "\n";
+                        Utils.optimalRoute(memory.a, memory.b, bodyType) + "\n";
             }
-        }
-        return output;
-    },
-    listPriorities: function (room) {
-        var roomMemory = Memory.rooms[room],
-            priorities = roomMemory.levels[roomMemory.level].priority,
-            i,
-            output = "";
-        for (i = 0; i < priorities.length; i++) {
-            output += i + " " + priorities[i].role + " " + priorities[i].count + "\n";
         }
         return output;
     },

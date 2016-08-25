@@ -1,64 +1,28 @@
 var rules,
     levels;
 
-levels = {
-    1: {
-        id: 1,
-        priority: [
-            { role: "harvester", count: 3 },
-            { role: "dropper", count: 2 },
-            { role: "heralder", count: 1 },
-            { role: "builder", count: 3 },
-            { role: "upgrader", count: 2 },
-            { role: "transporter", count: 0 }
+defaultPriorities = [
+    {
+        groupName: "Energy",
+        group: [
+            { role: "dropper", count: 1 },
+            { role: "distributor", count: 3 },
         ]
     },
-    2: {
-        id: 2,
-        priority: [
-            { role: "harvester", count: 3 },
-            { role: "dropper", count: 2 },
-            { role: "heralder", count: 1 },
-            { role: "builder", count: 3 },
-            { role: "upgrader", count: 2 },
-            { role: "transporter", count: 0 }
+    { role: "heralder", count: 1 },
+    {
+        groupName: "Builders",
+        group: [
+            { role: "builder", count: 1 },
         ]
     },
-    3: {
-        id: 3,
-        priority: [
-            { role: "harvester", count: 3 },
-            { role: "dropper", count: 2 },
-            { role: "heralder", count: 1 },
-            { role: "builder", count: 3 },
-            { role: "upgrader", count: 2 },
-            { role: "transporter", count: 0 }
-        ]
-    },
-    4: {
-        id: 4,
-        priority: [
-            { role: "harvester", count: 3 },
-            { role: "dropper", count: 2 },
-            { role: "heralder", count: 1 },
-            { role: "builder", count: 3 },
-            { role: "upgrader", count: 2 },
-            { role: "transporter", count: 0 }
-        ]
-    },
-    5: {
-        id: 5,
-        priority: [
-            { role: "harvester", count: 3 },
-            { role: "dropper", count: 2 },
-            { role: "heralder", count: 1 },
-            { role: "distributor", count: 4 },
-            { role: "builder", count: 3 },
-            { role: "upgrader", count: 2 },
-            { role: "transporter", count: 0 }
+    {
+        groupName: "Upgraders",
+        group: [
+            { role: "upgrader", count: 1 },
         ]
     }
-};
+];
 
 rules = [
     { threshold: 300, level: 1 }, // starting
@@ -75,30 +39,25 @@ module.exports = {
             capacity = room.find(FIND_MY_CREEPS).length === 0 ?
                 room.energyAvailable :
                 room.energyCapacityAvailable,
-            currentLevels = room.memory.levels;
-        if (!currentLevels) {
-            console.log("replacing levels");
-            if (room.name === "sim") {
-                currentLevels = room.memory.levels = module.exports.simPriorities();
-            } else {
-                currentLevels = room.memory.levels = levels;
-            }
+            priorities = room.memory.priorities;
+        
+        if (!priorities) {
+            console.log("replacing priorities");
+            priorities = room.memory.priorities = defaultPriorities;
         }
         
         for (i = rules.length - 1; i >= 0; i--) {
             rule = rules[i];
             if (capacity >= rule.threshold) {
-                return currentLevels[rule.level];
+                return {
+                    id: rule.level,
+                    priority: priorities
+                }
             }
         }
         return {};
     },
-    getById: function (id) {
-        return levels[id];
-    },
-    reset: function (room, levels) {
-        room.memory.levels = levels;
-    },
+    
     simPriorities: function () {
         return {
             1: {

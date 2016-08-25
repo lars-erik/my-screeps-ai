@@ -1,31 +1,34 @@
 var bodies = {
-    microDropper: [WORK, WORK, CARRY, MOVE],
-    minidropper: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
-    semidropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
-    dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    slowDropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
+        microDropper: [WORK, WORK, CARRY, MOVE],
+        minidropper: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
+        semidropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        dropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+        slowDropper: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
 
-    distributor: [CARRY, MOVE, MOVE],
-    
-    transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    
-    heralder: [MOVE],
-    
-    scout: [TOUGH, TOUGH, MOVE, MOVE],
-    
-    microWorker: [WORK, CARRY, MOVE, MOVE, MOVE],
-    miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
-    semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
-    worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    
-    miniClaimer: [CLAIM, MOVE],
-    claimer: [CLAIM, CLAIM, MOVE, MOVE],
-    
-    prober: [TOUGH, TOUGH, MOVE, MOVE],
-    
-    miniCannonFodder: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    
-    miniAttacker: [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE]
+        distributor: [CARRY, MOVE, MOVE],
+
+        transporter: [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+        heavyTransporter: [CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],
+
+        heralder: [MOVE],
+
+        scout: [TOUGH, TOUGH, MOVE, MOVE],
+
+        microWorker: [WORK, CARRY, MOVE, MOVE, MOVE],
+        miniWorker: [WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
+        semiWorker: [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        worker: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+
+        miniClaimer: [CLAIM, MOVE],
+        claimer: [CLAIM, CLAIM, MOVE, MOVE],
+
+        prober: [TOUGH, TOUGH, MOVE, MOVE],
+
+        miniCannonFodder: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+
+        miniAttacker: [TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+
+        miniHealer: [TOUGH, TOUGH, HEAL, HEAL, MOVE, MOVE, MOVE, MOVE]
     },
     partCosts = {
         "work": 100,
@@ -166,7 +169,7 @@ var bodies = {
             claimer: {
                 prefix: "Claimer",
                 body: bodies.claimer
-            }, 
+            },
             cannonfodder: {
                 prefix: "Cannonfodder",
                 body: bodies.miniCannonFodder
@@ -174,6 +177,10 @@ var bodies = {
             attacker: {
                 prefix: "Attacker",
                 body: bodies.miniAttacker
+            },
+            healer: {
+                prefix: "Healer",
+                body: bodies.miniHealer
             }
         }
     },
@@ -186,8 +193,9 @@ module.exports = {
     body: function(bodyName) {
         return bodies[bodyName];
     },
-    bodyCost: function(bodyName) {
-        return _.sum(bodies[bodyName], function(partType) { return partCosts[partType]; });
+    bodyCost: function (bodyName) {
+        var body = bodyName instanceof Array ? bodyName : bodies[bodyName];
+        return _.sum(body, function(partType) { return partCosts[partType]; });
     },
     parts: function(bodyName, partType) {
         if (partType) {

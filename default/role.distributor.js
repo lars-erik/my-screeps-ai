@@ -24,7 +24,7 @@ module.exports = {
                 if (creep.carry.energy < 50) {
                     creep.pickupClosestEnergy(dropOff);
                 } else {
-                    creep.moveTo(closestDropOff);
+                    creep.moveTo(creep.closestDropOff());
                 }
             }
             if (result === ERR_NOT_IN_RANGE) {

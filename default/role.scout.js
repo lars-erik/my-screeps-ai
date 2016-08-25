@@ -1,8 +1,10 @@
 module.exports = {
     run: function (creep) {
-        var pos;
-        if (creep.memory.target) {
-            pos = new RoomPosition(creep.memory.target.x, creep.memory.target.y, creep.memory.target.room);
+        var pos,
+            group = Memory.groups[creep.memory.group],
+            memory = group || creep.memory;
+        if (memory.target) {
+            pos = new RoomPosition(memory.target.x, memory.target.y, memory.target.room);
             creep.moveTo(pos);
         } else {
             creep.say("where?");
