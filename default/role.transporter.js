@@ -24,9 +24,8 @@ module.exports = {
                 dropoffTarget = b;
             }
             
-            if (creep.carry.energy < creep.carryCapacity && a && a.yield && dropoffTarget instanceof StructureContainer) {
+            if (creep.carry.energy < creep.carryCapacity && a && a.yield && (dropoffTarget.structureType === STRUCTURE_CONTAINER || dropoffTarget.structureType === STRUCTURE_LINK)) {
                 creep.memory.slackTarget = null;
-                
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
                     creep.routeChange();
@@ -35,7 +34,7 @@ module.exports = {
                 } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(a, moveOpts);
                 }
-            } else if (creep.isFull() || dropoffTarget instanceof StructureStorage) {
+            } else if (creep.isFull() || dropoffTarget.structureType === STRUCTURE_STORAGE) {
                 creep.memory.slackTarget = null;
                 
                 if (a && creep.memory.dibs) {
