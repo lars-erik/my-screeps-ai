@@ -8,7 +8,10 @@ module.exports = {
             b = Game.getObjectById(bId),
             dropoffTarget,
             result,
-            moveOpts = { reusePath: (creep.memory.routeTime ? Math.round(creep.memory.routeTime.avg / 2) : 0) || 20 };
+            position,
+            moveOpts = { reusePath: 20 },
+            slackTarget,
+            x, y;
 
         if (a instanceof Source) {
             a = a.pos.findInRange(FIND_DROPPED_ENERGY, 1)[0];
@@ -16,12 +19,14 @@ module.exports = {
         
         if (aObj && b) {
             if (_.sum(b.store) === b.storeCapacity && !creep.isEmpty()) {
-                dropoffTarget = creep.room.storage;
+                dropoffTarget = b.room.storage;
             } else {
                 dropoffTarget = b;
             }
             
             if (creep.carry.energy < creep.carryCapacity && a && a.yield && dropoffTarget instanceof StructureContainer) {
+                creep.memory.slackTarget = null;
+                
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
                     creep.routeChange();
@@ -30,12 +35,15 @@ module.exports = {
                 } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(a, moveOpts);
                 }
-            } else if (creep.isFull() || dropoffTarget instanceof StructureContainer) {
+            } else if (creep.isFull() || dropoffTarget instanceof StructureStorage) {
+                creep.memory.slackTarget = null;
+                
                 if (a && creep.memory.dibs) {
                     a.dibs().remove(creep);
                 }
-                
+
                 result = creep.transfer(dropoffTarget, RESOURCE_ENERGY);
+                
                 if (result === OK) {
                     creep.routeChange();
                     if (a) {
@@ -46,6 +54,30 @@ module.exports = {
                     }
                 } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(dropoffTarget, moveOpts);
+                }
+            } else {
+                slackTarget = Game.getObjectById(creep.memory.slackTarget);
+                if (slackTarget === null) {
+                    for (x = -5; x <= 5; x++) {
+                        for (y = -5; y <= 5; y++) {
+                            if ((x < -2 || x > 2) && (y < -2 || y > 2)) {
+                                position = new RoomPosition(aObj.pos.x + x, aObj.pos.y + y, aObj.room.name);
+                                if (position.lookFor(LOOK_TERRAIN)[0] === "plain" && position.lookFor(LOOK_CREEPS).length === 0) {
+                                    slackTarget = position;
+                                    creep.memory.slackTarget = slackTarget.id;                                 
+                                    break;
+                                }
+                            }
+                        }
+                        if (slackTarget !== null) {
+                            break;
+                        }
+                    }
+                }
+                if (slackTarget !== null) {
+                    creep.moveTo(slackTarget);
+                } else {
+                    creep.moveTo(aObj);
                 }
             }
         }

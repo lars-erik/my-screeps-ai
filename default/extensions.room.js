@@ -38,7 +38,9 @@ Room.prototype.creepMax = function() {
         if (priorities[i].groupName) {
             for (j = 0; j < priorities[i].group.length; j++) {
                 //console.log("adding " + priorities[i].group[j].count);
-                total += priorities[i].group[j].count;
+                if (!priorities[i].group.disabled) {
+                    total += priorities[i].group[j].count;
+                }
             }
         } else {
             //console.log("adding " + priorities[i].count);

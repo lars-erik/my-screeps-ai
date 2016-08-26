@@ -10,7 +10,9 @@
 module.exports = {
     run: function (creep) {
         var room = creep.pos.roomName,
-            target = _.extend({ room: creep.memory.room || room, x: 20, y: 20 }, creep.memory.target),
+            groupMemory = Memory.groups[creep.memory.group],
+            groupTarget = groupMemory ? groupMemory.target : null,
+            target = _.extend({ room: creep.memory.room || room, x: 20, y: 20 }, groupTarget || creep.memory.target),
             targetPos;
 
         targetPos = new RoomPosition(target.x, target.y, target.room);
