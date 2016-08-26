@@ -16,7 +16,7 @@ module.exports = {
         
         if (aObj && b) {
             if (_.sum(b.store) === b.storeCapacity && !creep.isEmpty()) {
-                dropoffTarget = creep.room.storage;
+                dropoffTarget = b.room.storage;
             } else {
                 dropoffTarget = b;
             }
@@ -30,7 +30,7 @@ module.exports = {
                 } else if (result === ERR_NOT_IN_RANGE) {
                     creep.moveTo(a, moveOpts);
                 }
-            } else if (creep.isFull() || dropoffTarget instanceof StructureContainer) {
+            } else if (creep.isFull() || dropoffTarget instanceof StructureStorage) {
                 if (a && creep.memory.dibs) {
                     a.dibs().remove(creep);
                 }
