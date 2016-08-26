@@ -9,11 +9,41 @@ function canDrop(creep, dropOff) {
     return creep.carry.energy >= dropOff.energyCapacity - dropOff.energy;
 }
 
+function getClosestDropOff(creep) {
+    var target = creep.getDibsObj("dropOff"),
+        self = creep;
+    if (!target) {
+        target = creep.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            var isValidStructure = (structure.structureType === STRUCTURE_EXTENSION ||
+                    structure.structureType === STRUCTURE_SPAWN) &&
+                    structure.energy < structure.energyCapacity &&
+                    self.canPlaceDibs(structure, "dropOff");
+            return isValidStructure;
+        });
+    }
+    if (!target) {
+        target = creep.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            return (structure.structureType === STRUCTURE_TOWER) &&
+                structure.energy < structure.energyCapacity &&
+                self.canPlaceDibs(structure, "dropOff");
+        });
+    }
+    if (!target) {
+        target = creep.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            return (structure.structureType === STRUCTURE_CONTAINER) &&
+                Memory.productionContainers[structure.id] &&
+                structure.energy < structure.energyCapacity &&
+                self.canPlaceDibs(structure, "dropOff");
+        });
+    }
+    return target;
+}
+
 levels[1] = function (creep) {
 
     var room = creep.room,
         dibsSource = creep.getDibsObj("dropOff"),
-        closestDropOff = creep.closestDropOff(),
+        closestDropOff = getClosestDropOff(creep),
         dropOff = dibsSource || closestDropOff,
         selectedSource = creep.affinity() || (dropOff || creep).closestSource(),
         isAtCapacity = room.isFull(),

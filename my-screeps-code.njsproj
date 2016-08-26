@@ -19,6 +19,7 @@
   <ItemGroup>
     <Compile Include="default\extensions.container.js" />
     <Compile Include="default\extensions.creep.js" />
+    <Compile Include="default\extensions.link.js" />
     <Compile Include="default\extensions.resource.js" />
     <Compile Include="default\extensions.room.js" />
     <Compile Include="default\extensions.roomobject.js" />

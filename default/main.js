@@ -7,6 +7,7 @@ require("extensions.container");
 require("extensions.resource");
 require("extensions.source");
 require("extensions.storage");
+require("extensions.link");
 
 var roles = {
         harvester: require('role.harvester'),
@@ -56,6 +57,26 @@ function towerAi(room) {
     }
 }
 
+function linkAi(room) {
+    var links = room.find(FIND_MY_STRUCTURES, {filter:function (structure) { return structure.structureType === STRUCTURE_LINK; }}),
+        link,
+        memory,
+        targetId,
+        target,
+        i;
+    for(i = 0; i<links.length; i++) {
+        link = links[i];        
+        if (link) {
+            memory = Memory.links[link.id];
+            targetId = memory ? memory.target : null;
+            target = Game.getObjectById(targetId);
+            if (target && link.cooldown <= 0 && link.energy > 0 && target.energy < target.energyCapacity) {
+                link.transferEnergy(target);
+            }
+        }
+    }
+}
+
 function reportProgress(room) {
     if (!room || !room.controller) {
         return;
@@ -83,8 +104,6 @@ function reportProgress(room) {
 }
 
 function runCreeps() {
-    //JSON.stringify(_.map(_.sortBy(Game.creeps, function(creep) { return creep.memory.role == "distributor" ? 0 : 1; }), function(creep) {return creep.name;}))
-
     for(var name in Game.creeps) {
         var creep = Game.creeps[name],
             role = creep ? roles[creep.memory.role] : null;
@@ -95,13 +114,7 @@ function runCreeps() {
             roles.heralder.add(name + " dies! :(");
             console.log(name + " dies! :(");
         }
-//        if (creep.memory.role !== "dropper" && creep.memory.role !== "scout" && creep.room.creepComplete() && (creep.ticksToLive < 100 || creep.memory.renewing)) {
-//            roles.renewer.run(creep);
-//        } else 
-        if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (
-            creep.memory.allowRefillRoom //|| creep.memory.role === "builder"
-            //|| (creep.memory.role != "dropper" && creep.memory.role != "heralder" && creep.memory.role != "scout")
-            )) { // 
+        if (creep.room.energyAvailable < creep.room.energyCapacityAvailable && (creep.memory.allowRefillRoom)) { 
             roles["distributor"].run(creep);
         } else if (role) {
             role.run(creep);
@@ -110,17 +123,29 @@ function runCreeps() {
 }
 
 module.exports.loop = function () {
+    var key;
+
+    if (!Memory.lastReset || (Game.time - Memory.lastReset) > 1500) {
+        console.log("resetting dibs in all rooms");
+        for (key in Game.rooms) {
+            Utils.resetDibs(key);
+        }
+        Memory.lastReset = Game.time;
+    }
 
     memInit.groups.init();
 
-    for(var key in Game.rooms) {
+    for(key in Game.rooms) {
         memInit.room.init(Game.rooms[key]);
         Memory.rooms[key].upgraded = 0;
+        
+        towerAi(Game.rooms[key]);
+        linkAi(Game.rooms[key]);
 
         if (Game.rooms[key].mainSpawn()) {
             creatureFactory.create(Game.rooms[key].mainSpawn());
         }
-        towerAi(Game.rooms[key]);
+        
         reportProgress(Game.rooms[key]);
     }
 

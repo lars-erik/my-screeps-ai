@@ -66,7 +66,7 @@ Creep.prototype.getDibsObj = function (key) {
     return null;
 }
 
-Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity) {
+Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStructure) {
     var self = this,
         result,
         closestEnergy = this.getDibsObj(),
@@ -85,6 +85,8 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity) {
     if (!closestEnergy) {
         closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, function (structure) {
             return structure.structureType === STRUCTURE_CONTAINER &&
+                structure !== excludeStructure &&
+                !(self.memory.role === "distributor" && Memory.productionContainers[structure.id]) &&
                 self.canPlaceDibs(structure);
         });
     }
@@ -126,16 +128,22 @@ Creep.prototype.closestDropOff = function () {
                     structure.energy < structure.energyCapacity &&
                     self.canPlaceDibs(structure, "dropOff");
             return isValidStructure;
-        }
-        );
+        });
     }
     if (!target) {
         target = this.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
             return (structure.structureType === STRUCTURE_TOWER) &&
                 structure.energy < structure.energyCapacity &&
                 self.canPlaceDibs(structure, "dropOff");
-        }
-        );
+        });
+    }
+    if (!target) {
+        target = this.findClosestOfType(self, FIND_STRUCTURES, function (structure) {
+            return (structure.structureType === STRUCTURE_CONTAINER) &&
+                Memory.productionContainers[structure.id] &&
+                structure.energy < structure.energyCapacity &&
+                self.canPlaceDibs(structure, "dropOff");
+        });
     }
     return target;
 }

@@ -13,20 +13,23 @@ module.exports = {
             }
         }
         if (target.room) {
-            closestTower = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_TOWER;
+            if (creep.room.roomName === target.room) {
+                closestTower = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
+                    filter: function(structure) {
+                        return structure.structureType === STRUCTURE_TOWER;
+                    }
+                });
+                closestHostile = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
+                attackTarget = closestTower || closestHostile;
+                if (attackTarget) {
+                    if (creep.attack(attackTarget) !== OK) {
+                        creep.moveTo(new RoomPosition(attackTarget.pos.x, attackTarget.pos.y, target.room));
+                    }
+                    return;
                 }
-            });
-            closestHostile = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
-            attackTarget = closestTower || closestHostile;
-            if (attackTarget) {
-                if (creep.attack(attackTarget) !== OK) {
-                    creep.moveTo(attackTarget);
-                }
-            } else {
-                creep.moveTo(new RoomPosition(target.x, target.y, target.room));
             }
+            
+            creep.moveTo(new RoomPosition(target.x, target.y, target.room));
         }
     }
 }
