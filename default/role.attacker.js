@@ -13,7 +13,7 @@ module.exports = {
             }
         }
         if (target.room) {
-            if (creep.room.roomName === target.room) {
+            if (creep.room.name === target.room) {
                 closestTower = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES, {
                     filter: function(structure) {
                         return structure.structureType === STRUCTURE_TOWER;

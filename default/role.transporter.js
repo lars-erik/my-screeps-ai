@@ -58,9 +58,9 @@ module.exports = {
             } else {
                 slackTarget = Game.getObjectById(creep.memory.slackTarget);
                 if (slackTarget === null) {
-                    for (x = -5; x <= 5; x++) {
-                        for (y = -5; y <= 5; y++) {
-                            if ((x < -2 || x > 2) && (y < -2 || y > 2)) {
+                    for (x = -4; x <= 4; x++) {
+                        for (y = -4; y <= 4; y++) {
+                            if ((x < -1 || x > 1) && (y < -1 || y > 1)) {
                                 position = new RoomPosition(aObj.pos.x + x, aObj.pos.y + y, aObj.room.name);
                                 if (position.lookFor(LOOK_TERRAIN)[0] === "plain" && position.lookFor(LOOK_CREEPS).length === 0) {
                                     slackTarget = position;
