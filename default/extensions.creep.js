@@ -91,6 +91,13 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
         });
     }
     
+    if (!closestEnergy) {
+        closestEnergy = this.findClosestOfType(from, FIND_STRUCTURES, function (structure) {
+            return structure.structureType === STRUCTURE_LINK &&
+                self.canPlaceDibs(structure);
+        });
+    }
+    
     if (!closestEnergy && isAllowedStorage) {
         closestEnergy = this.room.storage.store.energy > 0 ? this.room.storage : null;
     }
