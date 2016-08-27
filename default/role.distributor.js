@@ -43,7 +43,7 @@ module.exports = {
 
         if (mode === "dropOff" && dropOff) {
             if (!creep.memory.dropOff) {
-                if (dropOff.structureType !== STRUCTURE_CONTAINER) {
+                if (dropOff.structureType !== STRUCTURE_STORAGE) {
                     dropOff.dibs("dropOff").place(creep);
                 }
                 creep.routeChange();

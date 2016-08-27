@@ -43,7 +43,7 @@ function towerAi(room) {
             var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (closestHostile) {
                 tower.attack(closestHostile);
-            } else if (tower.energy > tower.energyCapacity * .8) {
+            } else if (tower.energy > tower.energyCapacity * .9) {
                 var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: function(structure) {
                         return structure.hits < structure.hitsMax;

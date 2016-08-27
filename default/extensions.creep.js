@@ -75,6 +75,12 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
         isAllowedStorage = (["distributor"].indexOf(this.memory.role) > -1),
         placeDibs = !closestEnergy && isAllowedPickup
         ;
+    
+    if (closestEnergy && (closestEnergy.store ? closestEnergy.store.energy : closestEnergy.energy) === 0) {
+        closestEnergy.dibs().remove(this);
+        closestEnergy = null;
+        hasDibs = false;
+    }
 
     from = ignoreAffinity ? (from || this) : (this.affinity() || from || this);
     
