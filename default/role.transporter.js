@@ -9,7 +9,7 @@ module.exports = {
             dropoffTarget,
             result,
             position,
-            moveOpts = { reusePath: 20 },
+            moveOpts = creep.pos.look(LOOK_TERRAIN)[0] === "swamp" ? { reusePath : 0 } : { reusePath: 20 },
             slackTarget,
             x, y;
 
@@ -24,7 +24,7 @@ module.exports = {
                 dropoffTarget = b;
             }
             
-            if (creep.carry.energy < creep.carryCapacity && a && a.yield && (dropoffTarget.structureType === STRUCTURE_CONTAINER || dropoffTarget.structureType === STRUCTURE_LINK)) {
+            if (creep.carry.energy < creep.carryCapacity && a && a.yield && (b === dropoffTarget)) {
                 creep.memory.slackTarget = null;
                 result = a.yield(creep, RESOURCE_ENERGY);
                 if (result === OK && creep.carry.energy === creep.carryCapacity) {
