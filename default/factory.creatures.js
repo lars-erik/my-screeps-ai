@@ -47,15 +47,8 @@ module.exports = {
                 creep = Game.creeps[newName] || Game.creeps[newName + ".2"] ||
                     Game.creeps[oldName] || Game.creeps[oldName + ".2"];
 
-            if (!creep) {
-                if (prohibitRole()) {
-                    return true;
-                }
-
-                tryCreateCreep(pri, groupName);
-                return true;
-            } else if (["dropper"].indexOf(creep.memory.role) > -1 && creep.ticksToLive < 50) {
-
+            if (creep && ["dropper"].indexOf(creep.memory.role) > -1 && creep.ticksToLive < 50) {
+                
                 extIsClone = creep.name.indexOf(".2") === creep.name.length - 3;
                 creepName = extIsClone ? newName : newName + ".2";
                 if (tryCreateCreep(pri, groupName, creepName)) {
@@ -64,6 +57,13 @@ module.exports = {
                     }
                 }
 
+            } else if (!creep) {
+                if (prohibitRole()) {
+                    return true;
+                }
+
+                tryCreateCreep(pri, groupName);
+                return true;
             } else {
                 return false;
             }

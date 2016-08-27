@@ -18,7 +18,7 @@ module.exports = {
 
         switchMode(creep);
 
-        if (creep.memory.upgrading && creep.room.memory.upgraded < CONTROLLER_MAX_UPGRADE_PER_TICK) {
+        if (creep.memory.upgrading) { //  && creep.room.memory.upgraded < CONTROLLER_MAX_UPGRADE_PER_TICK
             var result = creep.upgradeController(creep.room.controller);
             if (result === OK) {
                 creep.room.memory.upgraded += workParts;

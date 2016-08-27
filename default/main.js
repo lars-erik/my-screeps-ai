@@ -124,7 +124,7 @@ function runCreeps() {
 
 module.exports.loop = function () {
     var key;
-
+    
     if (!Memory.lastReset || (Game.time - Memory.lastReset) > 1500) {
         console.log("resetting dibs in all rooms");
         for (key in Game.rooms) {
@@ -147,6 +147,7 @@ module.exports.loop = function () {
         }
         
         reportProgress(Game.rooms[key]);
+
     }
 
     runCreeps();

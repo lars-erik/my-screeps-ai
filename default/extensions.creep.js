@@ -71,10 +71,10 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
         result,
         closestEnergy = this.getDibsObj(),
         hasDibs = !(!closestEnergy),
-        isAllowedPickup = (["distributor", "harvester", "upgrader"].indexOf(this.memory.role) > -1 || this.room.fullness() > .75),
+        isAllowedPickup = (["distributor", "harvester", "upgrader"].indexOf(this.memory.role) > -1 || this.room.fullness() > .1),
         isAllowedStorage = (["distributor"].indexOf(this.memory.role) > -1),
-        placeDibs = !closestEnergy && isAllowedPickup
-        ;
+        placeDibs = !closestEnergy && isAllowedPickup,
+        move = true;
     
     if (closestEnergy && (closestEnergy.store ? closestEnergy.store.energy : closestEnergy.energy) === 0) {
         closestEnergy.dibs().remove(this);
@@ -111,12 +111,17 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
     if (closestEnergy && (hasDibs || isAllowedPickup)) { //  && hasDibs
         if (placeDibs) {
             closestEnergy.dibs().place(this);
+            if (closestEnergy.pos.isNearTo(this.pos)) {
+                move = false;
+            }
         }
         result = closestEnergy.yield(this);
         if (result === OK) {
             closestEnergy.dibs().remove(this);
         }
-        this.moveByResult(result, closestEnergy, from);
+        if (move) {
+            this.moveByResult(result, closestEnergy, from);
+        }
         return true;
     }
     return false;
