@@ -24,6 +24,16 @@ defaultPriorities = [
     }
 ];
 
+emergencyPriorities = [
+    {
+        groupName: "Emergency",
+        group: [
+            { role: "dropper", body: "microDropper", count: 1 },
+            { role: "distributor", count: 1 }
+        ]
+    }
+];
+
 rules = [
     { threshold: 300, level: 1 }, // starting
     { threshold: 550, level: 2 }, // 5 extensions, lvl 2
@@ -36,11 +46,17 @@ module.exports = {
     get: function (room) {
         var i,
             rule,
-            capacity = room.find(FIND_MY_CREEPS).length === 0 ?
-                room.energyAvailable :
-                room.energyCapacityAvailable,
+            creepCount = room.find(FIND_MY_CREEPS).length,
+            capacity = room.energyCapacityAvailable,
             priorities = room.memory.priorities;
         
+        if (creepCount < 2) {
+            return {
+                id: 1,
+                priority: emergencyPriorities
+            }
+        }
+                  
         if (!priorities) {
             console.log("replacing priorities");
             priorities = room.memory.priorities = defaultPriorities;
