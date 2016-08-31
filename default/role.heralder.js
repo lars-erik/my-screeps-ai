@@ -22,8 +22,13 @@ module.exports = {
         return messages.length;
     },
     run: function (creep) {
-        if (creep.pos.x !== creep.room.mainSpawn().pos.x || creep.pos.y !== creep.room.mainSpawn().pos.y - 2) {
-            creep.moveTo(creep.room.mainSpawn().pos.x, creep.room.mainSpawn().pos.y - 2);
+        var target = (creep.group ? Memory.groups[creep.group].target : null) || creep.memory.target;
+        if (!target) {
+            target = { x: creep.room.mainSpawn().pos.x, y: creep.room.mainSpawn().pos.y - 2 };
+        }
+
+        if (creep.pos.x !== target.x || creep.pos.y !== target.y) {
+            creep.moveTo(target.x, target.y);
         }
         
         if (creep.room.energyAvailable === creep.room.energyCapacityAvailable) {

@@ -28,8 +28,7 @@ emergencyPriorities = [
     {
         groupName: "Emergency",
         group: [
-            { role: "dropper", body: "microDropper", count: 1 },
-            { role: "distributor", count: 1 }
+            { role: "harvester", body: "microWorker", count: 2 }
         ]
     }
 ];
@@ -48,9 +47,12 @@ module.exports = {
             rule,
             creepCount = room.find(FIND_MY_CREEPS).length,
             capacity = room.energyCapacityAvailable,
-            priorities = room.memory.priorities;
+            priorities = room.memory.priorities,
+            roomEmergencyPri;
         
         if (creepCount < 2) {
+            roomEmergencyPri = _.extend({}, emergencyPriorities);
+            roomEmergencyPri[0].groupName = room.name + " Emergency";
             return {
                 id: 1,
                 priority: emergencyPriorities
@@ -59,7 +61,12 @@ module.exports = {
                   
         if (!priorities) {
             console.log("replacing priorities");
-            priorities = room.memory.priorities = defaultPriorities;
+            priorities = room.memory.priorities = JSON.parse(JSON.stringify(defaultPriorities));
+            for (i = 0; i < priorities.length; i++) {
+                if (priorities[i].group) {
+                    priorities[i].groupName = room.name + " " + priorities[i].groupName;
+                }
+            }
         }
         
         for (i = rules.length - 1; i >= 0; i--) {

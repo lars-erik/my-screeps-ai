@@ -91,7 +91,7 @@ module.exports = {
 
                 attemptedRoles[pri.role]++;
                 groupAttemptedRoles[pri.role]++;
-
+                
                 oldName = spawn.room.name + " " + role.prefix + " " + creepNumber;
                 newName = (groupName || spawn.room.name) + " " + role.prefix + " " + groupCreepNumber;
 

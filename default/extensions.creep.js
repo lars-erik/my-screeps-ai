@@ -104,10 +104,10 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
         });
     }
     
-    if (!closestEnergy && isAllowedStorage) {
+    if (!closestEnergy && isAllowedStorage && this.room.storage) {
         closestEnergy = this.room.storage.store.energy > 0 ? this.room.storage : null;
     }
-
+    
     if (closestEnergy && (hasDibs || isAllowedPickup)) { //  && hasDibs
         if (placeDibs) {
             closestEnergy.dibs().place(this);
@@ -120,7 +120,7 @@ Creep.prototype.pickupClosestEnergy = function (from, ignoreAffinity, excludeStr
             closestEnergy.dibs().remove(this);
         }
         if (move) {
-            this.moveByResult(result, closestEnergy, from);
+            this.moveByResult(result, closestEnergy);
         }
         return true;
     }
