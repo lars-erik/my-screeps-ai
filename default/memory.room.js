@@ -95,6 +95,15 @@ function init(key, initializer) {
     }
 }
 
+function cleanUpDibs() {
+    var key;
+    for (key in room.memory.dibs) {
+        if (!Game.getObjectById(room.memory.dibs[key])) {
+            delete room.memory.dibs[key];
+        }
+    }
+}
+
 module.exports = {
     init: function(forRoom) {
         room = forRoom;
@@ -107,6 +116,8 @@ module.exports = {
         room.memory.mainSpawn = getMainSpawn();
         
         createAffinities();
+
+        cleanUpDibs();
 
         memory.level = levelFactory.get(room).id;
     }

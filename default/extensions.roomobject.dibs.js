@@ -42,7 +42,7 @@ RoomObject.prototype.dibs = function (key) {
         if (self.structureType === STRUCTURE_SPAWN || self.structureType === STRUCTURE_EXTENSION || self.structureType === STRUCTURE_TOWER) {
             return total + totalDibbed < self.energyCapacity;
         } else {
-            return total - totalDibbed >= creep.carryCapacity;
+            return total - totalDibbed >= creep.carryCapacity - creep.carry.energy;
         }
     }
     
@@ -54,7 +54,7 @@ RoomObject.prototype.dibs = function (key) {
         hasCapacity: hasCapacity,
         place: function (creep, ignoreCapacity) {
             if ((ignoreCapacity || hasCapacity(creep)) && notAlreadyDibbedBy(creep)) {
-                dibs.push({ id: creep.name, amount: creep.carryCapacity });
+                dibs.push({ id: creep.name, amount: Math.min(total - totalDibbed, creep.carryCapacity - creep.carry.energy) });
                 creep.giveDibs(self, key);
                 return true;
             }
