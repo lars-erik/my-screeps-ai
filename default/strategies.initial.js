@@ -1,6 +1,13 @@
 let _ = require("lodash");
+const MaxHarvesters = 2
+const MaxUpgraders = 4
+
+function countCreeps(creeps, role) {
+    return _.filter(creeps, x => x.memory.role === role).length;
+}
 
 class Initial {
+
     get name() {
         return "Initial";
     } 
@@ -13,13 +20,11 @@ class Initial {
 
             for(let spawnIndex in spawns) {
                 let spawn = spawns[spawnIndex];
-                console.log(spawn.name);
-                if (_.filter(creeps, x => x.memory.role === "harvester").length < 2 && room.energyAvailable >= 150) {
+                if (countCreeps(creeps, "harvester") < MaxHarvesters && room.energyAvailable >= 150) {
                     spawn.spawnCreep([WORK,CARRY,MOVE], "Harvester" + Game.time, {memory:{role:"harvester"}});
-                } else if (_.filter(creeps, x => x.memory.role === "upgrader".length) < 2 && room.energyAvailable >= 150) {
+                } else if (countCreeps(creeps, "upgrader") < MaxUpgraders && room.energyAvailable >= 150) {
                     spawn.spawnCreep([WORK,CARRY,MOVE], "Upgrader" + Game.time, {memory:{role:"upgrader"}});
                 }
-
             }
         }
     }

@@ -339,7 +339,7 @@ global.SYSTEM_USERNAME = "me";
 
 global.TOMBSTONE_DECAY_PER_PART = 5;
 
-module.exports = {
+const world = {
     init() {
         window.Memory = {
             creeps: {},
@@ -349,9 +349,68 @@ module.exports = {
         };
 
         window.Game = {
-            creeps: [],
+            creeps: {},
             rooms: {},
-            spawns: {}
+            spawns: {},
+            time: 1
+        }
+    },
+    initSimple() {
+        world.init();
+        world.createSpawn1();
+        world.createCenterRoom();
+    },
+    extendFind(fn) {
+        let inner = Game.rooms.W0N0.find;
+        Game.rooms.W0N0.find = (type, filter) => {
+            let result = fn(type, filter);
+            return result || inner(type, filter);
+        }
+    },
+    createCreep(name, role, body = [WORK, CARRY, MOVE]) {
+        return Game.creeps[name] = {
+            name: name,
+            body: body,
+            memory: {
+                role: role
+            },
+            room: Game.rooms.W0N0,
+            carry: {
+                energy: 0
+            },
+            carryCapacity: 50,
+            harvest: jest.fn(),
+            moveTo: jest.fn(),
+            transfer: jest.fn(),
+            upgradeController: jest.fn()
+        }
+    },
+    createSpawn1() {
+        return Game.spawns.Spawn1 = {
+            energy: 0,
+            energyCapacity: 300,
+            structureType: STRUCTURE_SPAWN,
+            spawnCreep: jest.fn()
+        }
+    },
+    createCenterRoom() {
+        return Game.rooms.W0N0 = {
+            energyAvailable: 150,
+            find(type, opts) {
+                if (type === FIND_STRUCTURES && 
+                    (
+                        opts.filter.structureType === STRUCTURE_SPAWN
+                        ||
+                        (typeof(opts.filter) === "function" && opts.filter(Game.spawns.Spawn1))
+                    )) {
+                    return [Game.spawns.Spawn1];
+                }
+                if (type === FIND_CREEPS) {
+                    return Game.creeps;
+                }
+            }
         }
     }
-}
+};
+
+module.exports = world;
