@@ -1,0 +1,16 @@
+{
+  "name": "screeps-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/screeps": "^2.4.0",
+    "jest": "^23.5.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
