@@ -6,11 +6,11 @@ function countCreeps(creeps, role) {
     return _.filter(creeps, x => x.memory.role === role).length;
 }
 
-class Level1 {
+const level1 = {
 
     get name() {
         return "level1";
-    } 
+    },
 
     spawnCreeps() {
         for(let roomName in Game.rooms) {
@@ -27,16 +27,11 @@ class Level1 {
                 }
             }
         }
-    }
-
-    evaluateLevel() {
-
-    }
+    },
 
     execute() {
-        this.spawnCreeps();
-        this.evaluateLevel();        
+        this.spawnCreeps();   
     }
 }
 
-module.exports = Level1;
+module.exports = level1;

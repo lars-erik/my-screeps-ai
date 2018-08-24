@@ -5,16 +5,8 @@ let controller = null;
 
 beforeEach(() => {
     World.initSimple();
-    strategy = new Strategies.levels.level1();
+    strategy = Strategies.room.level1;
     spawn = Game.spawns.Spawn1;
-    controller = {level: 1};
-    Memory.gameState = { strategy: "level1" };
-
-    World.extendFind((type, opts) => {
-        if (opts.filter.structureType === STRUCTURE_CONTROLLER) {
-            return controller;
-        }
-    });
 });
 
 test("If no creeps, creates a harvester", () => {

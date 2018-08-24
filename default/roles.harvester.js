@@ -10,7 +10,7 @@ module.exports = {
                     creep.moveTo(dropOff);
                 }
             } else {
-                let controller = creep.room.find(FIND_CONTROLLER)[0];
+                let controller = creep.room.controller;
                 if (creep.upgradeController(controller) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(controller);
                 }

@@ -1,14 +1,16 @@
 require("./extensions.room");
+global.Strategies = require("strategies");
 
-let strategies = require("strategies");
 let roles = {
     harvester: require("roles.harvester"),
     upgrader: require("roles.upgrader")
 };
 
 function executeBuildingStrategy() {
-    let strategy = strategies.create();
-    strategy.execute();
+    for(let roomIndex in Game.rooms) {
+        let room = Game.rooms[roomIndex];
+        room.execute();
+    }
 }
 
 function runCreeps() {

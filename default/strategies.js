@@ -1,13 +1,16 @@
-module.exports = {
-    create(key) {
-        let fn = module.exports.levels[key];
-        if (!fn) {
+let strategies = {
+    create(type, key) {
+        let strategy = strategies[type][key];
+        if (!strategy) {
             console.log("Invalid strategy " + key + ". Defaulting to level1.");
-            fn = module.exports.levels["level1"];
+            strategy = strategies[type]["level1"];
         }
-        return new fn();
+        return strategy;
     },
-    levels: {
-        level1: require("./strategies.level1")
-    }
-}
+    room: {
+        level1: require("./strategies.room.level1"),
+        level2: require("./strategies.room.level2")
+    },
+};
+
+module.exports = strategies;

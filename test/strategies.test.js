@@ -5,11 +5,11 @@ beforeEach(() => {
 });
 
 test("Creates strategy implementation for a room", () => {
-    let strategy = Strategies.create("level1");
-    expect(strategy).toBeInstanceOf(Strategies.levels.level1);
+    let strategy = Strategies.create("room", "level1");
+    expect(strategy).toBe(Strategies.room.level1);
 });
 
 test("Defaults to level1 if strategy is invalid", () => {
-    let strategy = Strategies.create("asdf");
-    expect(strategy).toBeInstanceOf(Strategies.levels.level1);
+    let strategy = Strategies.create("room", "asdf");
+    expect(strategy).toBe(Strategies.room.level1);
 });
