@@ -2,17 +2,10 @@ const World = require("./world")
 const role = require("./../default/roles.upgrader");
 
 let creep = null;
-let controller = null;
 
 beforeEach(() => {
-    controller = {};
     World.initSimple();
-    World.extendFind((type, opts) => {
-        if (opts.filter.structureType === STRUCTURE_CONTROLLER) {
-            return [controller];
-        }
-        return null;
-    })
+ 
     creep = World.createCreep("Upgrader", "upgrader");
 })
 
@@ -20,7 +13,7 @@ test("If full, goes into upgrading mode", () => {
     creep.carry.energy = 50;
     role.execute(creep);
     expect(creep.memory.mode).toBe("upgrade");
-    expect(creep.upgradeController).toHaveBeenCalledWith(controller);
+    expect(creep.upgradeController).toHaveBeenCalledWith(Game.rooms.W0N0.controller);
 });
 
 test("If half empty, stays in upgrading mode", () => {

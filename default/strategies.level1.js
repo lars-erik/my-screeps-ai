@@ -6,10 +6,10 @@ function countCreeps(creeps, role) {
     return _.filter(creeps, x => x.memory.role === role).length;
 }
 
-class Initial {
+class Level1 {
 
     get name() {
-        return "Initial";
+        return "level1";
     } 
 
     spawnCreeps() {
@@ -29,9 +29,14 @@ class Initial {
         }
     }
 
+    evaluateLevel() {
+
+    }
+
     execute() {
-        this.spawnCreeps();        
+        this.spawnCreeps();
+        this.evaluateLevel();        
     }
 }
 
-module.exports = Initial;
+module.exports = Level1;

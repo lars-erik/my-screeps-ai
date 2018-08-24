@@ -1,20 +1,13 @@
-let Mem = require("./utils.mem");
-
-let types = {
-    Initial: require("./strategies.initial")
-}
-
 module.exports = {
-    create() {
-        let gameState = Mem.get("gameState", {});
-        let strategy = Mem.get("strategy", "Initial", gameState);
-        let fn = types[strategy];
+    create(key) {
+        let fn = module.exports.levels[key];
         if (!fn) {
-            console.log("Invalid strategy " + strategy + ". Swapping to initial.");
-            strategy = Memory.gameState.strategy = "Initial";
-            fn = types[strategy];
+            console.log("Invalid strategy " + key + ". Defaulting to level1.");
+            fn = module.exports.levels["level1"];
         }
         return new fn();
     },
-    types: types
+    levels: {
+        level1: require("./strategies.level1")
+    }
 }

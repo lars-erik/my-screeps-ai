@@ -1,11 +1,15 @@
 let World = require("./world");
-let strategies = require("./../default/strategies");
 
 beforeEach(() => {
-    World.init();
+    World.initSimple();
 });
 
-test("Creates strategy implementation", () => {
-    let strategy = strategies.create();
-    expect(strategy instanceof strategies.types.Initial);
+test("Creates strategy implementation for a room", () => {
+    let strategy = Strategies.create("level1");
+    expect(strategy).toBeInstanceOf(Strategies.levels.level1);
+});
+
+test("Defaults to level1 if strategy is invalid", () => {
+    let strategy = Strategies.create("asdf");
+    expect(strategy).toBeInstanceOf(Strategies.levels.level1);
 });
