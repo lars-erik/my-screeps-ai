@@ -14,6 +14,7 @@ const level1 = {
     spawnCreeps(room) {
         let spawns = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN, my:true}});
         let creeps = room.find(FIND_CREEPS, {filter: {my:true}});
+
         for(let spawnIndex in spawns) {
             let spawn = spawns[spawnIndex];
             if (countCreeps(creeps, "harvester") < MaxHarvesters && room.energyAvailable >= 300) {

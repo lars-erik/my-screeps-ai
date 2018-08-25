@@ -6,14 +6,6 @@ beforeEach(() => {
     world.initSimple();
 });
 
-test("Finds closest energy source with free spots", () => {
-    world.extendFind((type, opts) => {
-        if (type === FIND_SOURCES) {
-            return [{},{}];
-        }
-    });
+xtest("Finds closest energy source with free spots", () => {
 
-    console.pretty(Game.rooms.W0N0.sources);
-
-    expect(true).toBe(false);
 });
