@@ -1,4 +1,5 @@
 require("./protos");
+require("./tools")
 
 global.doesThisWork = () => {
     let source = Game.creeps.M4.pos;
