@@ -1,8 +1,10 @@
 const world = require("./world");
 let room = null;
+let strategy;
 
 beforeEach(() => {
     world.initSimple();
+    strategy = Strategies.room.level2;
 
     room = Game.rooms.W0N0;
 
@@ -14,7 +16,6 @@ beforeEach(() => {
 })
 
 test("Executes level 1", () => {
-    let strategy = Strategies.room.level2;
     Strategies.room.level1.execute = jest.fn();
 
     strategy.execute(room);
@@ -22,8 +23,12 @@ test("Executes level 1", () => {
     expect(Strategies.room.level1.execute).toHaveBeenCalled();
 });
 
-test("Builds extension at first available angle and shortest magnitude", () => {
+test("Attempts to build extension on all 8 straight points at 2 away", () => {
 
-    expect(true).toBe(false);
+    room.createConstructionSite = jest.fn();
+
+    strategy.execute(room);
+
+    expect(room.createConstructionSite).toHaveBeenCalledTimes(9);
 
 });

@@ -79,6 +79,8 @@ const world = {
             if (type === FIND_CREEPS) {
                 return Game.creeps;
             }
+
+            return [];
         }
         Game.rooms.W0N0 = room;
         return room;
