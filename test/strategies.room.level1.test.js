@@ -15,7 +15,7 @@ test("If no creeps, creates a harvester", () => {
     strategy.execute(room);
 
     expect(spawn.spawnCreep).toHaveBeenCalledWith(
-        [WORK, CARRY, MOVE], 
+        [WORK, CARRY, CARRY, MOVE, MOVE], 
         "Harvester1", 
         {memory:{role:"harvester"}}
     );
@@ -28,7 +28,7 @@ test("If one harvester, creates a harvester", () => {
     strategy.execute(room);
 
     expect(spawn.spawnCreep).toHaveBeenCalledWith(
-        [WORK, CARRY, MOVE], 
+        [WORK, CARRY, CARRY, MOVE, MOVE], 
         "Harvester2", 
         {memory:{role:"harvester"}}
     );
@@ -43,7 +43,7 @@ test("If two harvesters, creates an upgrader", () => {
     strategy.execute(room);
 
     expect(spawn.spawnCreep).toHaveBeenCalledWith(
-        [WORK, CARRY, MOVE], 
+        [WORK, CARRY, CARRY, MOVE, MOVE], 
         "Upgrader3", 
         {memory:{role:"upgrader"}}
     );

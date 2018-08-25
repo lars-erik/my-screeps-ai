@@ -17,10 +17,10 @@ const level1 = {
 
         for(let spawnIndex in spawns) {
             let spawn = spawns[spawnIndex];
-            if (countCreeps(creeps, "harvester") < MaxHarvesters && room.energyAvailable >= 150) {
-                spawn.spawnCreep([WORK,CARRY,MOVE], "Harvester" + Game.time, {memory:{role:"harvester"}});
-            } else if (countCreeps(creeps, "upgrader") < MaxUpgraders && room.energyAvailable >= 150) {
-                spawn.spawnCreep([WORK,CARRY,MOVE], "Upgrader" + Game.time, {memory:{role:"upgrader"}});
+            if (countCreeps(creeps, "harvester") < MaxHarvesters && room.energyAvailable >= 300) {
+                spawn.spawnCreep([WORK,CARRY,CARRY,MOVE,MOVE], "Harvester" + Game.time, {memory:{role:"harvester"}});
+            } else if (countCreeps(creeps, "upgrader") < MaxUpgraders && room.energyAvailable >= 300) {
+                spawn.spawnCreep([WORK,CARRY,CARRY,MOVE,MOVE], "Upgrader" + Game.time, {memory:{role:"upgrader"}});
             }
         }
     },

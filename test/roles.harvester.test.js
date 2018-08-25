@@ -24,7 +24,7 @@ test("When empty, finds closest source", () => {
 test("When too far from source, moves closer", () => {
     creep.harvest.mockReturnValue(ERR_NOT_IN_RANGE);
     role.execute(creep);
-    expect(creep.moveTo).toHaveBeenCalledWith(source);
+    expect(creep.moveTo).toHaveBeenCalledWith(source, expect.objectContaining({}));
 });
 
 test("When full, tries to drop off at spawn", () => {
@@ -37,5 +37,5 @@ test("When full and far away from spawn, moves towards spawn", () => {
     creep.transfer.mockReturnValue(ERR_NOT_IN_RANGE);
     creep.carry.energy = creep.carryCapacity;
     role.execute(creep);
-    expect(creep.moveTo).toHaveBeenCalledWith(Game.spawns.Spawn1);
+    expect(creep.moveTo).toHaveBeenCalledWith(Game.spawns.Spawn1, expect.objectContaining({}));
 });

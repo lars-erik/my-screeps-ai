@@ -65,7 +65,7 @@ const world = {
     createCenterRoom() {
         let room = new Room();
         room.controller = {level: 1},
-        room.energyAvailable = 150;
+        room.energyAvailable = 300;
         room.findController = jest.fn();
         room.find = (type, opts) => {
             if (type === FIND_STRUCTURES && 

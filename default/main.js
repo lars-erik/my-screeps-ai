@@ -1,4 +1,4 @@
-require("./extensions.room");
+require("./extensions");
 global.Strategies = require("strategies");
 
 let roles = {

@@ -7,12 +7,6 @@ beforeEach(() => {
     strategy = Strategies.room.level2;
 
     room = Game.rooms.W0N0;
-
-    world.extendFind((x, o) => {
-        if (o.filter.structureType === STRUCTURE_EXTENSION) {
-            return [];
-        }
-    });
 })
 
 test("Executes level 1", () => {
@@ -20,7 +14,7 @@ test("Executes level 1", () => {
 
     strategy.execute(room);
 
-    expect(Strategies.room.level1.execute).toHaveBeenCalled();
+    expect(Strategies.room.level1.execute).toHaveBeenCalledWith(room);
 });
 
 test("Attempts to build extension on all 8 straight points at 2 away", () => {
