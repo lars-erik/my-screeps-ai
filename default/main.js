@@ -3,7 +3,8 @@ global.Strategies = require("strategies");
 
 let roles = {
     harvester: require("roles.harvester"),
-    upgrader: require("roles.upgrader")
+    upgrader: require("roles.upgrader"),
+    builder: require("roles.builder")
 };
 
 function executeBuildingStrategy() {
