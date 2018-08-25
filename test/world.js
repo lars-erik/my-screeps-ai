@@ -3,6 +3,10 @@ require("./mocks.room");
 require("./mocks.creep");
 require("./../default/extensions.room");
 
+global.console.pretty = function(value) {
+    console.log(JSON.stringify(value, null, '\t'));
+}
+
 const world = {
     init() {
 
