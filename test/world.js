@@ -5,6 +5,7 @@ require("./../default/extensions.room");
 const world = {
     init() {
 
+        global._ = require("lodash");
         global.Strategies = require("./../default/strategies"); 
 
         global.Memory = {
@@ -57,7 +58,8 @@ const world = {
             energy: 0,
             energyCapacity: 300,
             structureType: STRUCTURE_SPAWN,
-            spawnCreep: jest.fn()
+            spawnCreep: jest.fn(),
+            pos: {x:0, y:0}
         }
     },
     createCenterRoom() {
