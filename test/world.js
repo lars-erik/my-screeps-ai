@@ -1,5 +1,6 @@
 require("./constants");
 require("./mocks.room");
+require("./mocks.creep");
 require("./../default/extensions.room");
 
 const world = {
@@ -63,10 +64,9 @@ const world = {
         }
     },
     createCenterRoom() {
-        let room = new Room();
+        let room = new Room("W0N0");
         room.controller = {level: 1},
         room.energyAvailable = 300;
-        room.findController = jest.fn();
         room.find = (type, opts) => {
             if (type === FIND_STRUCTURES && 
                 (
@@ -82,7 +82,6 @@ const world = {
 
             return [];
         }
-        Game.rooms.W0N0 = room;
         return room;
     }
 };

@@ -6,6 +6,18 @@ Room.prototype.execute = function() {
 
 Object.defineProperty(
     Room.prototype,
+    "reservations", {
+        get: function() {
+            return this.memory.reservations
+                || (this.memory.reservations = {});
+        },
+        configurable: true,
+        enumerable: false
+    }
+)
+
+Object.defineProperty(
+    Room.prototype,
     "sources", {
         get: function() {
             if (this._sources) {
