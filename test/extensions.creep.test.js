@@ -6,7 +6,7 @@ let creep = null;
 
 beforeEach(() => {
     world.initSimple();
-    creep = new Creep("x1");
+    creep = new Creep("x1", [MOVE, CARRY, WORK]);
     creep.room = Game.rooms.W0N0;
 });
 

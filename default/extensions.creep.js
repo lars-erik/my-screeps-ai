@@ -1,3 +1,5 @@
+const taskTypes = require("./tasks"); 
+
 Object.defineProperty(
     Creep.prototype,
     "reservation", {
@@ -37,4 +39,35 @@ Creep.prototype.moveToTarget = function() {
 
         this.moveTo(this.reservation.x, this.reservation.y);
     }
+}
+
+function findPrioritizedTask(creep) {
+    if (creep.carry.energy === 0) {
+        return {
+            type: "harvest"
+        };
+    } else {
+        return {
+            type: "upgrade"
+        };
+    }
+    return null;
+}
+
+Creep.prototype.selectTask = function() {
+    let taskData = this.memory.task;
+    if (taskData && taskData.type) {
+        let task = new taskTypes[taskData.type](this, taskData);
+        if (!task.done()) {
+            this.task = task;
+        } else {
+            this.task = null;
+        }
+    } 
+    if (!this.task) {
+        taskData = findPrioritizedTask(this);
+        
+        this.task = new taskTypes[taskData.type](this, taskData);
+    }
+    this.memory.task = taskData;
 }

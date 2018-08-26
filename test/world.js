@@ -1,7 +1,6 @@
 require("./constants");
-require("./mocks.room");
-require("./mocks.creep");
-require("./../default/extensions.room");
+require("./mocks");
+require("./../default/extensions");
 
 global.console.pretty = function(value) {
     console.log(JSON.stringify(value, null, '\t'));
