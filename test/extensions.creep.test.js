@@ -40,14 +40,22 @@ test("Moves toward reservation", () => {
     expect(creep.moveTo).toHaveBeenCalledWith(2, 2);
 });
 
-test("Unreserves when reached target with moveToTarget()", () => {
+test("Keeps reservation when reached target with moveToTarget()", () => {
     creep.moveTo = jest.fn();
+    creep.pos = {x: 2, y: 2};
+    creep.reserve({x:2, y: 2});
+
+    creep.unreserve = jest.fn();
+
+    creep.moveToTarget();
+
+    expect(creep.unreserve).not.toHaveBeenCalled();
+});
+
+test("Unreserves when reserving new position", () => {
     creep.unreserve = jest.fn();
 
     creep.reserve({x:2, y: 2});
-    creep.pos = {x: 2, y: 2};
-
-    creep.moveToTarget();
 
     expect(creep.unreserve).toHaveBeenCalled();
 });

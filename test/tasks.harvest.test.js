@@ -1,23 +1,62 @@
-const world = require("./world");
-let tasks = require("./../default/tasks");
+describe("Harvest task", () => {
+    const world = require("./world");
+    const tasks = require("./../default/tasks");
 
-beforeEach(() => {
-    world.initSimple();
-    world.extendFind((type, opts) => {
-        if (type === FIND_SOURCES) {
-            return [new Source("1", {pos:{x:5, y:5}, room:Game.rooms.W0N0})];
-        }
+    let creep = null;
+    let source = null;
+
+    beforeEach(() => {
+        world.initSimple();
+
+        source = new Source("1", {pos:{x:5, y:5}, room:Game.rooms.W0N0});
+        world.extendFind((type, opts) => {
+            if (type === FIND_SOURCES) {
+                return [source];
+            }
+        });
+
+        creep = new Creep("x", [MOVE,CARRY,WORK]);
+        creep.pos = new RoomPosition(0, 0);
+        creep.room = Game.rooms.W0N0;
+        Game.rooms.W0N0.lookAtArea = jest.fn();
+        Game.rooms.W0N0.lookAtArea.mockReturnValue({"5":{"4":[{"terrain":"plain"}]}});
+
+        Game.getObjectById = jest.fn();
+        Game.getObjectById.mockReturnValue(source);
+   });
+
+    test("Reserves spot by closest energy source with free spots", () => {
+        let task = new tasks.harvest(creep, {});
+        task.run();
+
+        expect(creep.reservation).toMatchObject({x:4,y:5});
     });
-});
 
-test("Reserves spot by closest energy source with free spots", () => {
-    let creep = new Creep("x", [MOVE,CARRY,WORK]);
-    creep.room = Game.rooms.W0N0;
-    Game.rooms.W0N0.lookAtArea = jest.fn();
-    Game.rooms.W0N0.lookAtArea.mockReturnValue({"5":{"4":[{"terrain":"plain"}]}});
+    test("Moves towards energy source when not in range", () => {
+        let positions = [
+            new RoomPosition(0, 0),
+            new RoomPosition(4, 4)
+        ];
+        positions.forEach(pos => {
+            let task = new tasks.harvest(creep, {});
+            creep.pos = pos;
+            creep.moveTo = jest.fn();
+        
+            task.run();
 
-    let task = new tasks.harvest(creep, {});
-    task.run();
+            expect(creep.moveTo).toHaveBeenCalledWith(4, 5);
+        });
+    });
 
-    expect(creep.reservation).toMatchObject({x:4,y:5});
+    test("Harvests when in range", () => {
+        let task = new tasks.harvest(creep, {goal:"1"});
+        
+        creep.pos = new RoomPosition(4, 5);
+        creep.reserve(creep.pos);
+        creep.harvest = jest.fn();
+    
+        task.run();
+
+        expect(creep.harvest).toHaveBeenCalledWith(source);
+    });
 });

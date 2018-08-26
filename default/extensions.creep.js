@@ -15,8 +15,10 @@ Creep.prototype.reserve = function(pos) {
     const key = pos.x + "," + pos.y;
     const reservations = _.filter(this.room.reservations[key]);
     if (reservations.length === 0) {
+        this.unreserve();
         this.room.reservations[key] = this.name;
         this.memory.reservation = pos;
+        delete this._distanceToTarget;
         return true;
     }
     return false;
@@ -27,13 +29,29 @@ Creep.prototype.unreserve = function() {
         let key = this.reservation.x + "," + this.reservation.y;
         delete this.room.reservations[key];
         delete this.memory.reservation;
+        delete this._distanceToTarget;
     }
 }
+
+Object.defineProperty(
+    Creep.prototype,
+    "distanceToTarget", {
+        get() {
+            if (this._distanceToTarget) {
+                return this._distanceToTarget;
+            }
+            if (!this.reservation) {
+                return -1;
+            }
+            const distance = this.pos.getRangeTo(this.reservation);
+            return this._distanceToTarget = distance;
+        }
+    }
+)
 
 Creep.prototype.moveToTarget = function() {
     if (this.reservation) {
         if (this.pos.x === this.reservation.x && this.pos.y === this.reservation.y) {
-            this.unreserve();
             return;
         }
 
@@ -42,7 +60,11 @@ Creep.prototype.moveToTarget = function() {
 }
 
 function findPrioritizedTask(creep) {
-    if (creep.carry.energy === 0) {
+    if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+        return {
+            type: "dropoff"
+        };
+    } else if (creep.carry.energy === 0) {
         return {
             type: "harvest"
         };

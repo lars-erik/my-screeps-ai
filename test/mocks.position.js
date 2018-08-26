@@ -1,0 +1,22 @@
+global.RoomPosition = class RoomPosition {
+    constructor(x, y, roomName) {
+        this.x = x;
+        this.y = y;
+    }
+
+    getRangeTo(x, y) {
+        let pos;
+        if (x.pos) {
+            pos = x.pos;
+        } else if (x.x) {
+            pos = x;
+        } else {
+            pos = {x:x, y:y};
+        }
+        let dist = Math.sqrt(
+            Math.pow(Math.abs(this.x - pos.x), 2) +
+            Math.pow(Math.abs(this.y - pos.y), 2)
+        );
+        return Math.floor(dist);
+    }
+}

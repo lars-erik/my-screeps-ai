@@ -1,7 +1,7 @@
 let _ = require("lodash");
 
 class Creep {
-    constructor(name, body) {
+    constructor(name, body, props) {
         this.name = name;
         this.body = body;
         this.carry = {};
@@ -9,6 +9,8 @@ class Creep {
 
         Game.creeps[name] = this;
         Memory.creeps[name] = this.memory = {};
+
+        Object.assign(this, props || {});
     }
 
     moveTo() {}
