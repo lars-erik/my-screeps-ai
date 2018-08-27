@@ -5,10 +5,11 @@ module.exports = class DropOff {
     }
     
     done() {
+        return this.creep.carry.energy < this.creep.carryCapacity;
     }
 
     run() {
-        if (!this.taskData.goal) {
+        if (!this.taskData.goal || !this.creep.reservation) {
             let closestDropOff = this.creep.pos.findClosestByPath(FIND_MY_STRUCTURES, s => {
                 return s.energyCapacity && (s.energy < s.energyCapacity)
                     && s.freeSpots.length > 0;
@@ -18,12 +19,14 @@ module.exports = class DropOff {
             }
             this.taskData.goal = closestDropOff.id;
             closestDropOff.addTransaction({amount:this.creep.carry.energy, from:this.creep.name});
-            let freeSpot = closestDropOff.freeSpots[0];
+
+            let freeSpots = closestDropOff.freeSpots;
+            let freeSpot = freeSpots[0];
             this.creep.reserve(freeSpot);
         }
         
         if (this.taskData.goal) {
-            if (this.creep.distanceToTarget > 1) {
+            if (this.creep.distanceToTarget > 0) {
                 this.creep.moveToTarget();
             } else {
                 let dropOff = Game.getObjectById(this.taskData.goal);

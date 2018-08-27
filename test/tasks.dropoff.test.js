@@ -9,7 +9,7 @@ describe("Dropping off", () => {
         world.initSimple();
 
         Game.spawns.Spawn1.pos = new RoomPosition(5, 5);
-        Game.spawns.Spawn1.freeSpots = [{x:4, y:5}];
+        Game.spawns.Spawn1._freeSpots = [{x:4, y:5}];
         Game.spawns.Spawn1.addTransaction = jest.fn();
         Game.getObjectById = () => Game.spawns.Spawn1;
 

@@ -11,40 +11,43 @@ beforeEach(() => {
     room = Game.rooms.W0N0;
 });
 
-test("If no creeps, creates a harvester", () => {
-    strategy.execute(room);
+test("Builds two heavy workers for each source plain", () => {
+    let sources = [{},{},{}];
+    World.extendFind(f => f === FIND_SOURCES ? sources : null);
+    sources.forEach(s => s.plains = [{},{}]);
 
-    expect(spawn.spawnCreep).toHaveBeenCalledWith(
-        [WORK, CARRY, CARRY, MOVE, MOVE], 
-        "Harvester1", 
-        {memory:{role:"harvester"}}
-    );
-})
+    for(let x = 0; x<6; x++) {
 
-test("If one harvester, creates a harvester", () => {
-    Game.creeps.Harvester1 = {memory:{role:"harvester"}};
-    Game.time++;
+        Game.creeps = {};
+        for(let y = 0; y<x; y++) {
+            Game.creeps[y] = {};
+        }
+        
+        strategy.execute(room);
 
-    strategy.execute(room);
-
-    expect(spawn.spawnCreep).toHaveBeenCalledWith(
-        [WORK, CARRY, CARRY, MOVE, MOVE], 
-        "Harvester2", 
-        {memory:{role:"harvester"}}
-    );
-})
-
-test("If two harvesters, creates an upgrader", () => {
-    Game.creeps.Harvester1 = {memory:{role:"harvester"}};
-    Game.creeps.Harvester2 = {memory:{role:"harvester"}};
+        expect(spawn.spawnCreep).toHaveBeenCalledWith(
+            [WORK, CARRY, CARRY, MOVE, MOVE], 
+            "Worker1"
+        );
     
-    Game.time+=2;
+    }
+})
 
+test("Builds no more workers when enough", () => {
+    let sources = [{},{},{}];
+    World.extendFind(f => f === FIND_SOURCES ? sources : null);
+    sources.forEach(s => s.plains = [{},{}]);
+
+    Game.creeps = {};
+    for(let y = 0; y<6; y++) {
+        Game.creeps[y] = {};
+    }
+        
     strategy.execute(room);
 
-    expect(spawn.spawnCreep).toHaveBeenCalledWith(
+    expect(spawn.spawnCreep).not.toHaveBeenCalledWith(
         [WORK, CARRY, CARRY, MOVE, MOVE], 
-        "Upgrader3", 
-        {memory:{role:"upgrader"}}
+        "Worker1"
     );
+    
 })

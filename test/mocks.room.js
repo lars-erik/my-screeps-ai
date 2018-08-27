@@ -1,8 +1,5 @@
 class Room {
     get memory() {
-        if (!Memory.rooms[this.name]) {
-            Memory.rooms[this.name] = {};
-        }
         return Memory.rooms[this.name];
     };
 
@@ -26,7 +23,8 @@ class Room {
         this.name = name;
         this.storage = {};
         this.terminal = {};
-        this.visual = {};
+        this.visual = {text: function() {}};
+        Memory.rooms[this.name] = {};
         Game.rooms[name] = this;
     }
 }

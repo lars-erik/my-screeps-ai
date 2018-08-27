@@ -16,6 +16,32 @@ Object.defineProperty(
     }
 )
 
+Object.defineProperty(
+    Room.prototype,
+    "constructionSites", {
+        get() {
+            if (this._constructionSites) {
+                return this._constructionSites;
+            }
+            return this._constructionSites = this.find(FIND_CONSTRUCTION_SITES, {filter:{my:true}});
+        },
+        configurable: true,
+        enumerable: false
+    }
+)
+
+Room.prototype.unreserve = function(x, y) {
+    let key = "";
+    if (x.hasOwnProperty("x")) {
+        key = x.x + "," + x.y;
+    } else {
+        key = x + ',' + y;
+    }
+    let reservedName = this.reservations[key];
+    console.log("deleting reservation " + key + " named " + reservedName);
+    delete this.reservations[key];
+}
+
 Room.prototype.isReserved = function(x, y) {
     let key = x + ',' + y;
     if (this.reservations[key]) {

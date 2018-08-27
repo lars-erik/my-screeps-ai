@@ -26,8 +26,7 @@ Creep.prototype.reserve = function(pos) {
 
 Creep.prototype.unreserve = function() {
     if (this.reservation) {
-        let key = this.reservation.x + "," + this.reservation.y;
-        delete this.room.reservations[key];
+        this.room.unreserve(this.reservation);
         delete this.memory.reservation;
         delete this._distanceToTarget;
     }
@@ -43,7 +42,7 @@ Object.defineProperty(
             if (!this.reservation) {
                 return -1;
             }
-            const distance = this.pos.getRangeTo(this.reservation);
+            const distance = this.pos.getRangeTo(this.reservation.x, this.reservation.y);
             return this._distanceToTarget = distance;
         }
     }
@@ -60,9 +59,13 @@ Creep.prototype.moveToTarget = function() {
 }
 
 function findPrioritizedTask(creep) {
-    if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+    if (creep.carry.energy > 0 && creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
         return {
             type: "dropoff"
+        };
+    } else if (creep.carry.energy > 0 && creep.room.constructionSites.length > 0) {
+        return {
+            type: "build"
         };
     } else if (creep.carry.energy === 0) {
         return {
@@ -84,6 +87,7 @@ Creep.prototype.selectTask = function() {
             this.task = task;
         } else {
             this.task = null;
+            this.unreserve();
         }
     } 
     if (!this.task) {
@@ -91,11 +95,27 @@ Creep.prototype.selectTask = function() {
         
         this.task = new taskTypes[taskData.type](this, taskData);
     }
+
+    if (this.room.visual) {
+        let text = "Idle";
+        if (this.task) {
+            text = taskData.type;
+        }
+        this.room.visual.text(text, this.pos.x + 2, this.pos.y)
+    }
+
     this.memory.task = taskData;
 }
 
 Creep.prototype.run = function() {
     if (this.task) {
-        this.task.execute(this, this.memory.task);
+        this.task.run(this, this.memory.task);
+    }
+
+    if (this.ticksToLive <= 1) {
+        this.unreserve();
+        delete this.memory;
+        delete Memory.creeps[this.name];
+        this.suicide();
     }
 }

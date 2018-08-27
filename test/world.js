@@ -58,14 +58,13 @@ const world = {
         }
     },
     createSpawn1() {
-        return Game.spawns.Spawn1 = {
+        return Game.spawns.Spawn1 = Object.assign(new StructureSpawn(), {
             id: "Spawn1",
             energy: 0,
             energyCapacity: 300,
             structureType: STRUCTURE_SPAWN,
-            spawnCreep: jest.fn(),
-            pos: {x:0, y:0}
-        }
+            spawnCreep: jest.fn()
+        })
     },
     createCenterRoom() {
         let room = new Room("W0N0");

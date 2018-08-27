@@ -59,3 +59,18 @@ test("Unreserves when reserving new position", () => {
 
     expect(creep.unreserve).toHaveBeenCalled();
 });
+
+test("When one tick to live, clears reservation including own memory when commits suicide", () => {
+    creep.ticksToLive = 1;
+    creep.unreserve = jest.fn();
+    creep.suicide = jest.fn();
+    creep.reserve(1, 1);
+    console.log(creep.name);
+
+    creep.run();
+
+    expect(creep.memory).toBeUndefined();
+    expect(Game.rooms.W0N0.reservations["1,1"]).toBeUndefined();
+    expect(Memory.creeps[creep.name]).toBeUndefined();
+    expect(creep.suicide).toHaveBeenCalled();
+});

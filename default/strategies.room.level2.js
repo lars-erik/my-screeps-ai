@@ -25,15 +25,15 @@ function buildExtensions(room) {
 }
 
 function spawnBuilders(room) {
-    let spawns = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN, my:true}});
-    let creeps = room.find(FIND_CREEPS, {filter: {my:true}});
+    // let spawns = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN, my:true}});
+    // let creeps = room.find(FIND_CREEPS, {filter: {my:true}});
 
-    for(let spawnIndex in spawns) {
-        let spawn = spawns[spawnIndex];
-        if (countCreeps(creeps, "builder") < MaxBuilders && room.energyAvailable >= 300) {
-            spawn.spawnCreep([WORK,CARRY,CARRY,MOVE,MOVE], "Builder" + Game.time, {memory:{role:"builder"}});
-        }
-    }
+    // for(let spawnIndex in spawns) {
+    //     let spawn = spawns[spawnIndex];
+    //     if (countCreeps(creeps, "builder") < MaxBuilders && room.energyAvailable >= 300) {
+    //         spawn.spawnCreep([WORK,CARRY,CARRY,MOVE,MOVE], "Builder" + Game.time, {memory:{role:"builder"}});
+    //     }
+    // }
 }
 
 let level2 = {

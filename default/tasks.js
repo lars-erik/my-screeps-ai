@@ -1,5 +1,6 @@
 module.exports = {
     "upgrade": require("./tasks.upgrade"),
     "harvest": require("./tasks.harvest"),
-    "dropoff": require("./tasks.dropoff")
+    "dropoff": require("./tasks.dropoff"),
+    "build": require("./tasks.build")
 }

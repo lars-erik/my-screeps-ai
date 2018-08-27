@@ -9,13 +9,12 @@ module.exports = class HarvestTask {
     }
 
     run() {
-        if (!this.taskData.goal) {
+        if (!this.taskData.goal || !this.creep.reservation) {
             let sources = _.filter(this.creep.room.sources, s => s.freeSpots.length > 0);
             this.creep.reserve(sources[0].freeSpots[0]);
             this.taskData.goal = sources[0].id;
         }
 
-        console.log(this.creep.distanceToTarget);
         if (this.creep.distanceToTarget === 0) {
             let goal = Game.getObjectById(this.taskData.goal);
             let response = this.creep.harvest(goal);
