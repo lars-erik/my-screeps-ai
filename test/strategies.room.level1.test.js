@@ -15,18 +15,18 @@ test("Builds two heavy workers for each source plain", () => {
     let sources = [{},{},{}];
     World.extendFind(f => f === FIND_SOURCES ? sources : null);
     sources.forEach(s => s.plains = [{},{}]);
-
-    for(let x = 0; x<6; x++) {
+    
+    for(let x = 0; x<9; x++) {
 
         Game.creeps = {};
         for(let y = 0; y<x; y++) {
-            Game.creeps[y] = {};
+            Game.creeps[y.toString()] = {};
         }
         
         strategy.execute(room);
 
         expect(spawn.spawnCreep).toHaveBeenCalledWith(
-            [WORK, CARRY, CARRY, MOVE, MOVE], 
+            [WORK, CARRY, MOVE], 
             "Worker1"
         );
     
@@ -39,14 +39,14 @@ test("Builds no more workers when enough", () => {
     sources.forEach(s => s.plains = [{},{}]);
 
     Game.creeps = {};
-    for(let y = 0; y<6; y++) {
+    for(let y = 0; y<9; y++) {
         Game.creeps[y] = {};
     }
         
     strategy.execute(room);
 
     expect(spawn.spawnCreep).not.toHaveBeenCalledWith(
-        [WORK, CARRY, CARRY, MOVE, MOVE], 
+        [WORK, CARRY, MOVE], 
         "Worker1"
     );
     

@@ -80,7 +80,7 @@ const world = {
                 return [Game.spawns.Spawn1];
             }
             if (type === FIND_CREEPS) {
-                return Game.creeps;
+                return _.map(Game.creeps, c => c);
             }
 
             return [];
