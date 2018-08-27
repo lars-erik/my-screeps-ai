@@ -5,7 +5,7 @@ module.exports = class DropOff {
     }
     
     done() {
-        return this.creep.carry.energy < this.creep.carryCapacity;
+        return this.creep.carry.energy < this.creep.carryCapacity || !this.taskData.goal;
     }
 
     run() {

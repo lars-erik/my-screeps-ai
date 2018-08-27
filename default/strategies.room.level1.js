@@ -15,12 +15,12 @@ const level1 = {
         let spawns = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN, my:true}});
         let sources = room.find(FIND_SOURCES);
         let creeps = room.find(FIND_CREEPS, {filter: {my:true}});
-        let freePlains = _.sum(_.map(sources, s => s.plains.length));
+        let freePlains = _.sum(_.map(_.filter(sources, s => s.pos.findInRange(FIND_HOSTILE_CREEPS, 5).length === 0), s => s.plains.length));
 
         for(let spawnIndex in spawns) {
             let spawn = spawns[spawnIndex];
-            if (countCreeps(creeps) < (freePlains * 1.5) && room.energyAvailable >= 150) {
-                spawn.spawnCreep([WORK,CARRY,MOVE], "Worker" + Game.time);
+            if (countCreeps(creeps) < Math.floor(freePlains * 1.5) && room.energyAvailable >= 150) {
+                spawn.spawnCreep([WORK,CARRY,MOVE,MOVE], "Worker" + Game.time);
             }
         }
     },

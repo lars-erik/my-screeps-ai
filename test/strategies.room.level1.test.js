@@ -26,7 +26,7 @@ test("Builds two heavy workers for each source plain", () => {
         strategy.execute(room);
 
         expect(spawn.spawnCreep).toHaveBeenCalledWith(
-            [WORK, CARRY, MOVE], 
+            [WORK, CARRY, MOVE, MOVE, 
             "Worker1"
         );
     
@@ -46,7 +46,7 @@ test("Builds no more workers when enough", () => {
     strategy.execute(room);
 
     expect(spawn.spawnCreep).not.toHaveBeenCalledWith(
-        [WORK, CARRY, MOVE], 
+        [WORK, CARRY, MOVE, MOVE], 
         "Worker1"
     );
     
