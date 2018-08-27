@@ -63,7 +63,7 @@ function findPrioritizedTask(creep) {
         return {
             type: "dropoff"
         };
-    } else if (creep.carry.energy > 0 && creep.room.constructionSites.length > 0) {
+    } else if (creep.carry.energy > 0 && creep.room.constructionSites.length > 0 && creep.room.controller.ticksToDowngrade >= 5000) {
         return {
             type: "build"
         };
@@ -99,9 +99,9 @@ Creep.prototype.selectTask = function() {
     if (this.room.visual) {
         let text = "Idle";
         if (this.task) {
-            text = taskData.type;
+            text = taskData.type.substr(0, 1);
         }
-        this.room.visual.text(text, this.pos.x + 2, this.pos.y)
+        this.room.visual.text(text, this.pos.x, this.pos.y - 1)
     }
 
     this.memory.task = taskData;
