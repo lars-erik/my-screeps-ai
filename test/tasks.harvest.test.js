@@ -9,6 +9,8 @@ describe("Harvest task", () => {
         world.initSimple();
 
         source = new Source("1", {pos:{x:5, y:5}, room:Game.rooms.W0N0});
+        source.pos.findInRange = jest.fn();
+        source.pos.findInRange.mockReturnValue([]);
         world.extendFind((type, opts) => {
             if (type === FIND_SOURCES) {
                 return [source];
@@ -18,11 +20,17 @@ describe("Harvest task", () => {
         creep = new Creep("x", [MOVE,CARRY,WORK]);
         creep.pos = new RoomPosition(0, 0);
         creep.room = Game.rooms.W0N0;
+        creep.pos.findClosestByPath = jest.fn();
+        creep.pos.findClosestByPath.mockReturnValue(source);
+        creep.moveTo = jest.fn();
+        creep.harvest = jest.fn();
+
         Game.rooms.W0N0.lookAtArea = jest.fn();
         Game.rooms.W0N0.lookAtArea.mockReturnValue({"5":{"4":[{"terrain":"plain"}]}});
 
         Game.getObjectById = jest.fn();
         Game.getObjectById.mockReturnValue(source);
+
    });
 
     test("Reserves spot by closest energy source with free spots", () => {
@@ -39,7 +47,7 @@ describe("Harvest task", () => {
         ];
         positions.forEach(pos => {
             let task = new tasks.harvest(creep, {});
-            creep.pos = pos;
+            Object.assign(creep.pos, pos);
             creep.moveTo = jest.fn();
         
             task.run();
@@ -53,10 +61,22 @@ describe("Harvest task", () => {
         
         creep.pos = new RoomPosition(4, 5);
         creep.reserve(creep.pos);
-        creep.harvest = jest.fn();
     
         task.run();
 
         expect(creep.harvest).toHaveBeenCalledWith(source);
+    });
+
+    test("Does not pick area with enemy nearby", () => {
+        let taskData = {};
+        let task = new tasks.harvest(creep, taskData);
+        source.pos.findInRange.mockReturnValue([{}]);
+        expect(creep.moveTo).not.toHaveBeenCalled();
+
+        task.run();
+
+        expect(creep.moveTo).not.toHaveBeenCalled();
+        expect(creep.harvest).not.toHaveBeenCalled();
+        expect(taskData.goal).not.toBeDefined();
     });
 });

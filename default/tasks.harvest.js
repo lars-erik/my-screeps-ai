@@ -10,9 +10,13 @@ module.exports = class HarvestTask {
 
     run() {
         if (!this.taskData.goal || !this.creep.reservation) {
-            let sources = _.filter(this.creep.room.sources, s => s.freeSpots.length > 0);
-            this.creep.reserve(sources[0].freeSpots[0]);
-            this.taskData.goal = sources[0].id;
+            let sources = _.filter(this.creep.room.sources, s => s.freeSpots.length > 0 && s.pos.findInRange(FIND_HOSTILE_CREEPS, 5).length === 0);
+            let source = this.creep.pos.findClosestByPath(sources);
+            if (!source) {
+                return;
+            }
+            this.creep.reserve(source.freeSpots[0]);
+            this.taskData.goal = source.id;
         }
 
         if (this.creep.distanceToTarget === 0) {
