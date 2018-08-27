@@ -15,6 +15,7 @@ module.exports = class DropOff {
                     && s.freeSpots.length > 0;
             }});
             if (!closestDropOff) {
+                console.log(this.creep.name + " no free spots");
                 return false;
             }
             this.taskData.goal = closestDropOff.id;
@@ -23,19 +24,41 @@ module.exports = class DropOff {
             }
 
             let freeSpots = closestDropOff.freeSpots;
-            let freeSpot = freeSpots[0];
-            this.creep.reserve(freeSpot);
+
+            for(let i = 0; i<freeSpots.length; i++) {
+                let freeSpot = freeSpots[i];
+                if (this.creep.reserve(freeSpot)) {
+                    console.log(this.creep.name + " reserved " + JSON.stringify(freeSpot));
+                    break;
+                }
+            }
         }
         
-        if (this.taskData.goal) {
-            if (this.creep.distanceToTarget > 0) {
+        if (this.taskData.goal && this.creep.reservation) {
+            if (this.creep.distanceToTarget === -1) {
+                console.log(this.name + " wrong distance, resetting");
+                this.taskData.goal = null;
+                this.taskData.type = null;
+                this.creep.unreserve();
+            } else if (this.creep.distanceToTarget > 0) {
                 this.creep.moveToTarget();
             } else {
                 let dropOff = Game.getObjectById(this.taskData.goal);
-                this.creep.transfer(dropOff, RESOURCE_ENERGY);
-                this.creep.unreserve();
-                this.taskData.goal = null;
+                let result = this.creep.transfer(dropOff, RESOURCE_ENERGY);
+                if (result === ERR_NOT_IN_RANGE) {
+                    console.log(this.creep.name + " should be close to " + dropOff.pos.x + "," + dropOff.pos.y + " dist " + this.creep.distanceToTarget);
+                    this.creep.moveToTarget();
+                } else {
+                    console.log(this.creep.name + " dropoff result " + result + " at " + dropOff.pos.x + ", " + dropOff.pos.y);
+                    this.creep.unreserve();
+                    this.taskData.goal = null;
+                }
             }
+        } else {
+            console.log(this.creep.name + " is aimless");
+                this.taskData.goal = null;
+                this.taskData.type = null;
+                this.creep.unreserve();
         }
     }
 }

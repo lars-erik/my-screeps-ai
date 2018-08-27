@@ -38,7 +38,6 @@ Room.prototype.unreserve = function(x, y) {
         key = x + ',' + y;
     }
     let reservedName = this.reservations[key];
-    console.log("deleting reservation " + key + " named " + reservedName);
     delete this.reservations[key];
 }
 
