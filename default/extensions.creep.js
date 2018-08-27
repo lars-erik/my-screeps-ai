@@ -93,3 +93,9 @@ Creep.prototype.selectTask = function() {
     }
     this.memory.task = taskData;
 }
+
+Creep.prototype.run = function() {
+    if (this.task) {
+        this.task.execute(this, this.memory.task);
+    }
+}

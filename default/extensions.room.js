@@ -16,6 +16,14 @@ Object.defineProperty(
     }
 )
 
+Room.prototype.isReserved = function(x, y) {
+    let key = x + ',' + y;
+    if (this.reservations[key]) {
+        return true;
+    }
+    return false;
+}
+
 Object.defineProperty(
     Room.prototype,
     "sources", {

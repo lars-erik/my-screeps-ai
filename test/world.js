@@ -59,6 +59,7 @@ const world = {
     },
     createSpawn1() {
         return Game.spawns.Spawn1 = {
+            id: "Spawn1",
             energy: 0,
             energyCapacity: 300,
             structureType: STRUCTURE_SPAWN,

@@ -1,7 +1,8 @@
 let _ = require("lodash");
 
-class Creep {
+class Creep extends RoomObject {
     constructor(name, body, props) {
+        super()
         this.name = name;
         this.body = body;
         this.carry = {};

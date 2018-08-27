@@ -1,7 +1,14 @@
 global.RoomPosition = class RoomPosition {
     constructor(x, y, roomName) {
-        this.x = x;
-        this.y = y;
+        if (x.x) {
+            this.x = x.x;
+            this.y = x.y;
+            this.roomName = y;
+        } else {
+            this.x = x;
+            this.y = y;
+            this.roomName = roomName;
+        }
     }
 
     getRangeTo(x, y) {
